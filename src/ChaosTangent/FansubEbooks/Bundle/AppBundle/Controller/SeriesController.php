@@ -23,6 +23,12 @@ class SeriesController extends Controller
      */
     public function indexAction()
     {
+        $seriesRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Series');
+        $series = $seriesRepo->findAll();
+
+        return [
+            'series' => $series,
+        ];
     }
 
     /**

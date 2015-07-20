@@ -1,0 +1,16 @@
+{% extends '::layout.html.twig' %}
+
+{% block body %}
+<h2>Browse by series</h2>
+<p><a href="{{ path('help') }}#suggest_series">Suggest a series!</a></p>
+
+<ul>
+    {% for s in series %}
+    <li>
+        <img src="http://placehold.it/250x350" alt="">
+        <h3>{{ s.title }}</h3>
+        <p>{{ s.files|length }} scripts<br>x lines<br>y tweets</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
