@@ -3,6 +3,7 @@
 namespace ChaosTangent\FansubEbooks\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Exception\NoResultException;
 
 /**
  * Tweet entity repository
@@ -28,5 +29,25 @@ class TweetRepository extends EntityRepository
             ->setMaxResults(1);
 
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * Get the total number of tweets sent out
+     *
+     * Used on: homepage
+     *
+     * @return integer
+     */
+    public function getTotal()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('COUNT(t)')
+            ->from('Entity:Tweet', 't');
+
+        try {
+            return $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            return 0;
+        }
     }
 }

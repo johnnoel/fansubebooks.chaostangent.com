@@ -2,16 +2,23 @@
 
 {% block body %}
 <div class"most-recent">
+    <h5>Latest tweet</h5>
     {{ latest_tweet.line.line }}
+    <time datetime="">{{ latest_tweet.tweeted|date('Y-m-d H:i') }}</time>
 </div>
 
 <div class="stats">
-    Stats
+    <h5>TWEETS</h5>
+    <p>{{ tweet_count|number_format }}</p>
+    <h5>LINES</h5>
+    <p>{{ line_count|number_format }}</p>
 </div>
 
 <div class="upcoming">
 </div>
 
 <div class="browse-by">
+    <a href="{{ path('series') }}">Series</a>
+    <a href="{{ path('search') }}">Search</a>
 </div>
 {% endblock %}
