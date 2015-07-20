@@ -1,0 +1,4 @@
+services:
+#    chaos_tangent_fansub_ebooks_app.example:
+#        class: ChaosTangent\FansubEbooks\Bundle\AppBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

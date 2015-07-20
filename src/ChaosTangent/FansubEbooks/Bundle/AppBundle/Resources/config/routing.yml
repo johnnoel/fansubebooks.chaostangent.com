@@ -1,0 +1,3 @@
+chaos_tangent_fansub_ebooks_app_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: ChaosTangentFansubEbooksAppBundle:Default:index }

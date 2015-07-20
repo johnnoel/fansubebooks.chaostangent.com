@@ -1,0 +1,7 @@
+chaos_tangent_fansub_ebooks_app:
+    resource: "@ChaosTangentFansubEbooksAppBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
