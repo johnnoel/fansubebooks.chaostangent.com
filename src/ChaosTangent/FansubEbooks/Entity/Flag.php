@@ -22,7 +22,7 @@ class Flag
      */
     private $id;
     /**
-     * @ORM\ManyToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\Line", inversedBy="votes")
+     * @ORM\ManyToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\Line", inversedBy="flags")
      * @ORM\JoinColumn(name="line_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $line;
@@ -40,7 +40,7 @@ class Flag
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -63,7 +63,7 @@ class Flag
     /**
      * Get added
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getAdded()
     {
@@ -86,7 +86,7 @@ class Flag
     /**
      * Get ip
      *
-     * @return string 
+     * @return string
      */
     public function getIp()
     {
@@ -109,7 +109,7 @@ class Flag
     /**
      * Get line
      *
-     * @return \ChaosTangent\FansubEbooks\Entity\Line 
+     * @return \ChaosTangent\FansubEbooks\Entity\Line
      */
     public function getLine()
     {

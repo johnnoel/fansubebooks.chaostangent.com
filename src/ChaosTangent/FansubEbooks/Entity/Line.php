@@ -37,6 +37,14 @@ class Line
      * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Vote", mappedBy="line")
      */
     private $votes;
+    /**
+     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Flag", mappedBy="line")
+     */
+    private $flags;
+    /**
+     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Tweet", mappedBy="line")
+     */
+    private $tweets;
 
     /**
      * Constructor
@@ -156,5 +164,71 @@ class Line
     public function getVotes()
     {
         return $this->votes;
+    }
+
+    /**
+     * Add flags
+     *
+     * @param \ChaosTangent\FansubEbooks\Entity\Flag $flags
+     * @return Line
+     */
+    public function addFlag(\ChaosTangent\FansubEbooks\Entity\Flag $flags)
+    {
+        $this->flags[] = $flags;
+
+        return $this;
+    }
+
+    /**
+     * Remove flags
+     *
+     * @param \ChaosTangent\FansubEbooks\Entity\Flag $flags
+     */
+    public function removeFlag(\ChaosTangent\FansubEbooks\Entity\Flag $flags)
+    {
+        $this->flags->removeElement($flags);
+    }
+
+    /**
+     * Get flags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFlags()
+    {
+        return $this->flags;
+    }
+
+    /**
+     * Add tweets
+     *
+     * @param \ChaosTangent\FansubEbooks\Entity\Tweet $tweets
+     * @return Line
+     */
+    public function addTweet(\ChaosTangent\FansubEbooks\Entity\Tweet $tweets)
+    {
+        $this->tweets[] = $tweets;
+
+        return $this;
+    }
+
+    /**
+     * Remove tweets
+     *
+     * @param \ChaosTangent\FansubEbooks\Entity\Tweet $tweets
+     */
+    public function removeTweet(\ChaosTangent\FansubEbooks\Entity\Tweet $tweets)
+    {
+        $this->tweets->removeElement($tweets);
+    }
+
+    /**
+     * Get tweets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTweets()
+    {
+        return $this->tweets;
     }
 }

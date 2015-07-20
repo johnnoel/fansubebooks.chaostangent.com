@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Entity\Repository\TweetRepository")
  * @ORM\Table(name="tweets")
  */
 class Tweet

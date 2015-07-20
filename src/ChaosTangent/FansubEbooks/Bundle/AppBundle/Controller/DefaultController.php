@@ -22,7 +22,12 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return [];
+        $tweetRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Tweet');
+        $latestTweet = $tweetRepo->getLatestTweet();
+
+        return [
+            'latest_tweet' => $latestTweet,
+        ];
     }
 
     /**
