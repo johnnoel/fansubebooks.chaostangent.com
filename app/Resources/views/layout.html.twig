@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}{% if block('title') is not empty %} : {% endif %}Fansub Ebooks</title>
+    </head>
+    <body>
+        <header>
+            <h1>Fansub Ebooks</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ path('homepage') }}">Home</a></li>
+                    <li><a href="{{ path('help') }}">Help</a></li>
+                    <li><a href="{{ path('search') }}">Search</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer>
+            Fansub Ebooks is too silly to copyright. Those responsible include <a href="https://chaostangent.com">John &ldquo;ChaosTangent&rdquo; Noel</a>.
+        </footer>
+    </body>
+</html>

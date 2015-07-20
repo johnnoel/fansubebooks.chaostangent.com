@@ -8,29 +8,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * Default controller
+ * Search controller
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
  */
-class DefaultController extends Controller
+class SearchController extends Controller
 {
     /**
-     * @Route("", name="homepage")
+     * @Route("/search", name="search")
      * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Default:index.html.twig")
+     * @Template("ChaosTangentFansubEbooksBundle:Search:index.html")
      */
     public function indexAction()
-    {
-        return [];
-    }
-
-    /**
-     * @Route("/help", name="help")
-     * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Default:help.html.twig")
-     */
-    public function helpAction()
     {
         return [];
     }
