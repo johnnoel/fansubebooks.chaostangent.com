@@ -29,4 +29,60 @@ class Tweet
      * @ORM\Column(type="datetime")
      */
     private $tweeted;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set tweeted
+     *
+     * @param \DateTime $tweeted
+     * @return Tweet
+     */
+    public function setTweeted($tweeted)
+    {
+        $this->tweeted = $tweeted;
+
+        return $this;
+    }
+
+    /**
+     * Get tweeted
+     *
+     * @return \DateTime 
+     */
+    public function getTweeted()
+    {
+        return $this->tweeted;
+    }
+
+    /**
+     * Set line
+     *
+     * @param \ChaosTangent\FansubEbooks\Entity\Line $line
+     * @return Tweet
+     */
+    public function setLine(\ChaosTangent\FansubEbooks\Entity\Line $line = null)
+    {
+        $this->line = $line;
+
+        return $this;
+    }
+
+    /**
+     * Get line
+     *
+     * @return \ChaosTangent\FansubEbooks\Entity\Line 
+     */
+    public function getLine()
+    {
+        return $this->line;
+    }
 }

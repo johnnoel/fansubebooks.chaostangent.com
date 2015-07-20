@@ -40,4 +40,106 @@ class Vote
      * @ORM\Column(type="boolean", options={"default": false})
      */
     private $positive = false;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set added
+     *
+     * @param \DateTime $added
+     * @return Vote
+     */
+    public function setAdded($added)
+    {
+        $this->added = $added;
+
+        return $this;
+    }
+
+    /**
+     * Get added
+     *
+     * @return \DateTime 
+     */
+    public function getAdded()
+    {
+        return $this->added;
+    }
+
+    /**
+     * Set ip
+     *
+     * @param string $ip
+     * @return Vote
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+
+        return $this;
+    }
+
+    /**
+     * Get ip
+     *
+     * @return string 
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
+     * Set positive
+     *
+     * @param boolean $positive
+     * @return Vote
+     */
+    public function setPositive($positive)
+    {
+        $this->positive = $positive;
+
+        return $this;
+    }
+
+    /**
+     * Get positive
+     *
+     * @return boolean 
+     */
+    public function getPositive()
+    {
+        return $this->positive;
+    }
+
+    /**
+     * Set line
+     *
+     * @param \ChaosTangent\FansubEbooks\Entity\Line $line
+     * @return Vote
+     */
+    public function setLine(\ChaosTangent\FansubEbooks\Entity\Line $line)
+    {
+        $this->line = $line;
+
+        return $this;
+    }
+
+    /**
+     * Get line
+     *
+     * @return \ChaosTangent\FansubEbooks\Entity\Line 
+     */
+    public function getLine()
+    {
+        return $this->line;
+    }
 }
