@@ -17,7 +17,7 @@ class Tweet
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
     /**
@@ -33,7 +33,7 @@ class Tweet
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -56,7 +56,7 @@ class Tweet
     /**
      * Get tweeted
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getTweeted()
     {
@@ -79,7 +79,7 @@ class Tweet
     /**
      * Get line
      *
-     * @return \ChaosTangent\FansubEbooks\Entity\Line 
+     * @return \ChaosTangent\FansubEbooks\Entity\Line
      */
     public function getLine()
     {
