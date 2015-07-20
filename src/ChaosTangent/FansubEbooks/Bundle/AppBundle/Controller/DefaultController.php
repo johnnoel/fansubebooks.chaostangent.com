@@ -34,4 +34,13 @@ class DefaultController extends Controller
     {
         return [];
     }
+
+    /**
+     * @Route("/search", name="search")
+     * @Method({"GET"})
+     * @Template("ChaosTangentFansubEbooksAppBundle:Default:search.html.twig")
+     */
+    public function searchAction()
+    {
+    }
 }
