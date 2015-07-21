@@ -3,8 +3,12 @@
 {% block body %}
 <div class"most-recent">
     <h5>Latest tweet</h5>
+    {% if latest_tweet %}
     {{ latest_tweet.line.line }}
     <time datetime="">{{ latest_tweet.tweeted|date('Y-m-d H:i') }}</time>
+    {% else %}
+    <p>Could not access latest tweet</p>
+    {% endif %}
 </div>
 
 <div class="stats">
