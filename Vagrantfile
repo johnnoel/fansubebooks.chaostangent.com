@@ -9,7 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Force nat dns host resolver
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    vb.memory = 512
+    vb.memory = 512 # You'll need to increase this if you do any composer work on the VM
     vb.cpus = 1
   end
 
