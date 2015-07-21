@@ -4,6 +4,7 @@ namespace ChaosTangent\FansubEbooks\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Series entity
@@ -19,32 +20,40 @@ class Series
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Serializer\ReadOnly
+     * @Serializer\Type("integer")
      */
     private $id;
     /**
      * @ORM\Column(type="text")
+     * @Serializer\Type("string")
      */
     private $title;
     /**
      * @ORM\Column(type="string", length=128, unique=true)
      * @Gedmo\Slug(fields={"title"})
+     * @Serializer\Type("string")
      */
     private $alias;
     /**
      * @ORM\Column(type="text")
+     * @Serializer\Type("string")
      */
     private $image;
     /**
      * @ORM\Column(type="text")
+     * @Serializer\Type("string")
      */
     private $thumbnail;
     /**
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
+     * @Serializer\Type("DAteTime<'D, d M Y H:i:s O', 'UTC'>")
      */
     private $added;
     /**
      * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\File", mappedBy="series")
+     * @Serializer\Exclude
      */
     private $files;
 

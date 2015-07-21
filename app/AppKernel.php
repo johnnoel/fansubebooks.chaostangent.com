@@ -16,6 +16,9 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            // external extras
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            // project specific
             new ChaosTangent\FansubEbooks\Bundle\AppBundle\ChaosTangentFansubEbooksAppBundle(),
         );
 

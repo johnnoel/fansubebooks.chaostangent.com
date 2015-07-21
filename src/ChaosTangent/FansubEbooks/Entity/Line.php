@@ -3,6 +3,7 @@
 namespace ChaosTangent\FansubEbooks\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Line entity
@@ -18,31 +19,39 @@ class Line
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Serializer\ReadOnly
+     * @Serializer\Type("integer")
      */
     private $id;
     /**
      * @ORM\Column(type="text")
+     * @Serializer\Type("string")
      */
     private $line;
     /**
      * @ORM\Column(name="charactercount",type="integer")
+     * @Serializer\Type("integer")
      */
     private $characterCount;
     /**
      * @ORM\ManyToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\File", inversedBy="lines")
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @Serializer\Exclude
      */
     private $file;
     /**
      * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Vote", mappedBy="line")
+     * @Serializer\Exclude
      */
     private $votes;
     /**
      * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Flag", mappedBy="line")
+     * @Serializer\Exclude
      */
     private $flags;
     /**
      * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Tweet", mappedBy="line")
+     * @Serializer\Exclude
      */
     private $tweets;
 
