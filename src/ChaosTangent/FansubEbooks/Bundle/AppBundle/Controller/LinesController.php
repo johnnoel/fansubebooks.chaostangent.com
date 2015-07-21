@@ -8,7 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\Response;
-use ChaosTangent\FansubEbooks\Entity\Line;
+use ChaosTangent\FansubEbooks\Entity\Line,
+    ChaosTangent\FansubEbooks\Entity\Vote;
 
 /**
  * Lines controller
@@ -41,9 +42,28 @@ class LinesController extends Controller
      * )
      * @Method({"POST"})
      */
-    public function voteUpAction()
+    public function voteUpAction(Line $line, Request $request)
     {
-        return [];
+        $vote = new Vote();
+        $vote->setLine($line)
+            ->setIp($request->getClientIp())
+            ->setPositive(true);
+
+        $om = $this->get('doctrine')->getManager();
+        $om->persist($vote);
+        $om->flush();
+
+        if ($request->getRequestFormat() == 'json') {
+            $serializer = $this->get('jms_serializer');
+            return new Response($serializer->serialize($vote, 'json'), 200, [
+                'Content-Type' => 'application/json',
+            ]);
+        }
+
+        // todo redirect to referrer
+        return $this->redirect($this->generateUrl('line', [
+            'id' => $line->getId(),
+        ]));
     }
 
     /**
@@ -53,9 +73,28 @@ class LinesController extends Controller
      * )
      * @Method({"POST"})
      */
-    public function voteDownAction()
+    public function voteDownAction(Line $line, Request $request)
     {
-        return [];
+        $vote = new Vote();
+        $vote->setLine($line)
+            ->setIp($request->getClientIp())
+            ->setPositive(false);
+
+        $om = $this->get('doctrine')->getManager();
+        $om->persist($vote);
+        $om->flush();
+
+        if ($request->getRequestFormat() == 'json') {
+            $serializer = $this->get('jms_serializer');
+            return new Response($serializer->serialize($vote, 'json'), 200, [
+                'Content-Type' => 'application/json',
+            ]);
+        }
+
+        // todo redirect to referrer
+        return $this->redirect($this->generateUrl('line', [
+            'id' => $line->getId(),
+        ]));
     }
 
     /**

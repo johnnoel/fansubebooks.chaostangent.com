@@ -48,7 +48,7 @@ class Series
     /**
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
-     * @Serializer\Type("DAteTime<'D, d M Y H:i:s O', 'UTC'>")
+     * @Serializer\Type("DateTime<'D, d M Y H:i:s O', 'UTC'>")
      */
     private $added;
     /**
