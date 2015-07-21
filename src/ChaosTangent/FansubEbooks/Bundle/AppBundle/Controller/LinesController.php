@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpFoundation\Response;
+use ChaosTangent\FansubEbooks\Entity\Line;
 
 /**
  * Lines controller
@@ -22,11 +25,13 @@ class LinesController extends Controller
      *      defaults={"_format": "html"}
      * )
      * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Series:search.html.twig")
+     * @Template("ChaosTangentFansubEbooksAppBundle:Lines:index.html.twig")
      */
-    public function indexAction()
+    public function indexAction(Line $line)
     {
-        return [];
+        return [
+            'line' => $line,
+        ];
     }
 
     /**
@@ -72,8 +77,21 @@ class LinesController extends Controller
      * )
      * @Method({"GET"})
      */
-    public function randomAction()
+    public function randomAction(Request $request)
     {
-        return [];
+        $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
+        $random = $lineRepo->getRandom(1, false);
+        $random = reset($random);
+
+        if ($request->getRequestFormat() == 'json') {
+            $serializer = $this->get('jms_serializer');
+            return new Response($serializer->serialize($random, 'json'), 200, [
+                'Content-Type' => 'application/json',
+            ]);
+        }
+
+        return $this->redirect($this->generateUrl('line', [
+            'id' => $random->getId()
+        ]));
     }
 }
