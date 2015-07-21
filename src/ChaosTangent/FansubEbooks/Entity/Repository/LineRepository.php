@@ -40,6 +40,12 @@ class LineRepository extends EntityRepository
      */
     public function getNextTweetableLine()
     {
+        $queue = $this->getQueue(1);
+        if (count($queue) === 0) {
+            return $this->getRandom(1, true);
+        }
+
+        return reset($queue);
     }
 
     /**
@@ -75,5 +81,32 @@ class LineRepository extends EntityRepository
         ]);
 
         return $query->getResult();
+    }
+
+    /**
+     * Get the current queue of tweetable lines
+     *
+     * @return array An array of tweetable lines
+     */
+    public function getQueue($count = 10)
+    {
+        $sqb = $this->_em->createQueryBuilder();
+        $sqb->select('IDENTITY(t.line)')
+            ->from('Entity:Tweet', 't');
+
+        $qb = $this->createQueryBuilder('l');
+        $qb->addWhere('SUM(CASE l.positive THEN 1 ELSE -1 END) AS score')
+            ->join('l.votes', 'v')
+            ->where($qb->expr()->notIn('l.id', $sqb->getDql()))
+            ->andWhere($qb->expr()->lte('l.characterCount', ':cc'))
+            ->groupBy('l.id')
+            ->having($qb->expr()->gte('score', ':score'))
+            ->setMaxResults($count)
+            ->setParameters([
+                'score' => 0,
+                'cc' => 140,
+            ]);
+
+        return $qb->getQuery()->getResult();
     }
 }
