@@ -240,4 +240,19 @@ class Line
     {
         return $this->tweets;
     }
+
+    /**
+     * Get the series for this line
+     *
+     * Shortcut for $line->getFile()->getSeries()
+     *
+     * @return Series
+     * @Serializer\VirtualProperty
+     * @Serializer\SerializedName("series")
+     * @Serializer\Type("ChaosTangent\FansubEbooks\Entity\Series")
+     */
+    public function getSeries()
+    {
+        return $this->file->getSeries();
+    }
 }
