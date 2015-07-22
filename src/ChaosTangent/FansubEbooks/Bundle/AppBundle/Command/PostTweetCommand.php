@@ -3,9 +3,7 @@
 namespace ChaosTangent\FansubEbooks\Bundle\AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputInterface,
-    Symfony\Component\Console\Input\InputOption,
+use Symfony\Component\Console\Input\InputInterface,
     Symfony\Component\Console\Output\OutputInterface;
 
 /**
