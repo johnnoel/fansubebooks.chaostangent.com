@@ -42,10 +42,10 @@ class LineRepository extends EntityRepository
     {
         $queue = $this->getQueue(1);
         if (count($queue) === 0) {
-            return $this->getRandom(1, true);
+            return $this->getRandom(1, true)[0];
         }
 
-        return reset($queue);
+        return $queue[0];
     }
 
     /**
@@ -60,25 +60,49 @@ class LineRepository extends EntityRepository
     {
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Line', 'l');
-        $rsm->addJoinedEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\File', 'f', 'l', 'file', [
-            'id' => 'file_id',
-        ]);
 
-        $sql = 'SELECT '.$rsm->generateSelectClause().' FROM lines l
-            JOIN files f ON l.file_id = f.id';
+        /*
+         * 1. Generate $count + buffer (min 10) of random numbers between 1 and
+         *    the max ID sequence value of lines_id_seq + a 10% buffer
+         * 3. Optionally filter those by ones that are tweetable
+         * 4. Return $count of them
+         */
+        // based on http://stackoverflow.com/a/8675160/4545769
+        $sql = 'SELECT '.$rsm->generateSelectClause().'
+            FROM (
+                SELECT DISTINCT 1 + trunc(random() * (nextval(:seq) * 1.1))::integer AS id
+                FROM generate_series(1, :buffered_count) g
+            ) r
+            JOIN lines l USING (id)';
 
         if ($tweetable) {
             $sql .= ' WHERE l.charactercount <= 140
                 AND l.id NOT IN (SELECT line_id FROM tweets)';
         }
 
-        $sql .= ' OFFSET random() * :offset LIMIT :limit';
+        $sql .= ' LIMIT :count';
 
         $query = $this->_em->createNativeQuery($sql, $rsm);
         $query->setParameters([
-            'offset' => $this->getTotal(),
-            'limit' => $count,
+            'seq' => 'lines_id_seq',
+            'buffered_count' => ($count < 10) ? 10 : ceil($count * 1.5),
+            'count' => $count,
         ]);
+
+        /*
+         * REALLY hacky, because $tweetable = true filters IDs AFTER they've
+         * been randomly picked, the probably of not getting a result increases
+         * the more lines have been tweeted so just do the query up to ten
+         * times to make sure
+         */
+        if ($tweetable) {
+            for ($i = 0; $i < 10; $i++) {
+                $result = $query->getResult();
+                if (count($result) > 0) {
+                    return $result;
+                }
+            }
+        }
 
         return $query->getResult();
     }
@@ -95,12 +119,11 @@ class LineRepository extends EntityRepository
             ->from('Entity:Tweet', 't');
 
         $qb = $this->createQueryBuilder('l');
-        $qb->addWhere('SUM(CASE l.positive THEN 1 ELSE -1 END) AS score')
-            ->join('l.votes', 'v')
+        $qb->join('l.votes', 'v')
             ->where($qb->expr()->notIn('l.id', $sqb->getDql()))
             ->andWhere($qb->expr()->lte('l.characterCount', ':cc'))
             ->groupBy('l.id')
-            ->having($qb->expr()->gte('score', ':score'))
+            ->having($qb->expr()->gte('SUM(CASE WHEN v.positive = true THEN 1 ELSE -1 END)', ':score'))
             ->setMaxResults($count)
             ->setParameters([
                 'score' => 0,

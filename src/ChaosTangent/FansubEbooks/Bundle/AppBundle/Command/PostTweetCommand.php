@@ -28,6 +28,15 @@ class PostTweetCommand extends ContainerAwareCommand
         $lineRepo = $this->getContainer()->get('doctrine')->getManager()
             ->getRepository('Entity:Line');
 
-        $twitter->tweet($lineRepo->getNextTweetableLine());
+        $line = $lineRepo->getNextTweetableLine();
+
+        if ($line === null) {
+            $output->writeln('<error>Unable to find next tweetable line</error>');
+        } else {
+            $output->writeln('Tweeting: '.$line->getLine());
+            $twitter->tweet($line->getLine());
+        }
+
+        return;
     }
 }
