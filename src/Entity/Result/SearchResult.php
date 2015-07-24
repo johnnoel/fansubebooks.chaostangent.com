@@ -2,6 +2,8 @@
 
 namespace ChaosTangent\FansubEbooks\Entity\Result;
 
+use JMS\Serializer\Annotation as Serializer;
+
 /**
  * Search result
  *
@@ -14,7 +16,10 @@ class SearchResult implements \IteratorAggregate, \Countable
 {
     /** @var string */
     protected $query;
-    /** @var array */
+    /**
+     * @var array
+     * @Serializer\MaxDepth(1)
+     */
     protected $results;
     /** @var integer */
     protected $total;

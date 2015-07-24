@@ -85,7 +85,7 @@ class SeriesController extends Controller
      */
     public function searchAction(Series $series, Request $request)
     {
-        $page = $request->query->get('page', 1);
+        $page = intval($request->query->get('page', 1));
         $query = $request->query->get('q', '');
 
         $results = [];
@@ -93,6 +93,15 @@ class SeriesController extends Controller
         if (!empty(trim($query))) {
             $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
             $results = $lineRepo->search($query, $page, 30, $series);
+        }
+
+        if ($request->getRequestFormat() == 'json') {
+            $serializer = $this->get('jms_serializer');
+            $context = SerializationContext::create()->enableMaxDepthChecks();
+
+            return new Response($serializer->serialize($results, 'json', $context), 200, [
+                'Content-Type' => 'application/json',
+            ]);
         }
 
         return [
