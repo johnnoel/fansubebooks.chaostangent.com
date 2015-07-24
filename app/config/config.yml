@@ -76,7 +76,7 @@ doctrine:
                 mappings:
                     entity:
                         type: annotation
-                        dir: %kernel.root_dir%/../src/ChaosTangent/FansubEbooks/Entity
+                        dir: %kernel.root_dir%/../src/Entity
                         prefix: ChaosTangent\FansubEbooks\Entity
                         alias: Entity
                         is_bundle: false
