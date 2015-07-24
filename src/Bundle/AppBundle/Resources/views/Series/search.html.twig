@@ -1,9 +1,8 @@
 {% extends '::layout.html.twig' %}
 
 {% block body %}
-<h1>Search</h1>
-
-<form method="GET" action="">
+<h2>Searching series {{ series.title }}</h2>
+<form method="get" action="">
     <fieldset>
         <legend>Search</legend>
         <div>
@@ -14,30 +13,21 @@
     </fieldset>
 </form>
 
-{% if series_results|length > 0 %}
-<h4>Top matched series</h4>
+{% if results|length > 0 %}
 <ul>
-    {% for series in series_results %}
-    <li>{{ series.title }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-
-{% if line_results|length > 0 %}
-<h4>Matched lines</h4>
-<ul>
-    {% for line in line_results %}
+    {% for line in results %}
     <li>{{ line.line }}</li>
     {% endfor %}
 </ul>
+
 {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
-    'route': 'search',
+    'route': 'series_search',
     'route_params': {
-        'q': line_results.query
+        'alias': series.alias,
+        'q': results.query
     },
-    'page': line_results.page,
-    'pages': line_results.pages
+    'page': results.page,
+    'pages': results.pages
 } %}
 {% endif %}
-
 {% endblock %}

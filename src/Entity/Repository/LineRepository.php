@@ -146,34 +146,43 @@ class LineRepository extends EntityRepository
      */
     public function search($q, $page = 1, $perPage = 30, Series $series = null)
     {
-        // count total results
+        // default query parameters
+        $defaultParams = [
+            ':query' => $q,
+            ':config' => 'english', // see CreateSearchIndex for this indexed value
+        ];
+
+        // default where clause
+        $whereClause = 'WHERE to_tsvector(:config, l.line) @@ to_tsquery(:query)';
+        if ($series !== null) {
+            $whereClause .= ' AND f.series_id = :series';
+            $defaultParams['series'] = $series->getId();
+        }
+
+        // count total results from search query
         $countSql = 'SELECT COUNT(l.id)
             FROM lines l
-            WHERE to_tsvector(:config, l.line) @@ to_tsquery(:query)';
+            JOIN files f ON f.id = l.file_id '.$whereClause;
 
-        $total = $this->_em->getConnection()->fetchColumn($countSql, [
-            ':config' => 'english',
-            ':query' => $q,
-        ], 0);
+        $total = $this->_em->getConnection()->fetchColumn($countSql, $defaultParams, 0);
 
+        // get the selected page of results from search query
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Line', 'l');
 
-        // todo decide on database platform
         $sql = 'SELECT '.$rsm->generateSelectClause().'
             FROM lines l
-            WHERE to_tsvector(:config, l.line) @@ to_tsquery(:query)
+            JOIN files f ON f.id = l.file_id '.$whereClause.'
             ORDER BY ts_rank(to_tsvector(:config, l.line), to_tsquery(:query))
             LIMIT :limit OFFSET :offset';
 
         $query = $this->_em->createNativeQuery($sql, $rsm);
-        $query->setParameters([
-            'query' => $q,
+        $query->setParameters(array_merge($defaultParams, [
             'limit' => $perPage,
             'offset' => ($page - 1) * $perPage,
-            'config' => 'english', // see CreateSearchIndex for this indexed value
-        ]);
+        ]));
 
+        // bundle it all into a searchresult object
         return new SearchResult($q, $query->getResult(), $total, $page, $perPage);
     }
 }

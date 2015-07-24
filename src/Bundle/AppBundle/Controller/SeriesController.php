@@ -83,7 +83,22 @@ class SeriesController extends Controller
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Series:search.html.twig")
      */
-    public function searchAction()
+    public function searchAction(Series $series, Request $request)
     {
+        $page = $request->query->get('page', 1);
+        $query = $request->query->get('q', '');
+
+        $results = [];
+
+        if (!empty(trim($query))) {
+            $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
+            $results = $lineRepo->search($query, $page, 30, $series);
+        }
+
+        return [
+            'query' => $query,
+            'series' => $series,
+            'results' => $results,
+        ];
     }
 }
