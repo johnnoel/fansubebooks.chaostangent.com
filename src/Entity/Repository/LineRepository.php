@@ -4,6 +4,8 @@ namespace ChaosTangent\FansubEbooks\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
+use ChaosTangent\FansubEbooks\Entity\Series;
 
 /**
  * Line entity repository
@@ -137,13 +139,23 @@ class LineRepository extends EntityRepository
      * Search for a line
      *
      * @param string $q The search query
-     * @param integer $limit Maximum number of results to return
-     * @param integer $offset Result offset
-     * @return array An array of lines that match the query
+     * @param integer $page The page of results to retrieve
+     * @param integer $perPage How many results to retrieve
+     * @return SearchResult The search results
      * @see ChaosTangent\FansubEbooks\Bundle\AppBundle\DataFixtures\ORM\CreateSearchIndex
      */
-    public function search($q, $limit = 30, $offset = 0)
+    public function search($q, $page = 1, $perPage = 30, Series $series = null)
     {
+        // count total results
+        $countSql = 'SELECT COUNT(l.id)
+            FROM lines l
+            WHERE to_tsvector(:config, l.line) @@ to_tsquery(:query)';
+
+        $total = $this->_em->getConnection()->fetchColumn($countSql, [
+            ':config' => 'english',
+            ':query' => $q,
+        ], 0);
+
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Line', 'l');
 
@@ -157,11 +169,11 @@ class LineRepository extends EntityRepository
         $query = $this->_em->createNativeQuery($sql, $rsm);
         $query->setParameters([
             'query' => $q,
-            'limit' => $limit,
-            'offset' => $offset,
+            'limit' => $perPage,
+            'offset' => ($page - 1) * $perPage,
             'config' => 'english', // see CreateSearchIndex for this indexed value
         ]);
 
-        return $query->getResult();
+        return new SearchResult($q, $query->getResult(), $total, $page, $perPage);
     }
 }

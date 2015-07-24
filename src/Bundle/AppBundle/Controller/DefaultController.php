@@ -65,7 +65,6 @@ class DefaultController extends Controller
     public function searchAction(Request $request)
     {
         $page = $request->query->get('page', 1);
-        $pages = 3;
         $query = $request->query->get('q', null);
 
         $seriesResults = [];
@@ -74,10 +73,12 @@ class DefaultController extends Controller
         if (!empty($query)) {
             $om = $this->get('doctrine')->getManager();
             $lineRepo = $om->getRepository('Entity:Line');
-            $lineResults = $lineRepo->search($query);
+            $lineResults = $lineRepo->search($query, $page);
 
-            $seriesRepo = $om->getRepository('Entity:Series');
-            $seriesResults = $seriesRepo->search($query);
+            if ($page == 1) {
+                $seriesRepo = $om->getRepository('Entity:Series');
+                $seriesResults = $seriesRepo->search($query);
+            }
         }
 
         return [

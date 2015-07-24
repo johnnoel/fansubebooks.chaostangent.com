@@ -4,6 +4,7 @@ namespace ChaosTangent\FansubEbooks\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
 
 /**
  * Series entity repository
@@ -17,13 +18,24 @@ class SeriesRepository extends EntityRepository
      * Search for a series
      *
      * @param string $q The search query
-     * @param integer $limit Maximum number of results to return
-     * @param integer $offset Result offset
-     * @return array An array of series that match the query
+     * @param integer $page The page of results to retrieve
+     * @param integer $perPage How many results to retrieve
+     * @return SearchResult The search results
      * @see ChaosTangent\FansubEbooks\Bundle\AppBundle\DataFixtures\ORM\CreateSearchIndex
      */
-    public function search($q, $limit = 30, $offset = 0)
+    public function search($q, $page = 1, $perPage = 30)
     {
+        // count total results
+        $countSql = 'SELECT COUNT(s.id)
+            FROM series s
+            WHERE to_tsvector(:config, s.title) @@ to_tsquery(:query)';
+
+        $total = $this->_em->getConnection()->fetchColumn($countSql, [
+            ':config' => 'english',
+            ':query' => $q,
+        ], 0);
+
+        // fetch page of results
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Series', 's');
 
@@ -36,11 +48,11 @@ class SeriesRepository extends EntityRepository
         $query = $this->_em->createNativeQuery($sql, $rsm);
         $query->setParameters([
             'query' => $q,
-            'limit' => $limit,
-            'offset' => $offset,
+            'limit' => $perPage,
+            'offset' => ($page - 1) * $perPage,
             'config' => 'english', // see CreateSearchIndex for this indexed value
         ]);
 
-        return $query->getResult();
+        return new SearchResult($q, $query->getResult(), $total, $page, $perPage);
     }
 }

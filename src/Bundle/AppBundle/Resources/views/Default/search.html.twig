@@ -13,7 +13,7 @@
 </form>
 
 {% if series_results|length > 0 %}
-<h4>Matched series</h4>
+<h4>Top matched series</h4>
 <ul>
     {% for series in series_results %}
     <li>{{ series.title }}</li>
@@ -28,14 +28,14 @@
     <li>{{ line.line }}</li>
     {% endfor %}
 </ul>
-{#{% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
+{% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
         'route': 'search',
         'route_params': {
-            'query': line_results.query
+            'q': line_results.query
         },
         'page': line_results.page,
         'pages': line_results.pages
-        } %}#}
+        } %}
 {% endif %}
 
 {% endblock %}
