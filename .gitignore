@@ -10,3 +10,6 @@
 /vendor/
 /web/bundles/
 /.vagrant/
+/node_modules/
+/web/css/
+/web/js/
