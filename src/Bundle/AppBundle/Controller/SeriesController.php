@@ -5,7 +5,13 @@ namespace ChaosTangent\FansubEbooks\Bundle\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
-    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpFoundation\Response;
+use JMS\Serializer\SerializationContext;
+use ChaosTangent\FansubEbooks\Entity\Series,
+    ChaosTangent\FansubEbooks\Entity\File;
 
 /**
  * Series controller
@@ -34,22 +40,39 @@ class SeriesController extends Controller
     /**
      * @Route("/{alias}", name="series_view")
      * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Series:index.html.twig")
+     * @Template("ChaosTangentFansubEbooksAppBundle:Series:series.html.twig")
      */
-    public function seriesAction()
+    public function seriesAction(Series $series)
     {
+        return [
+            'series' => $series,
+        ];
     }
 
     /**
-     * @Route("/{alias}/file/{id}.{_format}", name="series_file",
+     * @Route("/{alias}/file/{file_id}.{_format}", name="series_file",
      *      requirements={"alias": "[^/]+", "_format": "|json"},
      *      defaults={"_format": "html"}
      * )
      * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Series:file.html.twig")
+     * @Template("ChaosTangentFansubEbooksAppBundle:Series:series.html.twig")
+     * @ParamConverter("file", class="Entity:File", options={"id": "file_id"})
      */
-    public function fileAction()
+    public function fileAction(Series $series, File $file, Request $request)
     {
+        if ($request->getRequestFormat() == 'json') {
+            $serializer = $this->get('jms_serializer');
+            $context = SerializationContext::create()->enableMaxDepthChecks();
+
+            return new Response($serializer->serialize($file, 'json', $context), 200, [
+                'Content-Type' => 'application/json',
+            ]);
+        }
+
+        return [
+            'series' => $series,
+            'selected_file' => $file,
+        ];
     }
 
     /**

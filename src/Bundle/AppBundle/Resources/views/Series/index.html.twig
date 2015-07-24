@@ -7,9 +7,11 @@
 <ul>
     {% for s in series %}
     <li>
-        <img src="http://placehold.it/250x350" alt="">
-        <h3>{{ s.title }}</h3>
-        <p>{{ s.files|length }} scripts<br>x lines<br>y tweets</p>
+        <a href="{{ path('series_view', { 'alias': s.alias }) }}">
+            <img src="http://placehold.it/250x350" alt="">
+            <h3>{{ s.title }}</h3>
+            <p>{{ s.files|length }} scripts<br>x lines<br>y tweets</p>
+        </a>
     </li>
     {% endfor %}
 </ul>

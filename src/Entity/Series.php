@@ -53,6 +53,7 @@ class Series
     private $added;
     /**
      * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\File", mappedBy="series")
+     * @ORM\OrderBy({ "name": "ASC" })
      * @Serializer\Exclude
      */
     private $files;

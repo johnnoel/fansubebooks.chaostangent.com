@@ -50,7 +50,8 @@ class File
     private $added;
     /**
      * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Line", mappedBy="file")
-     * @Serializer\Exclude
+     * @Serializer\Type("ArrayCollection<ChaosTangent\FansubEbooks\Entity\Line>")
+     * @Serializer\MaxDepth(2)
      */
     private $lines;
 
