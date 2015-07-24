@@ -13,7 +13,7 @@ var gulp = require('gulp'),
 
 var config = {
     theme: {
-        src: 'src/ChaosTangent/FansubEbooks/Resources/sass/',
+        src: 'src/Resources/sass/',
         entry: 'theme.scss',
         destPath: 'web/css/',
         destName: 'style.css'
