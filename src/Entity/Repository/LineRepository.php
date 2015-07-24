@@ -136,7 +136,9 @@ class LineRepository extends EntityRepository
     /**
      * Search for a line
      *
-     * @param string $query
+     * @param string $q The search query
+     * @param integer $limit Maximum number of results to return
+     * @param integer $offset Result offset
      * @return array An array of lines that match the query
      * @see ChaosTangent\FansubEbooks\Bundle\AppBundle\DataFixtures\ORM\CreateSearchIndex
      */

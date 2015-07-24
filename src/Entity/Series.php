@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Entity\Repository\SeriesRepository")
  * @ORM\Table(name="series")
  */
 class Series

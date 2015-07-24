@@ -7,15 +7,22 @@
     <fieldset>Search</fieldset>
     <div>
         <label for="search-query">Search term</label>
-        <input type="text" name="q" placeholder="magical">
+        <input type="text" name="q" placeholder="magical" value="{{ query|default('') }}">
     </div>
     <button type="submit">Search</button>
 </form>
 
 {% if series_results|length > 0 %}
+<h4>Matched series</h4>
+<ul>
+    {% for series in series_results %}
+    <li>{{ series.title }}</li>
+    {% endfor %}
+</ul>
 {% endif %}
 
 {% if line_results|length > 0 %}
+<h4>Matched lines</h4>
 <ul>
     {% for line in line_results %}
     <li>{{ line.line }}</li>

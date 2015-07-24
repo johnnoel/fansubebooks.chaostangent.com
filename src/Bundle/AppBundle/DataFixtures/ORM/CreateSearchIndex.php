@@ -32,6 +32,9 @@ class CreateSearchIndex implements FixtureInterface
             // use the index
             $sql = 'CREATE INDEX lines_idx_ft ON lines USING gin(to_tsvector(\'english\', line))';
             $conn->executeQuery($sql);
+
+            $sql = 'CREATE INDEX series_idx_ft ON series USING gin(to_tsvector(\'english\', title))';
+            $conn->executeQuery($sql);
         } else {
             var_dump(get_class($conn->getDatabasePlatform()));
         }

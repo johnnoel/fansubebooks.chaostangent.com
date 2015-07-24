@@ -72,11 +72,16 @@ class DefaultController extends Controller
         $lineResults = [];
 
         if (!empty($query)) {
-            $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
+            $om = $this->get('doctrine')->getManager();
+            $lineRepo = $om->getRepository('Entity:Line');
             $lineResults = $lineRepo->search($query);
+
+            $seriesRepo = $om->getRepository('Entity:Series');
+            $seriesResults = $seriesRepo->search($query);
         }
 
         return [
+            'query' => $query,
             'series_results' => $seriesResults,
             'line_results' => $lineResults,
         ];
