@@ -28,6 +28,8 @@ class CreateSearchIndex implements FixtureInterface
 
         $conn = $manager->getConnection();
         if ($conn->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+            // note the "english", this must be used elsewhere when searching to
+            // use the index
             $sql = 'CREATE INDEX lines_idx_ft ON lines USING gin(to_tsvector(\'english\', line))';
             $conn->executeQuery($sql);
         } else {

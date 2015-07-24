@@ -132,4 +132,34 @@ class LineRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * Search for a line
+     *
+     * @param string $query
+     * @return array An array of lines that match the query
+     * @see ChaosTangent\FansubEbooks\Bundle\AppBundle\DataFixtures\ORM\CreateSearchIndex
+     */
+    public function search($q, $limit = 30, $offset = 0)
+    {
+        $rsm = new ResultSetMappingBuilder($this->_em);
+        $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Line', 'l');
+
+        // todo decide on database platform
+        $sql = 'SELECT '.$rsm->generateSelectClause().'
+            FROM lines l
+            WHERE to_tsvector(:config, l.line) @@ to_tsquery(:query)
+            ORDER BY ts_rank(to_tsvector(:config, l.line), to_tsquery(:query))
+            LIMIT :limit OFFSET :offset';
+
+        $query = $this->_em->createNativeQuery($sql, $rsm);
+        $query->setParameters([
+            'query' => $q,
+            'limit' => $limit,
+            'offset' => $offset,
+            'config' => 'english', // see CreateSearchIndex for this indexed value
+        ]);
+
+        return $query->getResult();
+    }
 }

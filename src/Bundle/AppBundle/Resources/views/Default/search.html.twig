@@ -2,4 +2,33 @@
 
 {% block body %}
 <h1>Search</h1>
+
+<form method="GET" action="">
+    <fieldset>Search</fieldset>
+    <div>
+        <label for="search-query">Search term</label>
+        <input type="text" name="q" placeholder="magical">
+    </div>
+    <button type="submit">Search</button>
+</form>
+
+{% if series_results|length > 0 %}
+{% endif %}
+
+{% if line_results|length > 0 %}
+<ul>
+    {% for line in line_results %}
+    <li>{{ line.line }}</li>
+    {% endfor %}
+</ul>
+{#{% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
+        'route': 'search',
+        'route_params': {
+            'query': line_results.query
+        },
+        'page': line_results.page,
+        'pages': line_results.pages
+        } %}#}
+{% endif %}
+
 {% endblock %}

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use ChaosTangent\FansubEbooks\Bundle\AppBundle\Form\Type\SuggestFileType,
     ChaosTangent\FansubEbooks\Bundle\AppBundle\Form\Type\SuggestSeriesType;
 
@@ -61,7 +62,23 @@ class DefaultController extends Controller
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Default:search.html.twig")
      */
-    public function searchAction()
+    public function searchAction(Request $request)
     {
+        $page = $request->query->get('page', 1);
+        $pages = 3;
+        $query = $request->query->get('q', null);
+
+        $seriesResults = [];
+        $lineResults = [];
+
+        if (!empty($query)) {
+            $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
+            $lineResults = $lineRepo->search($query);
+        }
+
+        return [
+            'series_results' => $seriesResults,
+            'line_results' => $lineResults,
+        ];
     }
 }
