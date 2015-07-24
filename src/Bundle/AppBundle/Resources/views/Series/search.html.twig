@@ -16,7 +16,7 @@
 {% if results|length > 0 %}
 <ul>
     {% for line in results %}
-    <li>{{ line.line }}</li>
+    <li>{% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}</li>
     {% endfor %}
 </ul>
 

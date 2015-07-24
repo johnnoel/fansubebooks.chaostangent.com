@@ -1,0 +1,25 @@
+<div class="line">
+    <p>{{ line.line }}</p>
+
+    <form method="post" action="{{ path('line_voteup', { 'id': line.id }) }}" class="line-voteup">
+        <button type="submit">Vote up</button>
+    </form>
+
+    <div class="line-votes">
+        <span class="line-positivevotes">+{{ line.positiveVoteCount }}</span>
+        /
+        <span class="line-negativevotes">-{{ line.negativeVoteCount }}</span>
+        /
+        <span class="line-score">{{ line.positiveVoteCount - line.negativeVoteCount }}</span>
+    </div>
+
+    <form method="post" action="{{ path('line_votedown', { 'id': line.id }) }}" class="line-votedown">
+        <button type="submit">Vote down</button>
+    </form>
+
+    <form method="post" action="{{ path('line_flag', { 'id': line.id }) }}" class="line-flag">
+        <button type="submit">Flag</button>
+    </form>
+
+    <a href="{{ path('line', { 'id': line.id }) }}" class="line-link">Permalink</a>
+</div>

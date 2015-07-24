@@ -16,6 +16,38 @@ use ChaosTangent\FansubEbooks\Entity\Series;
 class LineRepository extends EntityRepository
 {
     /**
+     * Get a line with relevant vote counts
+     *
+     * @param integer $id
+     * @return Line|null
+     */
+    public function getLine($id)
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->addSelect([
+                'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
+                'SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes',
+            ])
+            ->leftJoin('l.votes', 'v')
+            ->where($qb->expr()->eq('l.id', ':id'))
+            ->groupBy('l.id')
+            ->setMaxResults(1)
+            ->setParameter('id', $id);
+
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        if ($result === null) {
+            return $result;
+        }
+
+        $line = $result[0];
+        $line->setPositiveVoteCount(intval($result['positive_votes']))
+            ->setNegativeVoteCount(intval($result['negative_votes']));
+
+        return $line;
+    }
+
+    /**
      * Get the total number of lines
      *
      * Used on: homepage

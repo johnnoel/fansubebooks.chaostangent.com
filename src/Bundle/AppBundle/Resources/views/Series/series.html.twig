@@ -19,7 +19,7 @@
 {% if (selected_file is not defined and loop.first) or (selected_file is defined and selected_file.id == file.id) %}
 <ul>
 {% for line in file.lines %}
-    <li>{{ line.line }}</li>
+    <li>{% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}</li>
 {% endfor %}
 </ul>
 {% endif %}

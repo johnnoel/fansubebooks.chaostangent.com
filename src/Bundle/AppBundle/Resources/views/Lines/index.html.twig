@@ -1,7 +1,5 @@
 {% extends '::layout.html.twig' %}
 
 {% block body %}
-<div class="line">
-    {{ line.line }}
-</div>
+{% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
 {% endblock %}

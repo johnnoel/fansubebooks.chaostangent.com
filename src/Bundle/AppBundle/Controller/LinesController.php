@@ -5,7 +5,8 @@ namespace ChaosTangent\FansubEbooks\Bundle\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
-    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\Response;
 use ChaosTangent\FansubEbooks\Entity\Line,
@@ -27,6 +28,7 @@ class LinesController extends Controller
      * )
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Lines:index.html.twig")
+     * @ParamConverter("line", class="Entity:Line", options={"repository_method": "getLine"})
      */
     public function indexAction(Line $line)
     {

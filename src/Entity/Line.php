@@ -54,6 +54,16 @@ class Line
      * @Serializer\Exclude
      */
     private $tweets;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    private $positiveVoteCount = 0;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    private $negativeVoteCount = 0;
 
     /**
      * Constructor
@@ -117,6 +127,52 @@ class Line
     public function getCharacterCount()
     {
         return $this->characterCount;
+    }
+
+    /**
+     * Set positiveVoteCount
+     *
+     * @param integer $positiveVoteCount
+     * @return Line
+     */
+    public function setPositiveVoteCount($positiveVoteCount)
+    {
+        $this->positiveVoteCount = $positiveVoteCount;
+
+        return $this;
+    }
+
+    /**
+     * Get positiveVoteCount
+     *
+     * @return integer
+     */
+    public function getPositiveVoteCount()
+    {
+        return $this->positiveVoteCount;
+    }
+
+    /**
+     * Set negativeVoteCount
+     *
+     * @param integer $negativeVoteCount
+     * @return Line
+     */
+    public function setNegativeVoteCount($negativeVoteCount)
+    {
+        $this->negativeVoteCount = $negativeVoteCount;
+
+        return $this;
+    }
+
+    /**
+     * Get negativeVoteCount
+     *
+     * @return integer
+     */
+    public function getNegativeVoteCount()
+    {
+        return $this->negativeVoteCount;
     }
 
     /**
