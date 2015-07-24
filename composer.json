@@ -29,7 +29,8 @@
         "gedmo/doctrine-extensions": "^2.4",
         "jms/serializer-bundle": "^1.0",
         "guzzlehttp/guzzle": "^6.0",
-        "guzzlehttp/oauth-subscriber": "dev-master"
+        "guzzlehttp/oauth-subscriber": "dev-master",
+        "doctrine/doctrine-fixtures-bundle": "^2.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
