@@ -5,7 +5,8 @@ namespace ChaosTangent\FansubEbooks\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
-use ChaosTangent\FansubEbooks\Entity\Series;
+use ChaosTangent\FansubEbooks\Entity\Series,
+    ChaosTangent\FansubEbooks\Entity\File;
 
 /**
  * Line entity repository
@@ -45,6 +46,38 @@ class LineRepository extends EntityRepository
             ->setNegativeVoteCount(intval($result['negative_votes']));
 
         return $line;
+    }
+
+    /**
+     * Get a collection of lines within a file
+     *
+     * @param File $file
+     * @return array An array of lines
+     */
+    public function getLinesByFile(File $file)
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->addSelect([
+                'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
+                'SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes',
+            ])
+            ->leftJoin('l.votes', 'v')
+            ->where($qb->expr()->eq('l.file', ':file'))
+            ->groupBy('l.id')
+            ->setParameter('file', $file);
+
+        $result = $qb->getQuery()->getResult();
+        $lines = [];
+
+        foreach ($result as $row) {
+            $line = $row[0];
+            $line->setPositiveVoteCount(intval($row['positive_votes']))
+                ->setNegativeVoteCount(intval($row['negative_votes']));
+
+            $lines[] = $line;
+        }
+
+        return $lines;
     }
 
     /**

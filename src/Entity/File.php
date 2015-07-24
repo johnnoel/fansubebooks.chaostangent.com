@@ -3,6 +3,7 @@
 namespace ChaosTangent\FansubEbooks\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -11,7 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Entity\Repository\FileRepository")
  * @ORM\Table(name="files",
  *      indexes={@ORM\Index(name="hash_idx", columns={"hash"})}
  * )
@@ -60,7 +61,7 @@ class File
      */
     public function __construct()
     {
-        $this->lines = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lines = new ArrayCollection();
     }
 
     /**
@@ -196,5 +197,26 @@ class File
     public function getLines()
     {
         return $this->lines;
+    }
+
+    /**
+     * Set lines
+     *
+     * @param array|ArrayCollection $lines
+     * @return File
+     */
+    public function setLines($lines)
+    {
+        if (is_array($lines)) {
+            $lines = new ArrayCollection($lines);
+        }
+
+        if (!($lines instanceof ArrayCollection)) {
+            throw new \InvalidArgumentException('$lines must be an array or an ArrayCollection');
+        }
+
+        $this->lines = $lines;
+
+        return $this;
     }
 }

@@ -16,9 +16,9 @@
 
 {% for file in series.files %}
 <h3 id="{{ series.alias }}-{{ file.id }}"><a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">{{ file.name }}</a></h3>
-{% if (selected_file is not defined and loop.first) or (selected_file is defined and selected_file.id == file.id) %}
+{% if selected_file.id == file.id %}
 <ul>
-{% for line in file.lines %}
+{% for line in selected_file.lines %}
     <li>{% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}</li>
 {% endfor %}
 </ul>

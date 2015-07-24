@@ -44,8 +44,14 @@ class SeriesController extends Controller
      */
     public function seriesAction(Series $series)
     {
+        $fileRepo = $this->get('doctrine')->getManager()->getRepository('Entity:File');
+        $file = $series->getFiles()->first();
+        // hmm
+        $file = $fileRepo->getFile($file->getId());
+
         return [
             'series' => $series,
+            'selected_file' => $file,
         ];
     }
 
@@ -56,7 +62,7 @@ class SeriesController extends Controller
      * )
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Series:series.html.twig")
-     * @ParamConverter("file", class="Entity:File", options={"id": "file_id"})
+     * @ParamConverter("file", class="Entity:File", options={"id": "file_id", "repository_method": "getFile"})
      */
     public function fileAction(Series $series, File $file, Request $request)
     {
