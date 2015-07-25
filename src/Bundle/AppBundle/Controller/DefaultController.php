@@ -7,8 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use ChaosTangent\FansubEbooks\Bundle\AppBundle\Form\Type\SuggestFileType,
-    ChaosTangent\FansubEbooks\Bundle\AppBundle\Form\Type\SuggestSeriesType;
 
 /**
  * Default controller
@@ -38,22 +36,6 @@ class DefaultController extends Controller
             'latest_tweet' => $latestTweet,
             'tweet_count' => $tweetCount,
             'line_count' => $lineCount,
-        ];
-    }
-
-    /**
-     * @Route("/help", name="help")
-     * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Default:help.html.twig")
-     */
-    public function helpAction()
-    {
-        $suggestFile = $this->createForm(new SuggestFileType());
-        $suggestSeries = $this->createForm(new SuggestSeriesType());
-
-        return [
-            'suggest_file' => $suggestFile->createView(),
-            'suggest_series' => $suggestSeries->createView(),
         ];
     }
 

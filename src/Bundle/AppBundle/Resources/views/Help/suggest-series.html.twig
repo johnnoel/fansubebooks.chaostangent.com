@@ -1,0 +1,11 @@
+{% extends '::layout.html.twig' %}
+
+{% block body %}
+<h2>Suggest a series</h2>
+{% if form is not defined %}
+<p>Thanks for suggesting a series! It might take a bit of time to make it into the library, but if you <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a> you can keep updated on progress.</p>
+{% else %}
+<p>There was an error submitting your series suggestion, any errors are displayed below</p>
+{{ form(form) }}
+{% endif %}
+{% endblock %}

@@ -33,7 +33,7 @@ class SuggestSeriesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'ChaosTangent\FansubEbooks\Entity\Series',
+            'data_class' => 'ChaosTangent\FansubEbooks\Bundle\AppBundle\Form\Model\SuggestSeries',
         ]);
     }
 }
