@@ -3,6 +3,7 @@
 namespace ChaosTangent\FansubEbooks\Bundle\AppBundle\Form\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use ChaosTangent\FansubEbooks\Validator\Constraint\ASSFile as AssertASSFile;
 
 /**
  * Suggest file form model
@@ -13,8 +14,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SuggestFile implements \Serializable
 {
     /**
-     * @Assert\File(maxSize="2mb")
+     * @Assert\File(maxSize="2m")
      * @Assert\NotBlank
+     * @AssertASSFile
      */
     public $file;
     public $uploadedFilename;
