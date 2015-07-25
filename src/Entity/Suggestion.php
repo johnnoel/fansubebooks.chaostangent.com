@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Entity\Repository\SuggestionRepository")
  * @ORM\Table(name="suggestions")
  */
 class Suggestion

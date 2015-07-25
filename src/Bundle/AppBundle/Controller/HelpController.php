@@ -58,6 +58,11 @@ class HelpController extends Controller
                 ->setType('series')
                 ->setData($suggestSeries);
 
+            $authChecker = $this->get('security.authorization_checker');
+            if ($authChecker->isGranted('suggest', $suggestion) === false) {
+                throw $this->createAccessDeniedException('Unable to make series suggestion from that IP address again');
+            }
+
             $om = $this->get('doctrine')->getManager();
             $om->persist($suggestion);
             $om->flush();
@@ -81,6 +86,17 @@ class HelpController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $suggestion = new Suggestion();
+            $suggestion->setIp($request->getClientIp())
+                ->setType('script');
+
+            // fail early
+            $authChecker = $this->get('security.authorization_checker');
+            if ($authChecker->isGranted('suggest', $suggestion) === false) {
+                // todo clean up upload
+                throw $this->createAccessDeniedException('Unable to make series suggestion from that IP address again');
+            }
+
             // todo try/catch
             $suggestFile = $form->getData();
             // set the originally uploaded name
@@ -92,10 +108,8 @@ class HelpController extends Controller
             // move it and replace the existing file
             $suggestFile->file = $suggestFile->file->move($dir, $filename);
 
-            $suggestion = new Suggestion();
-            $suggestion->setIp($request->getClientIp())
-                ->setType('script')
-                ->setData($suggestFile);
+            // update suggestion object
+            $suggestion->setData($suggestFile);
 
             $om = $this->get('doctrine')->getManager();
             $om->persist($suggestion);
