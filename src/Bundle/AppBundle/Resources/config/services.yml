@@ -1,4 +1,8 @@
 services:
-#    chaos_tangent_fansub_ebooks_app.example:
-#        class: ChaosTangent\FansubEbooks\Bundle\AppBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    # control access to voting by how many times an IP address has voted
+    fansubebooks.security.authorization.voter.vote_voter:
+        class: ChaosTangent\FansubEbooks\Bundle\AppBundle\Security\Authorization\Voter\VoteVoter
+        arguments: [ @fansubebooks.entity.repository.vote_repository ]
+        public: false
+        tags:
+            - { name: security.voter }

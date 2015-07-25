@@ -10,7 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Entity\Repository\VoteRepository")
  * @ORM\Table(name="votes")
  */
 class Vote
@@ -44,7 +44,7 @@ class Vote
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,7 +67,7 @@ class Vote
     /**
      * Get added
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getAdded()
     {
@@ -90,7 +90,7 @@ class Vote
     /**
      * Get ip
      *
-     * @return string 
+     * @return string
      */
     public function getIp()
     {
@@ -113,7 +113,7 @@ class Vote
     /**
      * Get positive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPositive()
     {
@@ -136,7 +136,7 @@ class Vote
     /**
      * Get line
      *
-     * @return \ChaosTangent\FansubEbooks\Entity\Line 
+     * @return \ChaosTangent\FansubEbooks\Entity\Line
      */
     public function getLine()
     {
