@@ -47,7 +47,10 @@ class VoteVoter extends AbstractVoter
         $hourAgo = new \DateTime('now');
         $hourAgo->sub(new \DateInterval('PT1H'));
 
-        $ipCount = $this->voteRepo->getIpAddressCountForPeriod($ip, $hourAgo);
+        $ipCount = $this->voteRepo->getVoteCount([
+            'ip' => $ip,
+            'start' => $hourAgo,
+        ]);
 
         if ($ipCount >= self::PER_HOUR) {
             return false;

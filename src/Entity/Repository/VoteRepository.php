@@ -13,28 +13,36 @@ use Doctrine\ORM\EntityRepository;
 class VoteRepository extends EntityRepository
 {
     /**
-     * Get the number of votes with an IP address for a given period
+     * Get a count of the votes according to a set of criteria
      *
-     * @param string $ip The ip address to search for
-     * @param \DateTime $start Start date/time
-     * @param \DateTime $end End date/time, leave off for all votes after start
+     * @param array $criteria Can be ip, start, end or line
      * @return integer
      */
-    public function getIpAddressCountForPeriod($ip, \DateTime $start, \DateTime $end = null)
+    public function getVoteCount(array $criteria = [])
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select([ 'COUNT(v)' ])
-            ->from('Entity:Vote', 'v')
-            ->where($qb->expr()->eq('v.ip', ':ip'))
-            ->andWhere($qb->expr()->gte('v.added', ':start'))
-            ->setParameters([
-                'ip' => $ip,
-                'start' => $start,
-            ]);
+            ->from('Entity:Vote', 'v');
 
-        if ($end !== null) {
-            $qb->andWhere($qb->expr()->lte('v.added', ':end'))
-                ->setParameter('end', $end);
+        foreach ($criteria as $key => $value) {
+            switch ($key) {
+            case 'ip':
+                $qb->andWhere($qb->expr()->eq('v.ip', ':ip'))
+                    ->setParameter('ip', $value);
+                break;
+            case 'start':
+                $qb->andWhere($qb->expr()->gte('v.added', ':start'))
+                    ->setParameter('start', $value);
+                break;
+            case 'end':
+                $qb->andWhere($qb->expr()->lte('v.added', ':end'))
+                    ->setParameter('end', $value);
+                break;
+            case 'line':
+                $qb->andWhere($qb->expr()->eq('v.line', ':line'))
+                    ->setParameter('line', $value);
+                break;
+            }
         }
 
         return intval($qb->getQuery()->getSingleScalarResult());
