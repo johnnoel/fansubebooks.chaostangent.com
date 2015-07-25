@@ -18,6 +18,9 @@ class SuggestFileType extends AbstractType
     {
         $builder->add('file', 'file', [
             'required' => true,
+            'attr' => [
+                'accept' => '.ass',
+            ],
         ])->add('send', 'submit');
     }
 
