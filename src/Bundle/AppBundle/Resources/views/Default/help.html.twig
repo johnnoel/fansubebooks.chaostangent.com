@@ -1,9 +1,42 @@
 {% extends '::layout.html.twig' %}
 
 {% block body %}
-How to help and if you need help
+<h2>How to help and if you need help</h2>
 
-{{ form(suggest_file) }}
+<h3>Contribute a script to the Fansub Ebooks library</h3>
+<p>Want to contribute a script? Splendid! A few things to bear in mind about your upload:</p>
+<ol>
+    <li>It must be a .ass (Advanced Substation Alpha) file, no .srt, .ssa or .idx files</li>
+    <li>The filename must contain the name of fansub it came from, e.g. [Coalgirls]_Yuru_Yuri_01_(1920x1080_Blu-Ray_FLAC)_[11DDE242].ass; this lets me identify the series and sub group</li>
+    <li>The file must be no bigger than 2mb; most movie scripts with effects top out around 1.5mb so this should be plenty</li>
+    <li>The file must not be zipped or otherwise compressed</li>
+    <li>Only fansub scripts please, so nothing from streaming services (Crunchyroll, Funimation, Daisuki.net etc.)</li>
+</ol>
+<p>All good? Spiffy. Once the script has been uploaded it'll be in a queue for moderation and probably get added within a day or so. Then you'll get a warm and fuzzy feeling for contributing to the nonsense that is Fansub Ebooks.</p>
+<p>(P.S. You should definitely <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a> that you've submitted a script. Just sayin')</p>
 
-{{ form(suggest_series) }}
+{{ form_start(suggest_file) }}
+<fieldset>
+    <legend>Contribute a script</legend>
+    {{ form_row(suggest_file.file) }}
+    {{ form_row(suggest_file.send) }}
+</fieldset>
+{{ form_end(suggest_file) }}
+
+<h3>Suggest a series for inclusion in the Fansub Ebooks library</h3>
+<p>Want to help Fansub Ebooks but don't have any fansub scripts to hand? Really want to see your favourite series by your favourite sub group included? Go ahead and suggest it!</p>
+<p>Make sure the series isn't <a href="{{ path('series') }}">already in the library</a>, and if not, pop the details in below.</p>
+<p>It might take a bit of time before the series can be added but it's always good to know what Fansub Ebook visitors want to see!</p>
+
+{{ form_start(suggest_series) }}
+<fieldset>
+    <legend>Suggest a series</legend>
+    {{ form_row(suggest_series.name) }}
+    {{ form_row(suggest_series.group) }}
+    {{ form_row(suggest_series.suggest) }}
+</fieldset>
+{{ form_end(suggest_series) }}
+
+<h3>Anything else?</h3>
+<p>Just <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a>, it's all good.</p>
 {% endblock %}

@@ -19,6 +19,9 @@ class SuggestSeriesType extends AbstractType
         $builder->add('name', 'text', [
             'required' => true,
             'trim' => true,
+        ])->add('group', 'text', [
+            'required' => true,
+            'trim' => true,
         ])->add('suggest', 'submit');
     }
 
