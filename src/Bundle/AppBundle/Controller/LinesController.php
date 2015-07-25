@@ -10,7 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
 use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\Response;
 use ChaosTangent\FansubEbooks\Entity\Line,
-    ChaosTangent\FansubEbooks\Entity\Vote;
+    ChaosTangent\FansubEbooks\Entity\Vote,
+    ChaosTangent\FansubEbooks\Entity\Flag;
 
 /**
  * Lines controller
@@ -106,9 +107,26 @@ class LinesController extends Controller
      * )
      * @Method({"POST"})
      */
-    public function flagAction()
+    public function flagAction(Line $line, Request $request)
     {
-        return [];
+        $flag = new Flag();
+        $flag->setLine($line)
+            ->setIp($request->getClientIp());
+
+        $om = $this->get('doctrine')->getManager();
+        $om->persist($flag);
+        $om->flush();
+
+        if ($request->getRequestFormat() == 'json') {
+            $serializer = $this->get('jms_serializer');
+            return new Response($serializer->serializer($flag, 'json'), 200, [
+                'Content-Type' => 'application/json',
+            ]);
+        }
+
+        return $this->redirect($this->generateUrl('line', [
+            'id' => $line->getId(),
+        ]));
     }
 
     /**
