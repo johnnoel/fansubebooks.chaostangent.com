@@ -47,15 +47,15 @@ class LinesController extends Controller
      */
     public function voteUpAction(Line $line, Request $request)
     {
-        $authChecker = $this->get('security.authorization_checker');
-        if ($authChecker->isGranted('voteup', $request) === false) {
-            throw $this->createAccessDeniedException('Unable to vote from that IP address again');
-        }
-
         $vote = new Vote();
         $vote->setLine($line)
             ->setIp($request->getClientIp())
             ->setPositive(true);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if ($authChecker->isGranted('voteup', $vote) === false) {
+            throw $this->createAccessDeniedException('Unable to vote from that IP address again');
+        }
 
         $om = $this->get('doctrine')->getManager();
         $om->persist($vote);
@@ -83,15 +83,15 @@ class LinesController extends Controller
      */
     public function voteDownAction(Line $line, Request $request)
     {
-        $authChecker = $this->get('security.authorization_checker');
-        if ($authChecker->isGranted('votedown', $request) === false) {
-            throw $this->createAccessDeniedException('Unable to vote from that IP address again');
-        }
-
         $vote = new Vote();
         $vote->setLine($line)
             ->setIp($request->getClientIp())
             ->setPositive(false);
+
+        $authChecker = $this->get('security.authorization_checker');
+        if ($authChecker->isGranted('votedown', $vote) === false) {
+            throw $this->createAccessDeniedException('Unable to vote from that IP address again');
+        }
 
         $om = $this->get('doctrine')->getManager();
         $om->persist($vote);
