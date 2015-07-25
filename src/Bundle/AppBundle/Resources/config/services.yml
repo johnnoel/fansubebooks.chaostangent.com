@@ -6,3 +6,10 @@ services:
         public: false
         tags:
             - { name: security.voter }
+
+    fansubebooks.security.authorization.voter.flag_voter:
+        class: ChaosTangent\FansubEbooks\Bundle\AppBundle\Security\Authorization\Voter\FlagVoter
+        arguments: [ @fansubebooks.entity.repository.flag_repository ]
+        public: false
+        tags:
+            - { name: security.voter }

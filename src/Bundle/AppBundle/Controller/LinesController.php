@@ -123,6 +123,11 @@ class LinesController extends Controller
         $flag->setLine($line)
             ->setIp($request->getClientIp());
 
+        $authChecker = $this->get('security.authorization_checker');
+        if ($authChecker->isGranted('flag', $flag) === false) {
+            throw $this->createAccessDeniedException('Unable to flag from that IP address again');
+        }
+
         $om = $this->get('doctrine')->getManager();
         $om->persist($flag);
         $om->flush();
