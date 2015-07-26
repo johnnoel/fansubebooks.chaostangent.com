@@ -17,7 +17,6 @@ $body-font-base-size: 18px;
 $body-font-color: $grey;
 
 @import 'reset';
-@import 'fonts';
 
 h1, h2, h3, h4, h5, h6 {
     font-family: $header-font-family;
@@ -31,6 +30,10 @@ h1 {
 
 body {
     background: $beige;
+    font-family: $body-font-family;
+    font-size: $body-font-base-size;
+    line-height: $body-font-base-size * 1.5;
+    color: $body-font-color;
 }
 
 .line-grid {

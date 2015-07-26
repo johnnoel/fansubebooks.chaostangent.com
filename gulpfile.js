@@ -13,15 +13,29 @@ var gulp = require('gulp'),
 
 var config = {
     theme: {
-        src: 'src/Resources/sass/',
-        entry: 'theme.scss',
-        destPath: 'web/css/',
-        destName: 'style.css'
+        main: {
+            src: 'src/Resources/sass/',
+            entry: 'theme.scss',
+            destPath: 'web/css/',
+            destName: 'style.css'
+        },
+
+        fonts: {
+            src: 'src/Resources/sass/fonts.scss',
+            dest: 'web/css/'
+        }
+    },
+
+    js: {
+        head: {
+            src: 'src/Resources/js/head/**/*.js',
+            dest: 'web/js/'
+        }
     }
 };
 
-gulp.task('theme', function() {
-    var c = config.theme;
+gulp.task('theme:main', function() {
+    var c = config.theme.main;
 
     return gulp.src(c.src+c.entry)
         .pipe(plugins.sourcemaps.init({ loadMaps: true }))
@@ -32,8 +46,34 @@ gulp.task('theme', function() {
         .pipe(gulp.dest(c.destPath));
 });
 
-gulp.task('default', [ 'theme' ], function() {
+gulp.task('theme:fonts', function() {
+    var c = config.theme.fonts;
+
+    return gulp.src(c.src)
+        .pipe(plugins.sourcemaps.init({ loadMaps: true }))
+        .pipe(plugins.sass())
+        .on('error', plugins.util.log)
+        .pipe(plugins.rename('fonts.css'))
+        .pipe(plugins.sourcemaps.write('./'))
+        .pipe(gulp.dest(c.dest));
+});
+
+gulp.task('theme', [ 'theme:fonts', 'theme:main' ]);
+
+gulp.task('js:head', function() {
+    var c = config.js.head;
+
+    return gulp.src(c.src)
+        .pipe(plugins.sourcemaps.init({ loadMaps: true }))
+        .pipe(plugins.concat('head.js'))
+        .pipe(plugins.sourcemaps.write('./'))
+        .pipe(gulp.dest(c.dest));
+});
+
+gulp.task('js', [ 'js:head' ]);
+
+gulp.task('default', [ 'theme', 'js' ], function() {
     if (!productionMode) {
-        gulp.watch(config.theme.src+'**/*.scss', [ 'theme' ]);
+        gulp.watch(config.theme.main.src+'**/*.scss', [ 'theme:main' ]);
     }
 });
