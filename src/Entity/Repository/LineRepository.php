@@ -158,9 +158,9 @@ class LineRepository extends EntityRepository
 
         /*
          * REALLY hacky, because $tweetable = true filters IDs AFTER they've
-         * been randomly picked, the probably of not getting a result increases
-         * the more lines have been tweeted so just do the query up to ten
-         * times to make sure
+         * been randomly picked, the probability of not getting a result
+         * increases the more lines have been tweeted so just do the query up
+         * to ten times to make sure
          */
         if ($tweetable) {
             for ($i = 0; $i < 10; $i++) {
@@ -186,7 +186,10 @@ class LineRepository extends EntityRepository
             ->from('Entity:Tweet', 't');
 
         $qb = $this->createQueryBuilder('l');
-        $qb->join('l.votes', 'v')
+        $qb->addSelect([
+                'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
+                'SUM(CASE WHEN v.positive = false THEN 1 ELSE 1 END) AS negative_votes',
+            ])->join('l.votes', 'v')
             ->where($qb->expr()->notIn('l.id', $sqb->getDql()))
             ->andWhere($qb->expr()->lte('l.characterCount', ':cc'))
             ->groupBy('l.id')
@@ -197,7 +200,15 @@ class LineRepository extends EntityRepository
                 'cc' => 140,
             ]);
 
-        return $qb->getQuery()->getResult();
+        $result = $qb->getQuery()->getResult();
+        $ret = [];
+
+        foreach ($result as $row) {
+            $ret[] = $row[0]->setPositiveVoteCount(intval($row['positive_votes']))
+                ->setNegativeVoteCount(intval($row['negative_votes']));
+        }
+
+        return $ret;
     }
 
     /**

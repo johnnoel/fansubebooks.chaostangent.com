@@ -27,19 +27,68 @@ $body-font-color: $grey;
     -moz-column-width: 350px;
     -webkit-column-width: 350px;
     column-width: 350px;
+
+    .line {
+        max-width: 350px;
+        display: inline-block;
+    }
 }
 
 .line {
-    border: 1px solid #CCC;
-    border-radius: 3px;
-    display: inline-block;
-    max-width: 350px;
+    border: 1px solid $beige-light;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 
     .line-line {
-        font-size: 24px;
+        font-size: $body-font-base-size * 2;
+        margin-bottom: 12px;
     }
 
     .line-voteup, .line-votes, .line-votedown, .line-flag {
         display: inline-block;
+        vertical-align: middle;
+    }
+
+    .line-voteup, .line-votedown, .line-flag {
+        button {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0;
+            width: 28px;
+            height: 28px;
+            opacity: 0.3;
+            transition: opacity 0.15s linear;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    .line-voteup button {
+        background: url(/img/voteup.svg) no-repeat 0 0;
+        background-size: 28px;
+    }
+
+    .line-votedown button {
+        background: url(/img/votedown.svg) no-repeat 0 0;
+        background-size: 28px;
+    }
+
+    .line-flag button {
+        background: url(/img/flag.svg) no-repeat 3px 3px;
+        background-size: 22px;
+    }
+
+    .line-votes, .line-link {
+        font-size: $body-font-base-size * 0.7;
+    }
+
+    .line-link {
+        margin-top: 9px;
+        float: right;
     }
 }
