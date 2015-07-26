@@ -195,19 +195,3 @@
         vertical-align: top;
     }
 }
-
-.series {
-    text-decoration: none;
-    color: $body-font-color;
-
-    .series-thumbnail {
-        display: block;
-        max-width: 100%;
-        margin-bottom: 6px;
-    }
-
-    .series-title {
-        font-weight: normal;
-        font-size: $header-font-base-size * 0.6;
-    }
-}

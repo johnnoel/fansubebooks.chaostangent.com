@@ -58,10 +58,27 @@ class Series
      */
     private $files;
     /**
+     * Synthetic (non-mapped) value for when this series was last updated
+     *
      * @var \DateTime
      * @Serializer\Type("DateTime<'D, d M Y H:i:s O', 'UTC'>")
      */
     private $updated;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    private $fileCount;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    private $lineCount;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    private $tweetCount;
 
     /**
      * Constructor
@@ -217,6 +234,75 @@ class Series
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set fileCount
+     *
+     * @param integer $fileCount
+     * @return Series
+     */
+    public function setFileCount($fileCount)
+    {
+        $this->fileCount = $fileCount;
+
+        return $this;
+    }
+
+    /**
+     * Get fileCount
+     *
+     * @return integer
+     */
+    public function getFileCount()
+    {
+        return $this->fileCount;
+    }
+
+    /**
+     * Set lineCount
+     *
+     * @param integer $lineCount
+     * @return Series
+     */
+    public function setLineCount($lineCount)
+    {
+        $this->lineCount = $lineCount;
+
+        return $this;
+    }
+
+    /**
+     * Get lineCount
+     *
+     * @return integer
+     */
+    public function getLineCount()
+    {
+        return $this->lineCount;
+    }
+
+    /**
+     * Set tweetCount
+     *
+     * @param integer $tweetCount
+     * @return Series
+     */
+    public function setTweetCount($tweetCount)
+    {
+        $this->tweetCount = $tweetCount;
+
+        return $this;
+    }
+
+    /**
+     * Get tweetCount
+     *
+     * @return integer
+     */
+    public function getTweetCount()
+    {
+        return $this->tweetCount;
     }
 
     /**

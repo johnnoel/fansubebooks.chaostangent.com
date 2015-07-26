@@ -27,10 +27,12 @@ class SeriesController extends Controller
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Series:index.html.twig")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $page = intval($request->query->get('page', 1));
+
         $seriesRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Series');
-        $series = $seriesRepo->findAll();
+        $series = $seriesRepo->getSeries($page, 15);
 
         return [
             'series' => $series,

@@ -20,75 +20,42 @@ $body-font-color: $grey;
 
 @import 'reset';
 @import 'mixins';
+
 @import 'global';
 @import 'home';
+@import 'line';
 
-.line-grid {
-    -moz-column-width: 350px;
-    -webkit-column-width: 350px;
-    column-width: 350px;
+.series-grid {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -12px;
 
-    .line {
-        max-width: 350px;
-        display: inline-block;
+    li {
+        flex: 0 0 auto;
+        width: 20%;
+        box-sizing: border-box;
+        padding: 0 12px;
+        margin-bottom: 24px;
     }
 }
 
-.line {
-    border: 1px solid $beige-light;
-    padding: 8px 12px;
-    border-radius: 8px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+.series {
+    text-decoration: none;
+    color: $body-font-color;
 
-    .line-line {
-        font-size: $body-font-base-size * 2;
-        margin-bottom: 12px;
+    .series-thumbnail {
+        display: block;
+        max-width: 100%;
+        margin-bottom: 6px;
     }
 
-    .line-voteup, .line-votes, .line-votedown, .line-flag {
-        display: inline-block;
-        vertical-align: middle;
+    .series-title {
+        font-weight: normal;
+        font-size: $header-font-base-size * 0.6;
+        margin-bottom: 6px;
     }
 
-    .line-voteup, .line-votedown, .line-flag {
-        button {
-            background: none;
-            border: none;
-            padding: 0;
-            margin: 0;
-            font-size: 0;
-            width: 28px;
-            height: 28px;
-            opacity: 0.3;
-            transition: opacity 0.15s linear;
-
-            &:hover {
-                opacity: 1;
-            }
-        }
-    }
-
-    .line-voteup button {
-        background: url(/img/voteup.svg) no-repeat 0 0;
-        background-size: 28px;
-    }
-
-    .line-votedown button {
-        background: url(/img/votedown.svg) no-repeat 0 0;
-        background-size: 28px;
-    }
-
-    .line-flag button {
-        background: url(/img/flag.svg) no-repeat 3px 3px;
-        background-size: 22px;
-    }
-
-    .line-votes, .line-link {
+    .series-stats {
         font-size: $body-font-base-size * 0.7;
-    }
-
-    .line-link {
-        margin-top: 9px;
-        float: right;
     }
 }

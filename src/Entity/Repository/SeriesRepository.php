@@ -4,7 +4,8 @@ namespace ChaosTangent\FansubEbooks\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
-use ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
+use ChaosTangent\FansubEbooks\Entity\Result\PaginatedResult,
+    ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
 
 /**
  * Series entity repository
@@ -14,6 +15,76 @@ use ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
  */
 class SeriesRepository extends EntityRepository
 {
+    /**
+     * Get a paginated list of series
+     *
+     * @param integer $page
+     * @param integer $perPage
+     * @return PaginatedResult
+     */
+    public function getSeries($page = 1, $perPage = 30)
+    {
+        // get total number of series
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select([ 'COUNT(s.id)' ])
+            ->from('Entity:Series', 's');
+
+        $total = $qb->getQuery()->getSingleScalarResult();
+
+        // get series
+        $fileSql = 'SELECT fs.id, COUNT(f.id) AS file_count
+            FROM series fs
+            JOIN files f ON f.series_id = fs.id
+            GROUP BY fs.id';
+
+        $lineSql = 'SELECT ls.id, COUNT(l.id) AS line_count
+            FROM series ls
+            JOIN files lf ON lf.series_id = ls.id
+            JOIN lines l ON l.file_id = lf.id
+            GROUP BY ls.id';
+
+        $tweetSql = 'SELECT ts.id, COUNT(t.id) AS tweet_count
+            FROM series ts
+            JOIN files tf ON tf.series_id = ts.id
+            JOIN lines tl ON tl.file_id = tf.id
+            JOIN tweets t ON t.line_id = tl.id
+            GROUP BY ts.id';
+
+
+        $rsm = new ResultSetMappingBuilder($this->_em);
+        $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Series', 's');
+        $rsm->addScalarResult('file_count', 'file_count');
+        $rsm->addScalarResult('line_count', 'line_count');
+        $rsm->addScalarResult('tweet_count', 'tweet_count');
+
+        $sql = 'WITH file_counts AS ('.$fileSql.'), line_counts AS ('.$lineSql.'), tweet_counts AS ('.$tweetSql.')
+            SELECT '.$rsm->generateSelectClause().', fc.file_count, lc.line_count, tc.tweet_count
+                FROM series s
+                LEFT JOIN file_counts fc ON fc.id = s.id
+                LEFT JOIN line_counts lc ON lc.id = s.id
+                LEFT JOIN tweet_counts tc ON tc.id = s.id
+                ORDER BY s.title ASC
+                LIMIT :limit OFFSET :offset';
+
+        $query = $this->_em->createNativeQuery($sql, $rsm);
+        $query->setParameters([
+            'limit' => $perPage,
+            'offset' => ($page - 1) * $perPage,
+        ]);
+
+        $result = $query->getResult();
+        $ret = [];
+
+        foreach ($result as $row) {
+            $ret[] = $row[0]
+                ->setFileCount($row['file_count'])
+                ->setLineCount($row['line_count'])
+                ->setTweetCount($row['tweet_count']);
+        }
+
+        return new PaginatedResult($ret, $total, $page, $perPage);
+    }
+
     /**
      * Search for a series
      *

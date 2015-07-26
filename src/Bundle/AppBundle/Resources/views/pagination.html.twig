@@ -1,4 +1,7 @@
 {# route, route_params, page, pages #}
+{% if route_params is not defined %}
+    {% set route_params = {} %}
+{% endif %}
 
 <nav class="pagination">
     {% if page > 1 %}
