@@ -25,6 +25,20 @@ $body-font-color: $grey;
 @import 'home';
 @import 'line';
 
+.page-header {
+    @include clearfix;
+    margin: 24px 0;
+
+    .page-header-title {
+        float: left;
+    }
+
+    .page-header-actions {
+        float: right;
+        padding-top: 8px;
+    }
+}
+
 .series-grid {
     display: flex;
     flex-flow: row wrap;
@@ -57,5 +71,41 @@ $body-font-color: $grey;
 
     .series-stats {
         font-size: $body-font-base-size * 0.7;
+        line-height: 1.2;
+    }
+
+    &:hover {
+        .series-title {
+            color: $orange;
+            text-decoration: underline;
+        }
+    }
+}
+
+.pagination {
+    margin: 24px 0;
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .next, .prev, .pages, .pages li, .pages li a {
+        display: inline-block;
+    }
+
+    .next, .prev, .pages li a {
+        border: 1px solid $beige-light;
+        border-radius: 4px;
+        padding: 3px 6px;
+    }
+
+    .pages li a.on {
+        background: $orange;
+        border-color: $orange;
+        color: $beige;
     }
 }

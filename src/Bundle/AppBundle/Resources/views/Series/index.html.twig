@@ -3,16 +3,25 @@
 
 {% block body %}
 <article>
-    <header>
-        <h2>Browse by series</h2>
-        <p><a href="{{ path('help') }}#suggest_series">Suggest a series!</a></p>
+    <header class="page-header">
+        <h2 class="page-header-title">Browse by series</h2>
+        <div class="page-header-actions">
+            <a href="{{ path('help') }}#suggest_series">Suggest a series!</a>
+        </div>
     </header>
+
+    {% if series|length > 0 %}
+    {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
+        'route': 'series',
+        'page': series.page,
+        'pages': series.pages,
+    } %}
 
     <ul class="series-grid">
         {% for s in series %}
         <li>
             <a href="{{ path('series_view', { 'alias': s.alias }) }}" class="series">
-                <img src="http://placehold.it/250x350" alt="" class="series-thumbnail">
+                <img src="http://placehold.it/173x242" alt="" class="series-thumbnail">
                 <h3 class="series-title">{{ s.title }}</h3>
                 <p class="series-stats">{{ s.fileCount }} script{% if s.fileCount != 1 %}s{% endif %}<br>{{ s.lineCount|number_format }} lines<br>{{ s.tweetCount|number_format }} tweets</p>
             </a>
@@ -25,5 +34,6 @@
         'page': series.page,
         'pages': series.pages,
     } %}
+    {% endif %}
 </article>
 {% endblock %}
