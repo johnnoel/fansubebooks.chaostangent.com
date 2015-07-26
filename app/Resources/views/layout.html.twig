@@ -18,13 +18,17 @@
         <script src="{{ asset('js/head.js') }}"></script>
     </head>
     <body>
-        <header>
-            <h1>Fansub Ebooks</h1>
-            <nav>
+        <header class="global-header">
+            <a href="{{ path('home') }}" class="marque">fansub<span class="marque-alt">ebooks</span></a>
+            <nav class="global-nav">
                 <ul>
-                    <li><a href="{{ path('homepage') }}">Home</a></li>
-                    <li><a href="{{ path('help') }}">Help</a></li>
-                    <li><a href="{{ path('search') }}">Search</a></li>
+                    {% if location is not defined %}
+                        {% set location = 'home' %}
+                    {% endif %}
+                    <li{% if location == 'home' %} class="on"{% endif %}><a href="{{ path('home') }}">Home</a></li>
+                    <li{% if location == 'series' %} class="on"{% endif %}><a href="{{ path('series') }}">Browse series</a></li>
+                    <li{% if location == 'help' %} class="on"{% endif %}><a href="{{ path('help') }}">Help</a></li>
+                    <li{% if location == 'search' %} class="on"{% endif %}><a href="{{ path('search') }}">Search</a></li>
                 </ul>
             </nav>
         </header>
@@ -33,7 +37,7 @@
             {% block body %}{% endblock %}
         </main>
 
-        <footer>
+        <footer class="global-footer">
             Fansub Ebooks is too silly to copyright. Those responsible include <a href="https://chaostangent.com">John &ldquo;ChaosTangent&rdquo; Noel</a>.
         </footer>
     </body>

@@ -7,6 +7,8 @@
 
 $beige: #FBFBF9;
 $grey: #444;
+$orange: #D54000;
+$beige-light: #E6E4DD;
 
 $header-font-family: Vegur, Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $header-font-base-size: 32px;
@@ -18,6 +20,11 @@ $body-font-color: $grey;
 
 @import 'reset';
 
+@mixin container() {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: $header-font-family;
     color: $header-font-color;
@@ -28,6 +35,11 @@ h1 {
     line-height: $header-font-base-size;
 }
 
+a {
+    color: $orange;
+    text-decoration: underline;
+}
+
 body {
     background: $beige;
     font-family: $body-font-family;
@@ -35,6 +47,63 @@ body {
     line-height: $body-font-base-size * 1.5;
     color: $body-font-color;
 }
+
+.marque {
+    font-family: $header-font-family;
+    font-weight: bold;
+    font-size: 28px;
+    letter-spacing: -1.5px;
+    text-decoration: none;
+
+    .marque-alt {
+        color: $body-font-color;
+        transition: color 0.1s linear;
+    }
+
+    &:hover .marque-alt {
+        color: $orange;
+    }
+}
+
+.global-header {
+    @include container;
+    border-bottom: 1px solid $beige-light;
+    position: relative;
+    padding-top: 12px;
+
+    .global-nav {
+        position: absolute;
+        right: 0;
+        top: 12px;
+    }
+}
+
+.global-nav {
+    font-size: $body-font-base-size * 0.8;
+
+    li {
+        display: inline-block;
+        margin-left: 12px;
+    }
+
+    a {
+        text-decoration: none;
+        color: $body-font-color;
+    }
+
+    .on a {
+        color: $orange;
+        font-weight: bold;
+    }
+}
+
+.global-footer {
+    @include container;
+    clear: both;
+    border-top: 1px solid $beige-light;
+    font-size: $body-font-base-size * 0.6;
+}
+
 
 .line-grid {
     -moz-column-width: 350px;
