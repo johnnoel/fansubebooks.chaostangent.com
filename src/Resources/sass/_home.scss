@@ -41,6 +41,10 @@
         float: left;
         width: 75%;
 
+        a {
+            color: #FFF;
+        }
+
         .latest-tweet-tweet {
             font-size: $body-font-base-size * 3;
             line-height: 1;

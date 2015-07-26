@@ -6,14 +6,12 @@
     <header class="page-header">
         <h2 class="page-header-title">Viewing {{ series.title }}</h2>
 
-        <form method="get" action="{{ path('series_search', { 'alias': series.alias }) }}" class="page-header-actions">
+        <form method="get" action="{{ path('series_search', { 'alias': series.alias }) }}" class="series-search page-header-actions">
             <fieldset>
-                <legend>Search</legend>
-                <div>
-                    <label for="search-query">Search term</label>
-                    <input type="text" name="q" placeholder="magical" value="{{ query|default('') }}">
-                </div>
-                <button type="submit">Search</button>
+                <legend>Search within this series</legend>
+                <label for="search-query">Search term</label>
+                <input type="text" name="q" placeholder="e.g. magical" value="{{ query|default('') }}" id="search-query" class="series-search-query">
+                <button type="submit" class="series-search-search">Search</button>
             </fieldset>
         </form>
     </header>

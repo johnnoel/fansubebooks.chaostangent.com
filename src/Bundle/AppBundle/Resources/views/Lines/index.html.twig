@@ -1,5 +1,23 @@
 {% extends '::layout.html.twig' %}
+{% set location = '' %}
+{% set file = line.file %}
+{% set series = line.file.series %}
 
 {% block body %}
-{% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
+<article>
+    <header class="page-header">
+        <h2 class="page-header-title">Viewing line #{{ line.id }}</h2>
+    </header>
+
+    {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
+    <p>From: <a href="{{ path('series_view', { 'alias': series.alias }) }}">{{ series.title }}</a> / <a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">{{ file.name }}</a></p>
+
+    <nav>
+        <a href="">&larr; Previous line</a>
+
+        <a href="{{ path('random') }}">Random</a>
+
+        <a href="">Next line &rarr;</a>
+    </nav>
+</article>
 {% endblock %}

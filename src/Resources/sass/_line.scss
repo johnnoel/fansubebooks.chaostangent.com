@@ -13,6 +13,7 @@
 
         .line-line {
             flex: 1 0 auto;
+            font-size: $body-font-base-size * 1.5;
         }
 
         .line-actions {
@@ -29,7 +30,7 @@
     margin-bottom: 6px;
 
     .line-line {
-        font-size: $body-font-base-size * 1.5;
+        font-size: $body-font-base-size * 2;
         line-height: 1.1;
         margin-bottom: 12px;
     }
