@@ -36,6 +36,37 @@ try {
 
 $postgres->query("SET NAMES 'UTF8'");
 
+// series
+$seriesIdMap = [];
+
+$sql = 'SELECT * FROM series ORDER BY title';
+$stmt = $mysql->prepare($sql);
+$stmt->execute();
+$series = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$sql = 'INSERT INTO series (title, alias, image, thumbnail, added) VALUES (:title, :alias, :image, :thumbnail, :added)';
+$stmt = $postgres->prepare($sql);
+$postgres->beginTransaction();
+
+foreach ($series as $s) {
+    $good = $stmt->execute([
+        ':title' => $s['title'],
+        ':alias' => $s['alias'],
+        ':image' => $s['image'],
+        ':thumbnail' => $s['thumbnail'],
+        ':added' => $s['added'],
+    ]);
+
+    if (!$good) {
+        $postgres->rollBack();
+        exit('Unable to run series query: '.$stmt->errorInfo()[2].PHP_EOL);
+    }
+
+    $seriesIdMap[$s['id']] = $postgres->lastInsertId('series_id_seq');
+}
+
+$postgres->commit();
+
 // files
 $fileIdMap = [];
 
@@ -44,12 +75,13 @@ $stmt = $mysql->prepare($sql);
 $stmt->execute();
 $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$sql = 'INSERT INTO files (name, hash, added) VALUES (:name, :hash, :added)';
+$sql = 'INSERT INTO files (series_id, name, hash, added) VALUES (:series_id, :name, :hash, :added)';
 $stmt = $postgres->prepare($sql);
 $postgres->beginTransaction();
 
 foreach ($files as $file) {
     $good = $stmt->execute([
+        ':series_id' => $seriesIdMap[$file['series_id']],
         ':name' => $file['name'],
         ':hash' => $file['hash'],
         ':added' => $file['added'],
