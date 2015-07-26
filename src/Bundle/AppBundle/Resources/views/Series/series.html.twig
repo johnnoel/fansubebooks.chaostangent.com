@@ -2,27 +2,31 @@
 {% set location = 'series' %}
 
 {% block body %}
-<h2>Viewing {{ series.title }}</h2>
+<article>
+    <header class="page-header">
+        <h2 class="page-header-title">Viewing {{ series.title }}</h2>
 
-<form method="get" action="{{ path('series_search', { 'alias': series.alias }) }}">
-    <fieldset>
-        <legend>Search</legend>
-        <div>
-            <label for="search-query">Search term</label>
-            <input type="text" name="q" placeholder="magical" value="{{ query|default('') }}">
-        </div>
-        <button type="submit">Search</button>
-    </fieldset>
-</form>
+        <form method="get" action="{{ path('series_search', { 'alias': series.alias }) }}" class="page-header-actions">
+            <fieldset>
+                <legend>Search</legend>
+                <div>
+                    <label for="search-query">Search term</label>
+                    <input type="text" name="q" placeholder="magical" value="{{ query|default('') }}">
+                </div>
+                <button type="submit">Search</button>
+            </fieldset>
+        </form>
+    </header>
 
-{% for file in series.files %}
-<h3 id="{{ series.alias }}-{{ file.id }}"><a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">{{ file.name }}</a></h3>
-{% if selected_file.id == file.id %}
-<ul class="line-grid">
-{% for line in selected_file.lines %}
-    <li>{% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}</li>
-{% endfor %}
-</ul>
-{% endif %}
-{% endfor %}
+    {% for file in series.files %}
+    <h3 id="{{ series.alias }}-{{ file.id }}"><a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">{{ file.name }}</a></h3>
+    {% if selected_file.id == file.id %}
+    <div class="line-grid">
+    {% for line in selected_file.lines %}
+        {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
+    {% endfor %}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
 {% endblock %}

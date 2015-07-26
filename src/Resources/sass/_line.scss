@@ -1,11 +1,23 @@
 .line-grid {
-    -moz-column-width: 350px;
-    -webkit-column-width: 350px;
-    column-width: 350px;
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -3px;
 
     .line {
-        max-width: 350px;
-        display: inline-block;
+        display: flex;
+        flex-flow: column nowrap;
+        flex: 1 0 470px;
+        box-sizing: border-box;
+        width: 477px;
+        margin: 0 3px 6px;
+
+        .line-line {
+            flex: 1 0 auto;
+        }
+
+        .line-actions {
+            flex: 0 0 auto;
+        }
     }
 }
 
@@ -14,9 +26,11 @@
     padding: 8px 12px;
     border-radius: 8px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 6px;
 
     .line-line {
-        font-size: $body-font-base-size * 2;
+        font-size: $body-font-base-size * 1.5;
+        line-height: 1.1;
         margin-bottom: 12px;
     }
 
