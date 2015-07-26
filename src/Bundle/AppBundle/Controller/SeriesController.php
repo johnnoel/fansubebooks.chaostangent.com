@@ -32,7 +32,7 @@ class SeriesController extends Controller
         $page = intval($request->query->get('page', 1));
 
         $seriesRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Series');
-        $series = $seriesRepo->getSeries($page, 15);
+        $series = $seriesRepo->getAllSeries($page, 15);
 
         return [
             'series' => $series,
@@ -43,6 +43,7 @@ class SeriesController extends Controller
      * @Route("/{alias}", name="series_view")
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Series:series.html.twig")
+     * @ParamConverter("series", class="Entity:Series", options={"repository_method": "getSeries", "map_method_signature": true})
      */
     public function seriesAction(Series $series)
     {
@@ -64,6 +65,7 @@ class SeriesController extends Controller
      * )
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Series:series.html.twig")
+     * @ParamConverter("series", class="Entity:Series", options={"repository_method": "getSeries", "map_method_signature": true})
      * @ParamConverter("file", class="Entity:File", options={"id": "file_id", "repository_method": "getFile"})
      */
     public function fileAction(Series $series, File $file, Request $request)

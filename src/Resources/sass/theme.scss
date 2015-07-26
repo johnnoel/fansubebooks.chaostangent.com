@@ -88,11 +88,15 @@ $body-font-color: $grey;
         display: none;
     }
 
-    legend {
-        font-family: $header-font-family;
+    .series-search-title {
         font-size: $header-font-base-size * 0.4;
-        font-weight: bold;
+        letter-spacing: 0;
         text-transform: uppercase;
+    }
+
+    .series-search-inner {
+        display: flex;
+        flex-flow: row nowrap;
     }
 
     .series-search-query, .series-search-search {
@@ -104,6 +108,7 @@ $body-font-color: $grey;
     }
 
     .series-search-query {
+        flex: 1 0 400px;
         border: 1px solid $beige-light;
         border-right: none;
         padding: 0 6px 0;
@@ -112,6 +117,7 @@ $body-font-color: $grey;
     }
 
     .series-search-search {
+        flex: 0 0 auto;
         border: none;
         background: $orange;
         color: $beige;
@@ -120,9 +126,60 @@ $body-font-color: $grey;
     }
 }
 
-.page-header-actions.series-search {
-    padding-top: 0;
-    margin-top: -12px;
+.series-header {
+    @include clearfix;
+    margin: 24px 0;
+
+    .series-header-title {
+        margin-bottom: 6px;
+    }
+
+    .series-header-thumbnail, .series-header-stats, .series-header-files {
+        float: left;
+    }
+
+    .series-header-thumbnail {
+        width: 20%;
+    }
+
+    .series-header-stats {
+        width: 20%;
+
+        dt {
+            font-family: $header-font-family;
+            font-size: $header-font-base-size * 0.4;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        dd {
+            margin-bottom: 6px;
+            font-size: $body-font-base-size * 1.1;
+            line-height: 1.2;
+        }
+    }
+
+    .series-search {
+        float: left;
+        width: 60%;
+        margin-bottom: 12px;
+    }
+
+    .series-header-files {
+        width: 60%;
+
+        li {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 0 4px;
+
+            &.on {
+                background: $orange;
+                a { color: $beige; }
+            }
+        }
+    }
 }
 
 .pagination {

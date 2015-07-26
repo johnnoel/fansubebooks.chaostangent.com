@@ -15,6 +15,47 @@ use ChaosTangent\FansubEbooks\Entity\Result\PaginatedResult,
  */
 class SeriesRepository extends EntityRepository
 {
+    public function getSeries($alias)
+    {
+        $fileSql = 'SELECT COUNT(f.id) AS file_count FROM series s
+            JOIN files f ON f.series_id = s.id
+            WHERE s.alias = :alias
+            GROUP BY s.id';
+
+        $lineSql = 'SELECT COUNT(l.id) AS line_count FROM series s
+            JOIN files f ON f.series_id = s.id
+            JOIN lines l ON l.file_id = f.id
+            WHERE s.alias = :alias
+            GROUP BY s.id';
+
+        $tweetSql = 'SELECT COUNT(t.id) AS tweet_count FROM series s
+            JOIN files f ON f.series_id = s.id
+            JOIN lines l ON l.file_id = f.id
+            JOIN tweets t ON t.line_id = l.id
+            WHERE s.alias = :alias
+            GROUP BY s.id';
+
+        $rsm = new ResultSetMappingBuilder($this->_em);
+        $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Series', 's');
+        $rsm->addScalarResult('file_count', 'file_count');
+        $rsm->addScalarResult('line_count', 'line_count');
+        $rsm->addScalarResult('tweet_count', 'tweet_count');
+
+        $sql = 'WITH file_count AS ('.$fileSql.'), line_count AS ('.$lineSql.'), tweet_count AS ('.$tweetSql.')
+            SELECT '.$rsm->generateSelectClause().', file_count.file_count, line_count.line_count, tweet_count.tweet_count
+                FROM series s, file_count, line_count, tweet_count
+                WHERE s.alias = :alias
+                LIMIT 1';
+
+        $query = $this->_em->createNativeQuery($sql, $rsm);
+        $query->setParameter('alias', $alias);
+        $result = $query->getOneOrNullResult();
+
+        return $result[0]->setFileCount(intval($result['file_count']))
+            ->setLineCount(intval($result['line_count']))
+            ->setTweetCount(intval($result['tweet_count']));
+    }
+
     /**
      * Get a paginated list of series
      *
@@ -22,7 +63,7 @@ class SeriesRepository extends EntityRepository
      * @param integer $perPage
      * @return PaginatedResult
      */
-    public function getSeries($page = 1, $perPage = 30)
+    public function getAllSeries($page = 1, $perPage = 30)
     {
         // get total number of series
         $qb = $this->_em->createQueryBuilder();
@@ -83,6 +124,10 @@ class SeriesRepository extends EntityRepository
         }
 
         return new PaginatedResult($ret, $total, $page, $perPage);
+    }
+
+    public function getTotalSeries(array $criteria = [])
+    {
     }
 
     /**

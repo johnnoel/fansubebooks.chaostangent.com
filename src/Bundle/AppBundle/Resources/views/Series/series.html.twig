@@ -3,28 +3,51 @@
 
 {% block body %}
 <article>
-    <header class="page-header">
-        <h2 class="page-header-title">Viewing {{ series.title }}</h2>
+    <header class="series-header">
+        <h2 class="series-header-title">{{ series.title }}</h2>
+        <div class="series-header-thumbnail">
+            <img src="http://placehold.it/173x242" alt="">
+        </div>
 
-        <form method="get" action="{{ path('series_search', { 'alias': series.alias }) }}" class="series-search page-header-actions">
-            <fieldset>
-                <legend>Search within this series</legend>
+        <dl class="series-header-stats">
+            <dt>Files</dt>
+            <dd>{{ series.fileCount|number_format }}</dd>
+            <dt>Lines</dt>
+            <dd>{{ series.lineCount|number_format }}</dd>
+            <dt>Tweets</dt>
+            <dd>{{ series.tweetCount|number_format }} ({{ ((series.tweetCount / series.lineCount) * 100)|number_format }}%)</dd>
+            <dt>Last update</dt>
+            <dd>{{ series.updated|date(datetime_format, 'UTC') }}</dd>
+        </dl>
+
+        <form method="get" action="{{ path('series_search', { 'alias': series.alias }) }}" class="series-search">
+            <h3 class="series-search-title">Search this series</h3>
+
+            <div class="series-search-inner">
                 <label for="search-query">Search term</label>
                 <input type="text" name="q" placeholder="e.g. magical" value="{{ query|default('') }}" id="search-query" class="series-search-query">
                 <button type="submit" class="series-search-search">Search</button>
-            </fieldset>
+            </div>
         </form>
+
+        <nav class="series-header-files">
+            <ul>
+                {% for file in series.files %}
+                <li{% if file.id == selected_file.id %} class="on"{% endif %}>
+                    <a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">
+                        {{ file.name|replace('_', ' ') }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
     </header>
 
-    {% for file in series.files %}
-    <h3 id="{{ series.alias }}-{{ file.id }}"><a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">{{ file.name }}</a></h3>
-    {% if selected_file.id == file.id %}
+    <h3>Showing lines from {{ selected_file.name|replace('_', ' ') }}</h3>
     <div class="line-grid">
     {% for line in selected_file.lines %}
         {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
     {% endfor %}
     </div>
-    {% endif %}
-    {% endfor %}
 </div>
 {% endblock %}
