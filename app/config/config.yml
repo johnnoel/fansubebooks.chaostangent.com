@@ -84,6 +84,9 @@ doctrine:
                         prefix: ChaosTangent\FansubEbooks\Entity
                         alias: Entity
                         is_bundle: false
+                dql:
+                    datetime_functions:
+                        greatest: ChaosTangent\FansubEbooks\Extension\Doctrine\DQL\Greatest
 
 # Swiftmailer Configuration
 swiftmailer:
