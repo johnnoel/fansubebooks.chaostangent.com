@@ -1,21 +1,40 @@
 {% extends '::layout.html.twig' %}
 
-{% block body %}
-<div class"most-recent">
-    <h5>Latest tweet</h5>
-    {% if latest_tweet %}
-    {{ latest_tweet.line.line }}
-    <time datetime="">{{ latest_tweet.tweeted|date('Y-m-d H:i') }}</time>
-    {% else %}
-    <p>Could not access latest tweet</p>
-    {% endif %}
-</div>
+{% block header %}
+<div class="home-feature">
+    <div class="latest-tweet">
+        <h5 class="latest-tweet-title">Latest tweet</h5>
+        {% if latest_tweet %}
+        <div class="latest-tweet-tweet">
+            {{ latest_tweet.line.line }}
+        </div>
+        <div class="latest-tweet-details">
+            <a href="https://twitter.com/fansub_ebooks" class="tweet-account">@fansub_ebooks</a>
+            <a href="" class="tweet-favourite">{% include '@svg/favourite.svg.twig' %}</a>
+            <a href="" class="tweet-retweet">{% include '@svg/retweet.svg.twig' %}</a>
+            <a href="" class="tweet-reply">{% include '@svg/reply.svg.twig' %}</a>
+            <a href="" class="tweet-datetime">
+                <time datetime="{{ latest_tweet.tweeted|date('Y-m-d\\TH:i:sP', 'UTC') }}">{{ latest_tweet.tweeted|date(datetime_format, 'UTC') }}</time>
+            </a>
+        </div>
+        {% else %}
+        <p>Could not access latest tweet</p>
+        {% endif %}
+    </div>
 
-<div class="stats">
-    <h5>TWEETS</h5>
-    <p>{{ tweet_count|number_format }}</p>
-    <h5>LINES</h5>
-    <p>{{ line_count|number_format }}</p>
+    <div class="stats">
+        <h5>Tweets</h5>
+        <div class="stats-stat">{{ tweet_count|number_format }}</div>
+        <h5>Lines</h5>
+        <div class="stats-stat">{{ line_count|number_format }}</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="intro">
+    <p>For half-hourly wisdom from anime fansubs</p>
+    <a class="intro-button" href="https://twitter.com/fansub_ebooks">Follow @fansub_ebooks on Twitter</a>
 </div>
 
 <div class="upcoming">

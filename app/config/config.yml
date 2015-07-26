@@ -36,6 +36,10 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        datetime_format: 'D, d M Y H:i:s O' # RFC1123
+    paths:
+        "%kernel.root_dir%/../src/Resources/svg": svg
 
 # Assetic Configuration
 assetic:

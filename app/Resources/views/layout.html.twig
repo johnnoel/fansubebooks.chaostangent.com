@@ -1,3 +1,6 @@
+{% if location is not defined %}
+    {% set location = 'home' %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="en-GB">
     <head>
@@ -17,20 +20,21 @@
 
         <script src="{{ asset('js/head.js') }}"></script>
     </head>
-    <body>
+    <body{% if location == 'home' %} class="home"{% endif %}>
         <header class="global-header">
-            <a href="{{ path('home') }}" class="marque">fansub<span class="marque-alt">ebooks</span></a>
-            <nav class="global-nav">
-                <ul>
-                    {% if location is not defined %}
-                        {% set location = 'home' %}
-                    {% endif %}
-                    <li{% if location == 'home' %} class="on"{% endif %}><a href="{{ path('home') }}">Home</a></li>
-                    <li{% if location == 'series' %} class="on"{% endif %}><a href="{{ path('series') }}">Browse series</a></li>
-                    <li{% if location == 'help' %} class="on"{% endif %}><a href="{{ path('help') }}">Help</a></li>
-                    <li{% if location == 'search' %} class="on"{% endif %}><a href="{{ path('search') }}">Search</a></li>
-                </ul>
-            </nav>
+            <div class="global-header-inner">
+                <a href="{{ path('home') }}" class="marque">fansub<span class="marque-alt">ebooks</span></a>
+                <nav class="global-nav">
+                    <ul>
+                        <li{% if location == 'home' %} class="on"{% endif %}><a href="{{ path('home') }}">Home</a></li>
+                        <li{% if location == 'series' %} class="on"{% endif %}><a href="{{ path('series') }}">Browse series</a></li>
+                        <li{% if location == 'help' %} class="on"{% endif %}><a href="{{ path('help') }}">Help</a></li>
+                        <li{% if location == 'search' %} class="on"{% endif %}><a href="{{ path('search') }}">Search</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            {% block header %}{% endblock %}
         </header>
 
         <main>

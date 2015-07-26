@@ -1,0 +1,15 @@
+@mixin container() {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+@mixin clearfix() {
+    &:before, &:after {
+        content: ' ';
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}

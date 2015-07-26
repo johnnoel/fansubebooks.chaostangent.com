@@ -1,0 +1,90 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font-family;
+    color: $header-font-color;
+    font-size: $header-font-base-size;
+    line-height: 1;
+}
+
+h5 {
+    font-size: $header-font-base-size * 0.65;
+}
+
+a {
+    color: $orange;
+    text-decoration: underline;
+}
+
+body {
+    background: $beige;
+    font-family: $body-font-family;
+    font-size: $body-font-base-size;
+    line-height: 1;
+    color: $body-font-color;
+}
+
+main {
+    @include container;
+}
+
+.marque {
+    font-family: $header-font-family;
+    font-weight: bold;
+    font-size: 28px;
+    letter-spacing: -1.5px;
+    text-decoration: none;
+
+    .marque-alt {
+        color: $body-font-color;
+        transition: color 0.1s linear;
+    }
+
+    &:hover .marque-alt {
+        color: $orange;
+    }
+}
+
+.global-header {
+    padding-top: 12px;
+
+    .global-header-inner {
+        @include container;
+        border-bottom: 1px solid $beige-light;
+        position: relative;
+        padding-bottom: 4px;
+    }
+
+    .global-nav {
+        position: absolute;
+        right: 0;
+        bottom: 6px;
+    }
+}
+
+.global-nav {
+    font-size: $body-font-base-size * 0.8;
+
+    li {
+        display: inline-block;
+        margin-left: 12px;
+    }
+
+    a {
+        text-decoration: none;
+        color: $body-font-color;
+    }
+
+    .on a {
+        color: $orange;
+        font-weight: bold;
+    }
+}
+
+.global-footer {
+    @include container;
+    clear: both;
+    border-top: 1px solid $beige-light;
+    font-size: $body-font-base-size * 0.6;
+    color: lighten($grey, 20%);
+    padding: 12px 0 24px;
+    text-align: right;
+}
