@@ -1,0 +1,213 @@
+// homepage styles
+.home {
+    .marque {
+        color: #FFF;
+
+        .marque-alt {
+            color: #FFF;
+        }
+    }
+
+    .global-header {
+        background: $orange;
+        color: #FFF;
+
+        .global-header-inner {
+            border-bottom-color: darken($orange, 5%);
+        }
+    }
+
+    .global-nav {
+        a {
+            color: #FFF;
+        }
+    }
+}
+
+.home-feature {
+    @include container;
+    @include clearfix;
+    position: relative;
+    padding: 24px 0;
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: $body-font-base-size * 0.8;
+        text-transform: uppercase;
+        color: darken($orange, 25%);
+        margin-bottom: 4px;
+    }
+
+    .latest-tweet {
+        float: left;
+        width: 75%;
+
+        .latest-tweet-tweet {
+            font-size: $body-font-base-size * 3;
+            line-height: 1;
+            margin-bottom: 24px;
+        }
+
+        .latest-tweet-details {
+            margin-top: 12px;
+
+            .tweet-datetime {
+                color: #FFF;
+                display: inline-block;
+                vertical-align: 80%;
+                font-size: $body-font-base-size * 0.7;
+            }
+
+            .tweet-favourite, .tweet-reply, .tweet-retweet {
+                opacity: 0.7;
+                transition: opacity 0.1s linear;
+
+                svg path {
+                    fill: #FFF;
+                }
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+
+            .tweet-account {
+                opacity: 0.7;
+                background: #FFF;
+                color: $orange;
+                transition: opacity 0.1s linear;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .stats {
+        float: left;
+        width: 25%;
+
+        .stats-stat {
+            font-size: $body-font-base-size * 2.5;
+            margin-bottom: 12px;
+        }
+    }
+}
+
+.tweet-datetime {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.tweet-account {
+    box-sizing: border-box;
+    padding: 8px 6px 0;
+    height: 30px;
+    background: $grey;
+    color: $beige;
+    border: none;
+    border-radius: 30px;
+    display: inline-block;
+    text-decoration: none;
+    font-size: $body-font-base-size * 0.7;
+    vertical-align: 100%;
+}
+
+.tweet-favourite, .tweet-reply, .tweet-retweet {
+    svg {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.intro {
+    text-align: center;
+    margin: 48px 0;
+
+    p {
+        margin-bottom: 6px;
+    }
+
+    .intro-button {
+        display: inline-block;
+        background: $grey;
+        color: $beige;
+        font-size: $body-font-base-size * 1.2;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.15s linear;
+
+        &:hover {
+            background: $orange;
+        }
+    }
+}
+
+.upcoming, .recently-updated {
+    h2 {
+        font-size: $header-font-base-size * 0.7;
+        padding-bottom: 8px;
+        border-bottom: 1px solid $beige-light;
+        margin-bottom: 12px;
+    }
+}
+
+.upcoming {
+    float: left;
+    box-sizing: border-box;
+    width: 33%;
+    padding-right: 24px;
+
+    .upcoming-none {
+        line-height: 1.2;
+        background: $beige-light;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 8px;
+    }
+}
+
+.recently-updated {
+    float: left;
+    box-sizing: border-box;
+    width: 67%;
+    padding-left: 24px;
+
+    ul {
+        font-size: 0;
+        text-align: justify;
+
+        &:after {
+            content: '';
+            display: inline-block;
+            width: 100%;
+        }
+    }
+
+    li {
+        width: 140px;
+        display: inline-block;
+        vertical-align: top;
+    }
+}
+
+.series {
+    text-decoration: none;
+    color: $body-font-color;
+
+    .series-thumbnail {
+        display: block;
+        max-width: 100%;
+        margin-bottom: 6px;
+    }
+
+    .series-title {
+        font-weight: normal;
+        font-size: $header-font-base-size * 0.6;
+    }
+}

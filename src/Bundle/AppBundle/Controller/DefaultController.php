@@ -31,11 +31,17 @@ class DefaultController extends Controller
 
         $lineRepo = $om->getRepository('Entity:Line');
         $lineCount = $lineRepo->getTotal();
+        $upcoming = $lineRepo->getQueue(6);
+
+        $seriesRepo = $om->getRepository('Entity:Series');
+        $updated = $seriesRepo->getMostRecentlyUpdated(4);
 
         return [
             'latest_tweet' => $latestTweet,
             'tweet_count' => $tweetCount,
             'line_count' => $lineCount,
+            'upcoming' => $upcoming,
+            'updated' => $updated,
         ];
     }
 

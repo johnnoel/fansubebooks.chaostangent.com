@@ -57,6 +57,11 @@ class Series
      * @Serializer\Exclude
      */
     private $files;
+    /**
+     * @var \DateTime
+     * @Serializer\Type("DateTime<'D, d M Y H:i:s O', 'UTC'>")
+     */
+    private $updated;
 
     /**
      * Constructor
@@ -189,6 +194,29 @@ class Series
     public function getAdded()
     {
         return $this->added;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return Series
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     /**

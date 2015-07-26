@@ -55,4 +55,29 @@ class SeriesRepository extends EntityRepository
 
         return new SearchResult($q, $query->getResult(), $total, $page, $perPage);
     }
+
+    /**
+     * Get the most recently added or updated series
+     *
+     * @param integer $count
+     * @return array An array of recently updated series
+     */
+    public function getMostRecentlyUpdated($count = 10)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->addSelect([ 'GREATEST(MAX(f.added), s.added) AS last_updated' ])
+            ->join('s.files', 'f')
+            ->groupBy('s.id')
+            ->orderBy('last_updated', 'DESC')
+            ->setMaxResults($count);
+
+        $result = $qb->getQuery()->getResult();
+        $ret = [];
+
+        foreach ($result as $row) {
+            $ret[] = $row[0]->setUpdated($row['last_updated']);
+        }
+
+        return $ret;
+    }
 }

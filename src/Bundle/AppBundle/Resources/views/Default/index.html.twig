@@ -3,7 +3,7 @@
 {% block header %}
 <div class="home-feature">
     <div class="latest-tweet">
-        <h5 class="latest-tweet-title">Latest tweet</h5>
+        <h2 class="latest-tweet-title">Latest tweet</h2>
         {% if latest_tweet %}
         <div class="latest-tweet-tweet">
             {{ latest_tweet.line.line }}
@@ -23,9 +23,9 @@
     </div>
 
     <div class="stats">
-        <h5>Tweets</h5>
+        <h3>Total tweets</h3>
         <div class="stats-stat">{{ tweet_count|number_format }}</div>
-        <h5>Lines</h5>
+        <h3>Total lines</h3>
         <div class="stats-stat">{{ line_count|number_format }}</div>
     </div>
 </div>
@@ -38,10 +38,34 @@
 </div>
 
 <div class="upcoming">
+    <h2>Upcoming <small>based on votes</small></h2>
+
+    {% if upcoming|length > 0 %}
+    <ul>
+        {% for line in upcoming %}
+        <li>
+            {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="upcoming-none">
+        Nothing in the queue! <a href="{{ path('random') }}">Get voting</a> to pick which lines are tweeted next.
+    </div>
+    {% endif %}
 </div>
 
-<div class="browse-by">
-    <a href="{{ path('series') }}">Series</a>
-    <a href="{{ path('search') }}">Search</a>
+<div class="recently-updated">
+    <h2>Recently updated or added series</h2>
+    <ul>
+        {% for series in updated %}
+        <li>
+            <a href="{{ path('series_view', { 'alias': series.alias }) }}" class="series">
+                <img src="http://placehold.it/140x185" alt="" class="series-thumbnail">
+                <h3 class="series-title">{{ series.title }}</h3>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

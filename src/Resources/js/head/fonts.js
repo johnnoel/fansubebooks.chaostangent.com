@@ -1,6 +1,6 @@
 WebFontConfig = {
     custom: {
-        families: ['Vegur:n7'],
+        families: ['Vegur:n4,n7'],
         urls: ['/css/fonts.css']
     }
 };

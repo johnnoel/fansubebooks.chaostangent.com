@@ -28,6 +28,7 @@
                     <ul>
                         <li{% if location == 'home' %} class="on"{% endif %}><a href="{{ path('home') }}">Home</a></li>
                         <li{% if location == 'series' %} class="on"{% endif %}><a href="{{ path('series') }}">Browse series</a></li>
+                        <li><a href="{{ path('random') }}">Random</a></li>
                         <li{% if location == 'help' %} class="on"{% endif %}><a href="{{ path('help') }}">Help</a></li>
                         <li{% if location == 'search' %} class="on"{% endif %}><a href="{{ path('search') }}">Search</a></li>
                     </ul>
