@@ -3,6 +3,8 @@
 {% set file = line.file %}
 {% set series = line.file.series %}
 
+{% block title %}Line #{{ line.id }}{% endblock %}
+
 {% block body %}
 <article>
     <header class="page-header">
