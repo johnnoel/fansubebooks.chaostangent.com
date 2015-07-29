@@ -32,7 +32,7 @@ class LineRepository extends EntityRepository
                 't.tweetId',
             ])
             ->leftJoin('l.votes', 'v')
-            ->leftJoin('l.tweet', 't')
+            ->leftJoin('l.tweets', 't')
             ->where($qb->expr()->eq('l.id', ':id'))
             ->groupBy('l.id')
             ->addGroupBy('t.tweetId')
@@ -48,7 +48,7 @@ class LineRepository extends EntityRepository
         $line = $result[0];
         $line->setPositiveVoteCount(intval($result['positive_votes']))
             ->setNegativeVoteCount(intval($result['negative_votes']))
-            ->setTweetId($row['tweetId']);
+            ->setTweetId($result['tweetId']);
 
         return $line;
     }
@@ -68,7 +68,7 @@ class LineRepository extends EntityRepository
                 't.tweetId',
             ])
             ->leftJoin('l.votes', 'v')
-            ->leftJoin('l.tweet', 't')
+            ->leftJoin('l.tweets', 't')
             ->where($qb->expr()->eq('l.file', ':file'))
             ->groupBy('l.id')
             ->addGroupBy('t.tweetId')
@@ -287,9 +287,9 @@ class LineRepository extends EntityRepository
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
                 'SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes',
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE -1 END) AS score',
-                't.tweetId',
+                't.tweetId AS tweet_id',
             ])->leftJoin('l.votes', 'v')
-            ->leftJoin('l.tweet', 't')
+            ->leftJoin('l.tweets', 't')
             ->groupBy('l.id')
             ->addGroupBy('t.tweetId')
             ->orderBy('score', 'DESC')
@@ -302,7 +302,7 @@ class LineRepository extends EntityRepository
         foreach ($result as $row) {
             $ret[] = $row[0]->setPositiveVoteCount(intval($row['positive_votes']))
                 ->setNegativeVoteCount(intval($row['negative_votes']))
-                ->setTweetId($row['tweetId']);
+                ->setTweetId($row['tweet_id']);
         }
 
         return new PaginatedResult($ret, $this->getTotal(), $page, $perPage);

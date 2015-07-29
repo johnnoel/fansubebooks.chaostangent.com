@@ -50,10 +50,10 @@ class Line
      */
     private $flags;
     /**
-     * @ORM\OneToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\Tweet", mappedBy="line")
+     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Tweet", mappedBy="line")
      * @Serializer\Exclude
      */
-    private $tweet;
+    private $tweets;
     /**
      * @var integer
      * @Serializer\Type("integer")
@@ -303,26 +303,36 @@ class Line
     }
 
     /**
-     * Set tweet
+     * Add tweets
      *
-     * @param \ChaosTangent\FansubEbooks\Entity\Tweet $tweet
+     * @param \ChaosTangent\FansubEbooks\Entity\Tweet $tweets
      * @return Line
      */
-    public function setTweet(\ChaosTangent\FansubEbooks\Entity\Tweet $tweet)
+    public function addTweet(\ChaosTangent\FansubEbooks\Entity\Tweet $tweets)
     {
-        $this->tweet = $tweet;
+        $this->tweets[] = $tweets;
 
         return $this;
     }
 
     /**
-     * Get tweet
+     * Remove tweets
      *
-     * @return \ChaosTangent\FansubEbooks\Entity\Tweet
+     * @param \ChaosTangent\FansubEbooks\Entity\Tweet $tweets
      */
-    public function getTweet()
+    public function removeTweet(\ChaosTangent\FansubEbooks\Entity\Tweet $tweets)
     {
-        return $this->tweet;
+        $this->tweets->removeElement($tweets);
+    }
+
+    /**
+     * Get tweets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTweets()
+    {
+        return $this->tweets;
     }
 
     /**
