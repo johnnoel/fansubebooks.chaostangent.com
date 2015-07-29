@@ -77,8 +77,34 @@
         font-size: $body-font-base-size * 0.7;
     }
 
-    .line-link {
-        margin-top: 9px;
+    .line-links {
         float: right;
+        padding-top: 6px;
+    }
+
+    .line-permalink, .line-tweet {
+        font-size: 0;
+        color: transparent;
+        opacity: 0.3;
+        transition: opacity 0.15s linear;
+        display: inline-block;
+        vertical-align: top;
+        width: 22px;
+        height: 22px;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .line-permalink {
+        background: url(/img/link.svg) no-repeat 3px 3px;
+        background-size: 16px;
+        margin-right: -3px;
+    }
+
+    .line-tweet {
+        background: url(/img/twitter.svg) no-repeat 0 0;
+        background-size: 22px;
     }
 }

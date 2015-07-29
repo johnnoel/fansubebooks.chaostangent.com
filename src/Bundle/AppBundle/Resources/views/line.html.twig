@@ -22,6 +22,11 @@
             <button type="submit">Flag</button>
         </form>
 
-        <a href="{{ path('line', { 'id': line.id }) }}" class="line-link">Permalink</a>
+        <div class="line-links">
+            <a href="{{ path('line', { 'id': line.id }) }}" class="line-permalink">Permalink</a>
+            {% if line.hasBeenTweeted() %}
+            <a href="https://twitter.com/fansub_ebooks/status/{{ line.tweetId }}" class="line-tweet">Twitter</a>
+            {% endif %}
+        </div>
     </div>
 </div>

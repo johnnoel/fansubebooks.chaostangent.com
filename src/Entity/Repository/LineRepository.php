@@ -29,10 +29,13 @@ class LineRepository extends EntityRepository
         $qb->addSelect([
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
                 'SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes',
+                't.tweetId',
             ])
             ->leftJoin('l.votes', 'v')
+            ->leftJoin('l.tweet', 't')
             ->where($qb->expr()->eq('l.id', ':id'))
             ->groupBy('l.id')
+            ->addGroupBy('t.tweetId')
             ->setMaxResults(1)
             ->setParameter('id', $id);
 
@@ -44,7 +47,8 @@ class LineRepository extends EntityRepository
 
         $line = $result[0];
         $line->setPositiveVoteCount(intval($result['positive_votes']))
-            ->setNegativeVoteCount(intval($result['negative_votes']));
+            ->setNegativeVoteCount(intval($result['negative_votes']))
+            ->setTweetId($row['tweetId']);
 
         return $line;
     }
@@ -61,10 +65,13 @@ class LineRepository extends EntityRepository
         $qb->addSelect([
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
                 'SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes',
+                't.tweetId',
             ])
             ->leftJoin('l.votes', 'v')
+            ->leftJoin('l.tweet', 't')
             ->where($qb->expr()->eq('l.file', ':file'))
             ->groupBy('l.id')
+            ->addGroupBy('t.tweetId')
             ->setParameter('file', $file);
 
         $result = $qb->getQuery()->getResult();
@@ -73,7 +80,8 @@ class LineRepository extends EntityRepository
         foreach ($result as $row) {
             $line = $row[0];
             $line->setPositiveVoteCount(intval($row['positive_votes']))
-                ->setNegativeVoteCount(intval($row['negative_votes']));
+                ->setNegativeVoteCount(intval($row['negative_votes']))
+                ->setTweetId($row['tweetId']);
 
             $lines[] = $line;
         }
@@ -279,8 +287,11 @@ class LineRepository extends EntityRepository
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
                 'SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes',
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE -1 END) AS score',
+                't.tweetId',
             ])->leftJoin('l.votes', 'v')
+            ->leftJoin('l.tweet', 't')
             ->groupBy('l.id')
+            ->addGroupBy('t.tweetId')
             ->orderBy('score', 'DESC')
             ->setFirstResult(($page - 1) * $perPage)
             ->setMaxResults($perPage);
@@ -290,7 +301,8 @@ class LineRepository extends EntityRepository
 
         foreach ($result as $row) {
             $ret[] = $row[0]->setPositiveVoteCount(intval($row['positive_votes']))
-                ->setNegativeVoteCount(intval($row['negative_votes']));
+                ->setNegativeVoteCount(intval($row['negative_votes']))
+                ->setTweetId($row['tweetId']);
         }
 
         return new PaginatedResult($ret, $this->getTotal(), $page, $perPage);

@@ -50,10 +50,10 @@ class Line
      */
     private $flags;
     /**
-     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Tweet", mappedBy="line")
+     * @ORM\OneToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\Tweet", mappedBy="line")
      * @Serializer\Exclude
      */
-    private $tweets;
+    private $tweet;
     /**
      * @var integer
      * @Serializer\Type("integer")
@@ -64,6 +64,11 @@ class Line
      * @Serializer\Type("integer")
      */
     private $negativeVoteCount = 0;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    private $tweetId;
 
     /**
      * Constructor
@@ -176,6 +181,39 @@ class Line
     }
 
     /**
+     * Set tweetId
+     *
+     * @param string $tweetId
+     * @return Line
+     */
+    public function setTweetId($tweetId)
+    {
+        $this->tweetId = $tweetId;
+
+        return $this;
+    }
+
+    /**
+     * Get tweetId
+     *
+     * @return string
+     */
+    public function getTweetId()
+    {
+        return $this->tweetId;
+    }
+
+    /**
+     * Whether this line has been tweeted
+     *
+     * @return boolean
+     */
+    public function hasBeenTweeted()
+    {
+        return $this->tweetId !== null;
+    }
+
+    /**
      * Set file
      *
      * @param \ChaosTangent\FansubEbooks\Entity\File $file
@@ -265,36 +303,26 @@ class Line
     }
 
     /**
-     * Add tweets
+     * Set tweet
      *
-     * @param \ChaosTangent\FansubEbooks\Entity\Tweet $tweets
+     * @param \ChaosTangent\FansubEbooks\Entity\Tweet $tweet
      * @return Line
      */
-    public function addTweet(\ChaosTangent\FansubEbooks\Entity\Tweet $tweets)
+    public function setTweet(\ChaosTangent\FansubEbooks\Entity\Tweet $tweet)
     {
-        $this->tweets[] = $tweets;
+        $this->tweet = $tweet;
 
         return $this;
     }
 
     /**
-     * Remove tweets
+     * Get tweet
      *
-     * @param \ChaosTangent\FansubEbooks\Entity\Tweet $tweets
+     * @return \ChaosTangent\FansubEbooks\Entity\Tweet
      */
-    public function removeTweet(\ChaosTangent\FansubEbooks\Entity\Tweet $tweets)
+    public function getTweet()
     {
-        $this->tweets->removeElement($tweets);
-    }
-
-    /**
-     * Get tweets
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTweets()
-    {
-        return $this->tweets;
+        return $this->tweet;
     }
 
     /**

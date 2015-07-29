@@ -21,7 +21,7 @@ class Tweet
      */
     private $id;
     /**
-     * @ORM\ManyToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\Line", inversedBy="tweets")
+     * @ORM\OneToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\Line", inversedBy="tweet")
      * @ORM\JoinColumn(name="line_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $line;
