@@ -24,9 +24,8 @@ $mysql = null;
 $postgres = null;
 
 try {
-    $mysql = new PDO(sprintf('mysql:host=%s;dbname=%s', $mysqlConfig['host'], $mysqlConfig['db']), $mysqlConfig['user'], $mysqlConfig['password'], [
-        PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8',
-    ]);
+    $mysql = new PDO(sprintf('mysql:host=%s;dbname=%s', $mysqlConfig['host'], $mysqlConfig['db']), $mysqlConfig['user'], $mysqlConfig['password']);
+    $mysql->query("SET NAMES 'utf8'");
 
     $postgres = new PDO(sprintf('pgsql:host=%s;dbname=%s', $postgresConfig['host'], $postgresConfig['db']), $postgresConfig['user'], $postgresConfig['password']);
     $postgres->query("SET NAMES 'UTF8'");
@@ -125,14 +124,14 @@ $postgres->beginTransaction();
 foreach ($lines as $line) {
     $data = [
         ':file_id' => $fileIdMap[$line['file_id']],
-        ':line' => utf8_encode($line['line']),
+        ':line' => $line['line'],
         ':cc' => $line['charactercount'],
     ];
     $good = $stmt->execute($data);
 
     if (!$good) {
         $postgres->rollBack();
-        var_dump($data);
+        var_dump($data, $line['id']);
         exit('Unable to run lines query: '.$stmt->errorInfo()[2].PHP_EOL);
     }
 
