@@ -29,6 +29,10 @@ class Tweet
      * @ORM\Column(type="datetime")
      */
     private $tweeted;
+    /**
+     * @ORM\Column(type="string", length=20, name="tweet_id", nullable=true)
+     */
+    private $tweetId;
 
     /**
      * Get id
@@ -61,6 +65,29 @@ class Tweet
     public function getTweeted()
     {
         return $this->tweeted;
+    }
+
+    /**
+     * Set tweetId
+     *
+     * @param string $tweetId
+     * @return Tweet
+     */
+    public function setTweetId($tweetId)
+    {
+        $this->tweetId = $tweetId;
+
+        return $this;
+    }
+
+    /**
+     * Get tweetId
+     *
+     * @return string
+     */
+    public function getTweetId()
+    {
+        return $this->tweetId;
     }
 
     /**

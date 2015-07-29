@@ -11,12 +11,6 @@
     </header>
 
     {% if series|length > 0 %}
-    {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
-        'route': 'series',
-        'page': series.page,
-        'pages': series.pages,
-    } %}
-
     <ul class="series-grid">
         {% for s in series %}
         <li>
