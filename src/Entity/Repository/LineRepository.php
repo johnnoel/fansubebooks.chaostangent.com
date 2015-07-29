@@ -4,7 +4,8 @@ namespace ChaosTangent\FansubEbooks\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
-use ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
+use ChaosTangent\FansubEbooks\Entity\Result\PaginatedResult,
+    ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
 use ChaosTangent\FansubEbooks\Entity\Series,
     ChaosTangent\FansubEbooks\Entity\File;
 
@@ -188,12 +189,14 @@ class LineRepository extends EntityRepository
         $qb = $this->createQueryBuilder('l');
         $qb->addSelect([
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
-                'SUM(CASE WHEN v.positive = false THEN 1 ELSE 1 END) AS negative_votes',
+                'SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes',
+                'SUM(CASE WHEN v.positive = true THEN 1 ELSE -1 END) AS score',
             ])->join('l.votes', 'v')
             ->where($qb->expr()->notIn('l.id', $sqb->getDql()))
             ->andWhere($qb->expr()->lte('l.characterCount', ':cc'))
             ->groupBy('l.id')
             ->having($qb->expr()->gte('SUM(CASE WHEN v.positive = true THEN 1 ELSE -1 END)', ':score'))
+            ->orderBy('score', 'DESC')
             ->setMaxResults($count)
             ->setParameters([
                 'score' => 0,
@@ -260,5 +263,36 @@ class LineRepository extends EntityRepository
 
         // bundle it all into a searchresult object
         return new SearchResult($q, $query->getResult(), $total, $page, $perPage);
+    }
+
+    /**
+     * Get popular lines
+     *
+     * @param integer $page The page of results to retrieve
+     * @param integer $perPage How many results to retrieve
+     * @return PaginatedResult The popular line results
+     */
+    public function getPopular($page = 1, $perPage = 30)
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->addSelect([
+                'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
+                'SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes',
+                'SUM(CASE WHEN v.positive = true THEN 1 ELSE -1 END) AS score',
+            ])->leftJoin('l.votes', 'v')
+            ->groupBy('l.id')
+            ->orderBy('score', 'DESC')
+            ->setFirstResult(($page - 1) * $perPage)
+            ->setMaxResults($perPage);
+
+        $result = $qb->getQuery()->getResult();
+        $ret = [];
+
+        foreach ($result as $row) {
+            $ret[] = $row[0]->setPositiveVoteCount(intval($row['positive_votes']))
+                ->setNegativeVoteCount(intval($row['negative_votes']));
+        }
+
+        return new PaginatedResult($ret, $this->getTotal(), $page, $perPage);
     }
 }

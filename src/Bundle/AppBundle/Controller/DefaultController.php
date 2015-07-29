@@ -75,4 +75,21 @@ class DefaultController extends Controller
             'line_results' => $lineResults,
         ];
     }
+
+    /**
+     * @Route("/popular", name="popular")
+     * @Method({"GET"})
+     * @Template("ChaosTangentFansubEbooksAppBundle:Default:popular.html.twig")
+     */
+    public function popularAction(Request $request)
+    {
+        $page = intval($request->query->get('page', 1));
+
+        $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
+        $lines = $lineRepo->getPopular($page, 50);
+
+        return [
+            'lines' => $lines,
+        ];
+    }
 }
