@@ -57,8 +57,11 @@ class DefaultController extends Controller
 
         $seriesResults = [];
         $lineResults = [];
+        $searchTime = 0;
 
         if (!empty($query)) {
+            $start = microtime(true);
+
             $om = $this->get('doctrine')->getManager();
             $lineRepo = $om->getRepository('Entity:Line');
             $lineResults = $lineRepo->search($query, $page);
@@ -67,12 +70,15 @@ class DefaultController extends Controller
                 $seriesRepo = $om->getRepository('Entity:Series');
                 $seriesResults = $seriesRepo->search($query);
             }
+
+            $searchTime = microtime(true) - $start;
         }
 
         return [
             'query' => $query,
             'series_results' => $seriesResults,
             'line_results' => $lineResults,
+            'search_time' => $searchTime,
         ];
     }
 

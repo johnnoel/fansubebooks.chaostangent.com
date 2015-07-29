@@ -37,6 +37,10 @@ main {
     padding-bottom: 24px;
 }
 
+hr {
+    border-color: $beige-light;
+}
+
 .marque {
     font-family: $header-font-family;
     font-weight: bold;
@@ -100,4 +104,46 @@ main {
     color: lighten($grey, 20%);
     padding: 12px 0 24px;
     text-align: right;
+}
+
+.pagination {
+    margin: 24px 0;
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .next, .prev, .pages, .pages li, .pages li a {
+        display: inline-block;
+    }
+
+    .next, .prev, .pages li a {
+        border: 1px solid $beige-light;
+        border-radius: 4px;
+        padding: 3px 6px;
+    }
+
+    .pages li a.on {
+        background: $orange;
+        border-color: $orange;
+        color: $beige;
+    }
+}
+
+.page-header {
+    @include clearfix;
+    margin: 24px 0;
+
+    .page-header-title {
+        float: left;
+    }
+
+    .page-header-actions {
+        float: right;
+        padding-top: 8px;
+    }
 }

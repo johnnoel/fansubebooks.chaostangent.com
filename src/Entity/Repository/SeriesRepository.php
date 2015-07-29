@@ -151,15 +151,40 @@ class SeriesRepository extends EntityRepository
             ':query' => $q,
         ], 0);
 
+        $fileSql = 'SELECT fs.id, COUNT(f.id) AS file_count
+            FROM series fs
+            JOIN files f ON f.series_id = fs.id
+            GROUP BY fs.id';
+
+        $lineSql = 'SELECT ls.id, COUNT(l.id) AS line_count
+            FROM series ls
+            JOIN files lf ON lf.series_id = ls.id
+            JOIN lines l ON l.file_id = lf.id
+            GROUP BY ls.id';
+
+        $tweetSql = 'SELECT ts.id, COUNT(t.id) AS tweet_count
+            FROM series ts
+            JOIN files tf ON tf.series_id = ts.id
+            JOIN lines tl ON tl.file_id = tf.id
+            JOIN tweets t ON t.line_id = tl.id
+            GROUP BY ts.id';
+
         // fetch page of results
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Series', 's');
+        $rsm->addScalarResult('file_count', 'file_count', 'integer');
+        $rsm->addScalarResult('line_count', 'line_count', 'integer');
+        $rsm->addScalarResult('tweet_count', 'tweet_count', 'integer');
 
-        $sql = 'SELECT '.$rsm->generateSelectClause().'
-            FROM series s
-            WHERE to_tsvector(:config, s.title) @@ to_tsquery(:query)
-            ORDER BY ts_rank(to_tsvector(:config, s.title), to_tsquery(:query))
-            LIMIT :limit OFFSET :offset';
+        $sql = 'WITH file_counts AS ('.$fileSql.'), line_counts AS ('.$lineSql.'), tweet_counts AS ('.$tweetSql.')
+            SELECT '.$rsm->generateSelectClause().', fc.file_count, lc.line_count, tc.tweet_count
+                FROM series s
+                LEFT JOIN file_counts fc ON fc.id = s.id
+                LEFT JOIN line_counts lc ON lc.id = s.id
+                LEFT JOIN tweet_counts tc ON tc.id = s.id
+                WHERE to_tsvector(:config, s.title) @@ to_tsquery(:query)
+                ORDER BY ts_rank(to_tsvector(:config, s.title), to_tsquery(:query))
+                LIMIT :limit OFFSET :offset';
 
         $query = $this->_em->createNativeQuery($sql, $rsm);
         $query->setParameters([
@@ -169,7 +194,16 @@ class SeriesRepository extends EntityRepository
             'config' => 'english', // see CreateSearchIndex for this indexed value
         ]);
 
-        return new SearchResult($q, $query->getResult(), $total, $page, $perPage);
+        $result = $query->getResult();
+        $ret = [];
+
+        foreach ($result as $row) {
+            $ret[] = $row[0]->setFileCount($row['file_count'])
+                ->setLineCount($row['line_count'])
+                ->setTweetCount($row['tweet_count']);
+        }
+
+        return new SearchResult($q, $ret, $total, $page, $perPage);
     }
 
     /**

@@ -4,43 +4,62 @@
 {% block title %}Search{% endblock %}
 
 {% block body %}
-<h1>Search</h1>
+<article>
+    <header class="page-header">
+        <h1>Search everything</h1>
+    </header>
 
-<form method="GET" action="">
-    <fieldset>
-        <legend>Search</legend>
-        <div>
-            <label for="search-query">Search term</label>
-            <input type="text" name="q" placeholder="magical" value="{{ query|default('') }}">
-        </div>
-        <button type="submit">Search</button>
-    </fieldset>
-</form>
+    <form method="GET" action="" class="search">
+        <fieldset>
+            <legend class="search-title">Search</legend>
 
-{% if series_results|length > 0 %}
-<h4>Top matched series</h4>
-<ul>
-    {% for series in series_results %}
-    <li>{{ series.title }}</li>
-    {% endfor %}
-</ul>
+            <div class="search-inner">
+                <label for="search-query">Search term</label>
+                <input type="text" name="q" placeholder="magical" value="{{ query|default('') }}" class="search-query">
+                <button type="submit" class="search-action">Search</button>
+            </div>
+        </fieldset>
+
+        {% if line_results|length > 0 or series_results|length > 0 %}
+        <p class="search-stats">
+            Your search returned
+            {% if series_results|length > 0 %}<b>{{ series_results.total }} series</b> result{% if series_results.total != 1 %}s{% endif %}{% endif %}
+            {% if series_results|length > 0 and line_results|length > 0 %}and{% endif %}
+            {% if line_results|length > 0 %}<b>{{ line_results.total }} line</b> result{% if line_results.total != 1 %}s{% endif %}{% endif %}
+            in {{ (search_time * 1000)|number_format }}ms
+        </p>
+        {% endif %}
+    </form>
+
+    {% if series_results|length > 0 %}
+    <ul class="series-grid search-results">
+        {% for series in series_results %}
+        <li>
+            {% include 'ChaosTangentFansubEbooksAppBundle::series.html.twig' with { 'series': series } %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if series_results|length > 0 and line_results|length > 0 %}
+    <hr>
+    {% endif %}
+
+    {% if line_results|length > 0 %}
+    <div class="line-grid series-results">
+        {% for line in line_results %}
+        {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
+        {% endfor %}
+    </div>
+
+    {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
+        'route': 'search',
+        'route_params': {
+            'q': line_results.query
+        },
+        'page': line_results.page,
+        'pages': line_results.pages
+    } %}
 {% endif %}
-
-{% if line_results|length > 0 %}
-<h4>Matched lines</h4>
-<ul>
-    {% for line in line_results %}
-    <li>{{ line.line }}</li>
-    {% endfor %}
-</ul>
-{% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
-    'route': 'search',
-    'route_params': {
-        'q': line_results.query
-    },
-    'page': line_results.page,
-    'pages': line_results.pages
-} %}
-{% endif %}
-
+</article>
 {% endblock %}

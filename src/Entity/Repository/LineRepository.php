@@ -256,10 +256,19 @@ class LineRepository extends EntityRepository
         // get the selected page of results from search query
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Line', 'l');
+        $rsm->addScalarResult('positive_votes', 'positive_votes', 'integer');
+        $rsm->addScalarResult('negative_votes', 'negative_votes', 'integer');
+        $rsm->addScalarResult('tweet_id', 'tweet_id');
 
-        $sql = 'SELECT '.$rsm->generateSelectClause().'
+        $sql = 'SELECT '.$rsm->generateSelectClause().',
+                SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes,
+                SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes,
+                t.tweet_id
             FROM lines l
-            JOIN files f ON f.id = l.file_id '.$whereClause.'
+            JOIN files f ON f.id = l.file_id
+            LEFT JOIN votes v ON v.line_id = l.id
+            LEFT JOIN tweets t ON t.line_id = l.id '.$whereClause.'
+            GROUP BY l.id, t.tweet_id
             ORDER BY ts_rank(to_tsvector(:config, l.line), to_tsquery(:query))
             LIMIT :limit OFFSET :offset';
 
@@ -269,8 +278,17 @@ class LineRepository extends EntityRepository
             'offset' => ($page - 1) * $perPage,
         ]));
 
+        $result = $query->getResult();
+        $ret = [];
+
+        foreach ($result as $row) {
+            $ret[] = $row[0]->setPositiveVoteCount($row['positive_votes'])
+                ->setNegativeVoteCount($row['negative_votes'])
+                ->setTweetId($row['tweet_id']);
+        }
+
         // bundle it all into a searchresult object
-        return new SearchResult($q, $query->getResult(), $total, $page, $perPage);
+        return new SearchResult($q, $ret, $total, $page, $perPage);
     }
 
     /**

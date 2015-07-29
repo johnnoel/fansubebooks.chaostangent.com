@@ -16,11 +16,7 @@
     <ul class="series-grid">
         {% for s in series %}
         <li>
-            <a href="{{ path('series_view', { 'alias': s.alias }) }}" class="series">
-                <img src="http://placehold.it/173x242" alt="" class="series-thumbnail">
-                <h3 class="series-title">{{ s.title }}</h3>
-                <p class="series-stats">{{ s.fileCount }} script{% if s.fileCount != 1 %}s{% endif %}<br>{{ s.lineCount|number_format }} lines<br>{{ s.tweetCount|number_format }} tweets</p>
-            </a>
+            {% include 'ChaosTangentFansubEbooksAppBundle::series.html.twig' with { 'series': s } %}
         </li>
         {% endfor %}
     </ul>

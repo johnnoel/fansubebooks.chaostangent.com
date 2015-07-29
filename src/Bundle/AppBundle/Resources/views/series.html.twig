@@ -1,0 +1,5 @@
+<a href="{{ path('series_view', { 'alias': series.alias }) }}" class="series">
+    <img src="http://placehold.it/173x242" alt="" class="series-thumbnail">
+    <h3 class="series-title">{{ series.title }}</h3>
+    <p class="series-stats">{{ series.fileCount }} script{% if series.fileCount != 1 %}s{% endif %}<br>{{ series.lineCount|number_format }} lines<br>{{ series.tweetCount|number_format }} tweets</p>
+</a>

@@ -1,0 +1,142 @@
+.series-grid {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -12px;
+
+    li {
+        flex: 0 0 auto;
+        width: 20%;
+        box-sizing: border-box;
+        padding: 0 12px;
+        margin-bottom: 24px;
+    }
+}
+
+.series {
+    text-decoration: none;
+    color: $body-font-color;
+    display: block;
+
+    .series-thumbnail {
+        display: block;
+        max-width: 100%;
+        margin-bottom: 6px;
+    }
+
+    .series-title {
+        font-weight: normal;
+        font-size: $header-font-base-size * 0.6;
+        margin-bottom: 6px;
+    }
+
+    .series-stats {
+        font-size: $body-font-base-size * 0.7;
+        line-height: 1.2;
+    }
+
+    &:hover {
+        .series-title {
+            color: $orange;
+            text-decoration: underline;
+        }
+    }
+}
+
+.series-search {
+    label {
+        display: none;
+    }
+
+    .series-search-title {
+        font-size: $header-font-base-size * 0.4;
+        letter-spacing: 0;
+        text-transform: uppercase;
+    }
+
+    .series-search-inner {
+        display: flex;
+        flex-flow: row nowrap;
+    }
+
+    .series-search-query, .series-search-search {
+        margin: 0;
+        box-sizing: border-box;
+        height: 32px;
+        display: block;
+        float: left;
+    }
+
+    .series-search-query {
+        flex: 1 0 400px;
+        border: 1px solid $beige-light;
+        border-right: none;
+        padding: 0 6px 0;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    .series-search-search {
+        flex: 0 0 auto;
+        border: none;
+        background: $orange;
+        color: $beige;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+}
+
+.series-header {
+    @include clearfix;
+    margin: 24px 0;
+
+    .series-header-title {
+        margin-bottom: 6px;
+    }
+
+    .series-header-thumbnail, .series-header-stats, .series-header-files {
+        float: left;
+    }
+
+    .series-header-thumbnail {
+        width: 20%;
+    }
+
+    .series-header-stats {
+        width: 20%;
+
+        dt {
+            font-family: $header-font-family;
+            font-size: $header-font-base-size * 0.4;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        dd {
+            margin-bottom: 6px;
+            font-size: $body-font-base-size * 1.1;
+            line-height: 1.2;
+        }
+    }
+
+    .series-search {
+        float: left;
+        width: 60%;
+        margin-bottom: 12px;
+    }
+
+    .series-header-files {
+        width: 60%;
+
+        li {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 0 4px;
+
+            &.on {
+                background: $orange;
+                a { color: $beige; }
+            }
+        }
+    }
+}
