@@ -7,9 +7,9 @@
 <article>
     <header class="series-header">
         <h2 class="series-header-title">{{ series.title }}</h2>
-        <div class="series-header-thumbnail">
-            <img src="http://placehold.it/173x242" alt="">
-        </div>
+        <a href="{{ series.image }}" class="series-header-thumbnail">
+            <img src="{{ series.thumbnail }}" alt="">
+        </a>
 
         <dl class="series-header-stats">
             <dt>Files</dt>

@@ -99,6 +99,10 @@
 
     .series-header-thumbnail {
         width: 20%;
+
+        img {
+            max-width: 173px;
+        }
     }
 
     .series-header-stats {

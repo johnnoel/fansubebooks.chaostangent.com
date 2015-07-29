@@ -62,7 +62,7 @@
         {% for series in updated %}
         <li>
             <a href="{{ path('series_view', { 'alias': series.alias }) }}" class="series">
-                <img src="http://placehold.it/140x185" alt="" class="series-thumbnail">
+                <img src="{{ series.thumbnail }}" alt="" class="series-thumbnail">
                 <h3 class="series-title">{{ series.title }}</h3>
             </a>
         </li>
