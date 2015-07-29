@@ -29,12 +29,25 @@ try {
     ]);
 
     $postgres = new PDO(sprintf('pgsql:host=%s;dbname=%s', $postgresConfig['host'], $postgresConfig['db']), $postgresConfig['user'], $postgresConfig['password']);
+    $postgres->query("SET NAMES 'UTF8'");
 } catch (\PDOException $e) {
     var_dump($e);
     exit('Unable to connect to one of the databases'.PHP_EOL);
 }
 
-$postgres->query("SET NAMES 'UTF8'");
+/**
+ * Helper function for converting a string Europe/London date into a string UTC
+ * date
+ *
+ * @param string $stringDate In the format "Y-m-d H:i:s"
+ * @return string A UTC formatted date "Y-m-d H:i:s"
+ */
+function convertDateTimeToUTC($stringDate) {
+    $obj = \DateTime::createFromFormat('Y-m-d H:i:s', $stringDate, new \DateTimeZone('Europe/London'));
+    $obj->setTimezone(new \DateTimeZone('UTC'));
+
+    return $obj->format('Y-m-d H:i:s');
+}
 
 // series
 $seriesIdMap = [];
@@ -54,7 +67,7 @@ foreach ($series as $s) {
         ':alias' => $s['alias'],
         ':image' => $s['image'],
         ':thumbnail' => $s['thumbnail'],
-        ':added' => $s['added'],
+        ':added' => convertDateTimeToUTC($s['added']),
     ]);
 
     if (!$good) {
@@ -84,7 +97,7 @@ foreach ($files as $file) {
         ':series_id' => $seriesIdMap[$file['series_id']],
         ':name' => $file['name'],
         ':hash' => $file['hash'],
-        ':added' => $file['added'],
+        ':added' => convertDateTimeToUTC($file['added']),
     ]);
 
     if (!$good) {
@@ -150,7 +163,7 @@ foreach ($votes as $vote) {
     if ($vote['polarity'] == 0) {
         $good = $flagStmt->execute([
             ':line_id' => $lineIdMap[$vote['line_id']],
-            ':added' => $vote['added'],
+            ':added' => convertDateTimeToUTC($vote['added']),
             ':ip' => $vote['ip'],
         ]);
 
@@ -188,7 +201,7 @@ $postgres->beginTransaction();
 foreach ($tweets as $tweet) {
     $good = $stmt->execute([
         ':line_id' => $lineIdMap[$tweet['line_id']],
-        ':tweeted' => $tweet['tweeted'],
+        ':tweeted' => convertDateTimeToUTC($tweet['tweeted']),
     ]);
 
     if (!$good) {
