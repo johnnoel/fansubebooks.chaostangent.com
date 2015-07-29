@@ -4,42 +4,76 @@
 {% block title %}Help{% endblock %}
 
 {% block body %}
-<h2>How to help and if you need help</h2>
+<article>
+    <header class="page-header">
+        <h1>Help and Frequently Asked Questions</h1>
+    </header>
 
-<h3>Contribute a script to the Fansub Ebooks library</h3>
-<p>Want to contribute a script? Splendid! A few things to bear in mind about your upload:</p>
-<ol>
-    <li>It must be a .ass (Advanced Substation Alpha) file, no .srt, .ssa or .idx files</li>
-    <li>The filename must contain the name of fansub it came from, e.g. [Coalgirls]_Yuru_Yuri_01_(1920x1080_Blu-Ray_FLAC)_[11DDE242].ass; this lets me identify the series and sub group</li>
-    <li>The file must be no bigger than 2mb; most movie scripts with effects top out around 1.5mb so this should be plenty</li>
-    <li>The file must not be zipped or otherwise compressed</li>
-    <li>Only fansub scripts please, so nothing from streaming services (Crunchyroll, Funimation, Daisuki.net etc.)</li>
-</ol>
-<p>All good? Spiffy. Once the script has been uploaded it'll be in a queue for moderation and probably get added within a day or so. Then you'll get a warm and fuzzy feeling for contributing to the nonsense that is Fansub Ebooks.</p>
-<p>(P.S. You should definitely <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a> that you've submitted a script. Just sayin')</p>
+    <aside class="side-nav">
+        <nav>
+            <h2>Contents</h2>
+            <ol>
+                <li><a href="#suggest-a-script">Contribute a script to the Fansub Ebooks library</a></li>
+                <li><a href="#suggest-a-series">Suggest a series for inclusion in the Fansub Ebooks library</a></li>
+                <li><a href="#fansub-file">I have a fansub, how do I get the script from it?</a></li>
+                <li><a href="#what-the-hell">What the hell?</a></li>
+                <li><a href="#anything-else">Anything else?</a></li>
+            </ol>
+        </nav>
+    </aside>
 
-{{ form_start(suggest_file) }}
-<fieldset>
-    <legend>Contribute a script</legend>
-    {{ form_row(suggest_file.file) }}
-    {{ form_row(suggest_file.send) }}
-</fieldset>
-{{ form_end(suggest_file) }}
+    <div class="content">
+        <h2 id="suggest-a-script">Contribute a script to the Fansub Ebooks library</h2>
+        <p>Want to contribute a script? Splendid! A few things to bear in mind about your upload:</p>
+        <ol>
+            <li>It must be a <b>.ass</b> (Advanced Substation Alpha) file, no .srt, .ssa or .idx files</li>
+            <li>The filename must <b>contain the name of fansub</b> it came from, e.g. [Coalgirls]_Yuru_Yuri_01_(1920x1080_Blu-Ray_FLAC)_[11DDE242].ass; this lets me identify the series, episode and sub group</li>
+            <li>The file must be <b>no bigger than 2mb</b>; most movie scripts with effects top out around 1.5mb so this should be plenty</li>
+            <li>The file must <b>not be zipped or otherwise compressed</b></li>
+            <li><b>Only fansub scripts</b> please, so nothing from licensed streaming services (Crunchyroll, Funimation, Daisuki.net etc.) or official releases (home video etc.)</li>
+        </ol>
+        <p>All good? Spiffy. Use the form below to upload your script. Once the script has been uploaded it'll be in a queue for moderation and probably get added within a day or so. Then you'll get a warm and fuzzy feeling for contributing to the nonsense that is Fansub Ebooks.</p>
+        <p>(P.S. You should definitely <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a> that you've submitted a script. Just sayin')</p>
 
-<h3>Suggest a series for inclusion in the Fansub Ebooks library</h3>
-<p>Want to help Fansub Ebooks but don't have any fansub scripts to hand? Really want to see your favourite series by your favourite sub group included? Go ahead and suggest it!</p>
-<p>Make sure the series isn't <a href="{{ path('series') }}">already in the library</a>, and if not, pop the details in below.</p>
-<p>It might take a bit of time before the series can be added but it's always good to know what Fansub Ebook visitors want to see!</p>
+        {{ form_start(suggest_file) }}
+        <fieldset>
+            <legend>Upload a script</legend>
+            {{ form_row(suggest_file.file) }}
+            {{ form_row(suggest_file.send) }}
+        </fieldset>
+        {{ form_end(suggest_file) }}
 
-{{ form_start(suggest_series) }}
-<fieldset>
-    <legend>Suggest a series</legend>
-    {{ form_row(suggest_series.name) }}
-    {{ form_row(suggest_series.group) }}
-    {{ form_row(suggest_series.suggest) }}
-</fieldset>
-{{ form_end(suggest_series) }}
+        <h2 id="suggest-a-series">Suggest a series for inclusion in the Fansub Ebooks library</h2>
+        <p>Want to help Fansub Ebooks but don't have any fansub scripts to hand? Really want to see your favourite series by your favourite sub group included? Go ahead and suggest it!</p>
+        <p>Make sure the series isn't <a href="{{ path('series') }}">already in the library</a>, and if not, pop the details in below.</p>
+        <p>It might take a bit of time before the series can be added but it's always good to know what Fansub Ebook visitors want to see!</p>
 
-<h3>Anything else?</h3>
-<p>Just <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a>, it's all good.</p>
+        {{ form_start(suggest_series) }}
+        <fieldset>
+            <legend>Suggest a series</legend>
+            {{ form_row(suggest_series.name) }}
+            {{ form_row(suggest_series.group) }}
+            {{ form_row(suggest_series.suggest) }}
+        </fieldset>
+        {{ form_end(suggest_series) }}
+
+        <h2 id="fansub-file">I have a fansub, how do I get the script from it?</h2>
+        <p>It's unfortunately not a straightforward process due to how scripts are store within Matroska files (by far the most common container format for anime fansubs). In an ideal world there'd be a <a href="https://github.com/johnnoel/ebmlreader">simple way of doing it</a>, until then:</p>
+        <ol>
+            <li>First of all, go and grab <a href="https://www.bunkus.org/videotools/mkvtoolnix/">MKVToolNix</a> and install it</li>
+            <li>Open the command line, and run <kbd>mkvinfo &lt;filename&gt;</kbd> on the fansub file (assuming it's an MKV, if it's not ¯\_(ツ)_/¯)</li>
+            <li>You're looking for the track that has the entry <code>Track type: subtitles</code>, note down the track ID</li>
+            <li>Still on the command line, run <kbd>mkvextract &lt;filename&gt; &lt;trackid&gt;:output.ass</kbd></li>
+            <li>Once the subtitle file has been extracted, <b>rename the file to match the fansub you got it from</b></li>
+            <li>Upload away!</li>
+        </ol>
+        <p><a href="https://twitter.com/fansub_ebooks">Tweet @fansub_Ebooks</a> if you need a hand, unfortunately there's no guarantee of timeliness but patience is encouraged.</p>
+
+        <h2 id="what-the-hell">What the hell?</h2>
+        <p>I don't know either.</p>
+
+        <h2 id="anything-else">Anything else?</h2>
+        <p>Just <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a>, it's all good.</p>
+    </div>
+</article>
 {% endblock %}

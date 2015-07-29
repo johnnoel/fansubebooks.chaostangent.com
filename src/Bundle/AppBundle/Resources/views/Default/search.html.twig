@@ -23,9 +23,9 @@
         {% if line_results|length > 0 or series_results|length > 0 %}
         <p class="search-stats">
             Your search returned
-            {% if series_results|length > 0 %}<b>{{ series_results.total }} series</b> result{% if series_results.total != 1 %}s{% endif %}{% endif %}
+            {% if series_results|length > 0 %}<b>{{ series_results.total }} series</b>{% endif %}
             {% if series_results|length > 0 and line_results|length > 0 %}and{% endif %}
-            {% if line_results|length > 0 %}<b>{{ line_results.total }} line</b> result{% if line_results.total != 1 %}s{% endif %}{% endif %}
+            {% if line_results|length > 0 %}<b>{{ line_results.total }} line{% if line_results.total != 1 %}s{% endif %}</b>{% endif %}
             in {{ (search_time * 1000)|number_format }}ms
         </p>
         {% endif %}

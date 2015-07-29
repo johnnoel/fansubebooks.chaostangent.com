@@ -78,7 +78,7 @@ hr {
 }
 
 .global-nav {
-    font-size: $body-font-base-size * 0.8;
+    font-size: $body-font-base-size * 0.9;
 
     li {
         display: inline-block;
@@ -100,7 +100,7 @@ hr {
     @include container;
     clear: both;
     border-top: 1px solid $beige-light;
-    font-size: $body-font-base-size * 0.6;
+    font-size: $body-font-base-size * 0.7;
     color: lighten($grey, 20%);
     padding: 12px 0 24px;
     text-align: right;
