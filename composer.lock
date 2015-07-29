@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cbcce37fe43845e05d0142651556d829",
+    "hash": "f77e03dc8ab5b33556e5a36595353b49",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1060,12 +1060,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/casperbakker/oauth-subscriber.git",
-                "reference": "3fb162d8b6c3809475c6ef5a1f3f7b7e7a7df777"
+                "reference": "8b4869b8bcbe23c655f6eb62b3825a94b90ad768"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/casperbakker/oauth-subscriber/zipball/8b4869b8bcbe23c655f6eb62b3825a94b90ad768",
-                "reference": "3fb162d8b6c3809475c6ef5a1f3f7b7e7a7df777",
+                "reference": "8b4869b8bcbe23c655f6eb62b3825a94b90ad768",
                 "shasum": ""
             },
             "require": {
@@ -1103,9 +1103,9 @@
                 "oauth"
             ],
             "support": {
-                "source": "https://github.com/cbakker/oauth-subscriber/tree/master"
+                "source": "https://github.com/casperbakker/oauth-subscriber/tree/master"
             },
-            "time": "2015-07-21 12:50:05"
+            "time": "2015-07-22 09:42:04"
         },
         {
             "name": "guzzlehttp/promises",
