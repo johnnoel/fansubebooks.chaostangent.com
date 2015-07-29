@@ -19,9 +19,15 @@ class SuggestSeriesType extends AbstractType
         $builder->add('name', 'text', [
             'required' => true,
             'trim' => true,
+            'attr' => [
+                'placeholder' => 'Sexy Commando Gaiden',
+            ],
         ])->add('group', 'text', [
             'required' => true,
             'trim' => true,
+            'attr' => [
+                'placeholder' => 'AnimeJunkies',
+            ],
         ])->add('suggest', 'submit');
     }
 

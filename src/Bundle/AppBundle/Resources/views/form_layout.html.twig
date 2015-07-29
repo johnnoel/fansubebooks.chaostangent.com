@@ -1,0 +1,20 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block form_row %}
+    <div class="form-group">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+{% block button_row %}
+    <div class="form-button">
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+{% block button_widget %}
+    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' btn')|trim }) %}
+    {{ parent() }}
+{% endblock %}

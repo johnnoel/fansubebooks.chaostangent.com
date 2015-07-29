@@ -21,7 +21,7 @@ class SuggestFileType extends AbstractType
             'attr' => [
                 'accept' => '.ass',
             ],
-        ])->add('send', 'submit');
+        ])->add('upload', 'submit');
     }
 
     public function getName()

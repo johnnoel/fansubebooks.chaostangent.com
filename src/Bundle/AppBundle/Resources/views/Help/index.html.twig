@@ -35,11 +35,12 @@
         <p>All good? Spiffy. Use the form below to upload your script. Once the script has been uploaded it'll be in a queue for moderation and probably get added within a day or so. Then you'll get a warm and fuzzy feeling for contributing to the nonsense that is Fansub Ebooks.</p>
         <p>(P.S. You should definitely <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a> that you've submitted a script. Just sayin')</p>
 
+        {% form_theme suggest_file 'ChaosTangentFansubEbooksAppBundle::form_layout.html.twig' %}
         {{ form_start(suggest_file) }}
         <fieldset>
             <legend>Upload a script</legend>
             {{ form_row(suggest_file.file) }}
-            {{ form_row(suggest_file.send) }}
+            {{ form_row(suggest_file.upload) }}
         </fieldset>
         {{ form_end(suggest_file) }}
 
@@ -48,6 +49,7 @@
         <p>Make sure the series isn't <a href="{{ path('series') }}">already in the library</a>, and if not, pop the details in below.</p>
         <p>It might take a bit of time before the series can be added but it's always good to know what Fansub Ebook visitors want to see!</p>
 
+        {% form_theme suggest_series 'ChaosTangentFansubEbooksAppBundle::form_layout.html.twig' %}
         {{ form_start(suggest_series) }}
         <fieldset>
             <legend>Suggest a series</legend>
@@ -58,7 +60,7 @@
         {{ form_end(suggest_series) }}
 
         <h2 id="fansub-file">I have a fansub, how do I get the script from it?</h2>
-        <p>It's unfortunately not a straightforward process due to how scripts are store within Matroska files (by far the most common container format for anime fansubs). In an ideal world there'd be a <a href="https://github.com/johnnoel/ebmlreader">simple way of doing it</a>, until then:</p>
+        <p>It's unfortunately not a straightforward process due to how scripts are stored within Matroska files (by far the most common container format for anime fansubs). In an ideal world there'd be a <a href="https://github.com/johnnoel/ebmlreader">simple way of doing it</a>, until then:</p>
         <ol>
             <li>First of all, go and grab <a href="https://www.bunkus.org/videotools/mkvtoolnix/">MKVToolNix</a> and install it</li>
             <li>Open the command line, and run <kbd>mkvinfo &lt;filename&gt;</kbd> on the fansub file (assuming it's an MKV, if it's not ¯\_(ツ)_/¯)</li>
