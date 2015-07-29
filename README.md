@@ -14,7 +14,7 @@ The associated Fansub Ebooks website allows visitors to vote on which lines they
 
 ## Development
 
-Originally a Symfony 2.1 project, the latest version is based on Symfony 2.7 for both automated tweeting and the website. The database was originally MySQL but is not Postgres.
+Originally a Symfony 2.1 project, the latest version is based on Symfony 2.7 for both automated tweeting and the website. The database was originally MySQL but is now Postgres.
 
 ## Helping
 
@@ -24,8 +24,9 @@ If you want to help with the development of Fansub Ebooks (and I can only imagin
 
 1. Clone the current repository with git
 2. Download and install [Vagrant](https://www.vagrantup.com/) if you haven't already
+3. Grab the [Vagrant hostmanager](https://github.com/smdahlen/vagrant-hostmanager) plugin and install it
 3. Run `vagrant up` from the main repo directory
-4. Wait for the development VM to be provisioned
+4. Wait for the development virtual machine to be provisioned
 5. Visit [http://fansubebooks.chaostangent.local/app_dev.php/](http://fansubebooks.chaostangent.local/app_dev.php/) and develop!
 
 ### Suggest series
