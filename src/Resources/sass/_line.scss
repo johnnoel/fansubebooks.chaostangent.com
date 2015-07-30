@@ -52,10 +52,13 @@
             width: 28px;
             height: 28px;
             opacity: 0.3;
-            transition: opacity 0.15s linear;
+            filter: saturate(0);
+            transition: opacity 0.15s linear,
+                filter 0.15s linear;
 
             &:hover {
                 opacity: 1;
+                filter: saturate(100%);
             }
         }
     }
@@ -88,13 +91,16 @@
         font-size: 0;
         color: transparent;
         opacity: 0.3;
-        transition: opacity 0.15s linear;
         display: inline-block;
         vertical-align: top;
         width: 22px;
         height: 22px;
+        filter: saturate(0);
+        transition: opacity 0.15s linear,
+            filter 0.15s linear;
 
         &:hover {
+            filter: saturate(100%);
             opacity: 1;
         }
     }

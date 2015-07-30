@@ -42,6 +42,10 @@ gulp.task('theme:main', function() {
         .pipe(plugins.sass())
         .on('error', plugins.util.log)
         .pipe(plugins.rename(c.destName))
+        .pipe(plugins.autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .pipe(plugins.sourcemaps.write('./'))
         .pipe(gulp.dest(c.destPath));
 });
