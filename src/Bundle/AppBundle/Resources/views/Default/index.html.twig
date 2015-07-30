@@ -1,20 +1,22 @@
 {% extends '::layout.html.twig' %}
 
 {% block header %}
-<div class="home-feature">
-    <div class="latest-tweet">
-        <h2 class="latest-tweet-title">Latest tweet</h2>
+<div id="home-feature" class="container">
+    <div class="tweet">
+        <h2 class="tweet-title">Latest tweet</h2>
         {% if latest_tweet %}
-        <div class="latest-tweet-tweet">
+        <div class="tweet-tweet">
             {{ latest_tweet.line.line }}
         </div>
-        <p class="latest-tweet-series">From: <a href="{{ path('series_view', { 'alias': latest_tweet.line.file.series.alias }) }}">{{ latest_tweet.line.file.series.title }}</a></p>
-        <div class="latest-tweet-details">
-            <a href="https://twitter.com/fansub_ebooks" class="tweet-account">@fansub_ebooks</a>
-            <a href="" class="tweet-favourite">{% include '@svg/favourite.svg.twig' %}</a>
-            <a href="" class="tweet-retweet">{% include '@svg/retweet.svg.twig' %}</a>
-            <a href="" class="tweet-reply">{% include '@svg/reply.svg.twig' %}</a>
-            <a href="" class="tweet-datetime">
+        <p class="tweet-series">From: <a href="{{ path('series_view', { 'alias': latest_tweet.line.file.series.alias }) }}">{{ latest_tweet.line.file.series.title }}</a></p>
+        <div class="tweet-details">
+            <div class="tweet-actions">
+                <a href="https://twitter.com/fansub_ebooks" class="tweet-account">@fansub_ebooks</a>
+                <a href="https://twitter.com/intent/favorite?tweet_id={{ latest_tweet.tweetId }}" class="tweet-favourite">{% include '@svg/favourite.svg.twig' %}</a>
+                <a href="https://twitter.com/intent/retweet?tweet_id={{ latest_tweet.tweetId }}" class="tweet-retweet">{% include '@svg/retweet.svg.twig' %}</a>
+                <a href="https://twitter.com/intent/tweet?in-reply-to={{ latest_tweet.tweetId }}" class="tweet-reply">{% include '@svg/reply.svg.twig' %}</a>
+            </div>
+            <a href="https://twitter.com/fansub_ebooks/status/{{ latest_tweet.tweetId }}" class="tweet-datetime">
                 <time datetime="{{ latest_tweet.tweeted|date('Y-m-d\\TH:i:sP', 'UTC') }}">{{ latest_tweet.tweeted|date(datetime_format, 'UTC') }}</time>
             </a>
         </div>
@@ -24,49 +26,53 @@
     </div>
 
     <div class="stats">
-        <h3>Total tweets</h3>
-        <div class="stats-stat">{{ tweet_count|number_format }}</div>
-        <h3>Total lines</h3>
-        <div class="stats-stat">{{ line_count|number_format }}</div>
+        <div class="stat">
+            <h3 class="stat-title">Total tweets</h3>
+            <span class="stat-stat">{{ tweet_count|number_format }}</span>
+        </div>
+        <div class="stat">
+            <h3 class="stat-title">Total lines</h3>
+            <span class="stat-stat">{{ line_count|number_format }}</span>
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block body %}
-<div class="intro">
-    <p>For half-hourly wisdom from anime fansubs</p>
-    <a class="intro-button" href="https://twitter.com/fansub_ebooks">Follow @fansub_ebooks on Twitter</a>
-</div>
-
-<div class="upcoming">
-    <h2>Upcoming <small>based on votes</small></h2>
-
-    {% if upcoming|length > 0 %}
-    <ul>
-        {% for line in upcoming %}
-        <li>
-            {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <div class="upcoming-none">
-        Nothing in the queue! <a href="{{ path('random') }}">Get voting</a> to pick which lines are tweeted next.
+<article>
+    <div class="intro">
+        <p>For half-hourly wisdom from anime fansubs</p>
+        <a class="btn btn-lg" href="https://twitter.com/fansub_ebooks">Follow @fansub_ebooks on Twitter</a>
     </div>
-    {% endif %}
-</div>
 
-<div class="recently-updated">
-    <h2>Recently updated or added series</h2>
-    <ul>
-        {% for series in updated %}
-        <li>
-            <a href="{{ path('series_view', { 'alias': series.alias }) }}" class="series">
-                <img src="{{ series.thumbnail }}" alt="" class="series-thumbnail">
-                <h3 class="series-title">{{ series.title }}</h3>
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+    <div id="upcoming" class="panel">
+        <h2 class="panel-title">Upcoming <small>based on votes</small></h2>
+
+        {% if upcoming|length > 0 %}
+        <ul>
+            {% for line in upcoming %}
+            <li>
+                {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="alert">
+            Nothing in the queue! <a href="{{ path('random') }}">Get voting</a> to pick which lines are tweeted next.
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="recently-updated" class="panel">
+        <h2 class="panel-title">Recently updated series</h2>
+        <div class="seriesgrid">
+            {% for series in updated %}
+            {% include 'ChaosTangentFansubEbooksAppBundle::series.html.twig' with {
+                'series': series,
+                'hide_stats': true
+            } %}
+            {% endfor %}
+        </div>
+    </div>
+</article>
 {% endblock %}

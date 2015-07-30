@@ -3,17 +3,18 @@
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
- * @see https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss 
+ * @see https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss
  */
 
 $grey: #444;
-$grey-darker: darken($grey, 20%);
-$grey-lighter: lighten($grey, 20%);
+$grey-darker: darken($grey, 20%); // #2B2B2B
+$grey-lighter: lighten($grey, 20%); // #777
 $beige: #FBFBF9;
 $beige-darker: #E6E4DD;
 $beige-lighter: lighten($beige, 3%);
 $orange: #D54000;
-$orange-darker: darken($orange, 10%);
+$orange-darker: darken($orange, 7%);
+$orange-lighter: lighten($orange, 5%);
 
 $font-family-sans-serif: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 $font-family-monospace: Consolas, 'Source Sans Pro', 'Courier New', monospace;
