@@ -176,28 +176,8 @@ input[type="text"] {
 .pagination {
     margin: 24px 0;
 
-    a {
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
-    .next, .prev, .pages, .pages li, .pages li a {
+    .pagination-next, .pagination-prev, .pagination-pages, .pagination-pages li, .pagination-pages li a {
         display: inline-block;
-    }
-
-    .next, .prev, .pages li a {
-        border: 1px solid $beige-darker;
-        border-radius: 4px;
-        padding: 3px 6px;
-    }
-
-    .pages li a.on {
-        background: $orange;
-        border-color: $orange;
-        color: $beige;
     }
 }
 
@@ -230,6 +210,14 @@ input[type="text"] {
 
     &:hover {
         background: $grey-lighter;
+        text-decoration: none;
+    }
+
+    &.btn-outline {
+        background: transparent;
+        border: 1px solid $grey;
+        color: $grey;
+        padding: 5px 9px;
     }
 
     &.btn-action {
@@ -238,6 +226,17 @@ input[type="text"] {
 
         &:hover {
             background: $orange-lighter;
+        }
+
+        &.btn-outline {
+            background: transparent;
+            border-color: $orange;
+            color: $orange;
+
+            &:hover {
+                border-color: $orange-lighter;
+                color: $orange-lighter;
+            }
         }
     }
 
