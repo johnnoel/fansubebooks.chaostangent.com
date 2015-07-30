@@ -31,9 +31,9 @@
     padding: 24px 0;
 
     h1, h2, h3, h4, h5, h6 {
-        font-size: $body-font-base-size * 0.8;
+        font-size: $font-size-base;
         text-transform: uppercase;
-        color: darken($orange, 25%);
+        color: darken($orange, 35%);
         margin-bottom: 4px;
     }
 
@@ -46,7 +46,7 @@
         }
 
         .latest-tweet-tweet {
-            font-size: $body-font-base-size * 3;
+            font-size: $font-size-jumbo;
             line-height: 1;
             margin-bottom: 24px;
         }
@@ -58,7 +58,7 @@
                 color: #FFF;
                 display: inline-block;
                 vertical-align: 80%;
-                font-size: $body-font-base-size * 0.7;
+                font-size: $font-size-small;
             }
 
             .tweet-favourite, .tweet-reply, .tweet-retweet {
@@ -92,7 +92,7 @@
         width: 25%;
 
         .stats-stat {
-            font-size: $body-font-base-size * 2.5;
+            font-size: $font-size-jumbo;
             margin-bottom: 12px;
         }
     }
@@ -116,7 +116,7 @@
     border-radius: 30px;
     display: inline-block;
     text-decoration: none;
-    font-size: $body-font-base-size * 0.7;
+    font-size: $font-size-small;
     vertical-align: 100%;
 }
 
@@ -139,7 +139,7 @@
         display: inline-block;
         background: $grey;
         color: $beige;
-        font-size: $body-font-base-size * 1.2;
+        font-size: $font-size-large;
         padding: 8px 12px;
         border: none;
         border-radius: 8px;
@@ -154,9 +154,8 @@
 
 .upcoming, .recently-updated {
     h2 {
-        font-size: $header-font-base-size * 0.7;
         padding-bottom: 8px;
-        border-bottom: 1px solid $beige-light;
+        border-bottom: 1px solid $beige-darker;
         margin-bottom: 12px;
     }
 }
@@ -169,7 +168,7 @@
 
     .upcoming-none {
         line-height: 1.2;
-        background: $beige-light;
+        background: $beige-darker;
         padding: 8px 12px;
         border: none;
         border-radius: 8px;

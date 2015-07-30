@@ -3,23 +3,44 @@
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
+ * @see https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss 
  */
 
-$beige: #FBFBF9;
 $grey: #444;
+$grey-darker: darken($grey, 20%);
+$grey-lighter: lighten($grey, 20%);
+$beige: #FBFBF9;
+$beige-darker: #E6E4DD;
+$beige-lighter: lighten($beige, 3%);
 $orange: #D54000;
-$beige-light: #E6E4DD;
+$orange-darker: darken($orange, 10%);
 
-$header-font-family: Vegur, Arial, 'Helvetica Neue', Helvetica, sans-serif;
-$header-font-base-size: 32px;
-$header-font-color: darken($grey, 5%);
+$font-family-sans-serif: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+$font-family-monospace: Consolas, 'Source Sans Pro', 'Courier New', monospace;
 
-$body-font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
-$body-font-base-size: 16px;
-$body-font-color: $grey;
+$font-size-base: 14px;
+$font-size-small: ceil(($font-size-base * 0.85)); // ~12px
+$font-size-large: ceil(($font-size-base * 1.25)); // ~18px
+$font-size-jumbo: ceil(($font-size-base * 3.5));
 
-$code-font-family: Consolas, 'Source Sans Pro', 'Courier New', monospace;
-$code-font-base-size: 12px;
+$font-size-h1: floor(($font-size-base * 2.6)); // ~36px
+$font-size-h2: floor(($font-size-base * 2.15)); // ~30px
+$font-size-h3: ceil(($font-size-base * 1.7)); // ~24px
+$font-size-h4: ceil(($font-size-base * 1.25)); // ~18px
+$font-size-h5: $font-size-base;
+$font-size-h6: ceil(($font-size-base * 0.85)); // ~12px
+
+$text-color: $grey;
+$link-color: $orange;
+$link-color-visited: $orange-darker;
+
+$headings-font-family: Vegur, Arial, 'Helvetica Neue', Helvetica, sans-serif;
+$headings-font-weight: 400;
+$headings-line-height: 1.1;
+$headings-color: darken($grey, 10%);
+
+$line-height-base: 1.428571429; // 20/14
+$line-height-computed: floor(($font-size-base * $line-height-base)); // ~20px
 
 @import 'reset';
 @import 'mixins';
@@ -29,148 +50,3 @@ $code-font-base-size: 12px;
 @import 'line';
 @import 'series';
 @import 'search';
-
-.btn {
-    background: $orange;
-    color: $beige;
-    line-height: 1;
-    border: none;
-    border-radius: 4px;
-    font-size: $body-font-base-size * 1.2;
-    padding: 6px 10px;
-    transition: background-color 0.15s linear;
-
-    &:hover {
-        background: lighten($orange, 5%);
-    }
-}
-
-.content {
-    line-height: 1.3;
-
-    h2 {
-        font-size: $header-font-base-size * 0.8;
-        border-bottom: 1px solid $beige-light;
-        padding-bottom: 6px;
-        margin: 32px 0 12px;
-    }
-
-    ul, ol {
-        margin: 0 0 16px;
-
-        li {
-            margin-bottom: 6px;
-            line-height: 1.2;
-        }
-    }
-
-    ul {
-        list-style: disc outside;
-    }
-
-    ol {
-        list-style: decimal outside;
-    }
-
-    p {
-        margin-bottom: 12px;
-    }
-
-    code, kbd {
-        background: $grey;
-        color: $beige;
-        display: inline-block;
-        border: none;
-        border-radius: 4px;
-        padding: 3px 4px;
-        vertical-align: middle;
-        font-family: $code-font-family;
-        font-size: $code-font-base-size;
-    }
-
-    form {
-        border: 1px solid $beige-light;
-        border-radius: 8px;
-        margin-bottom: 24px;
-        padding: 12px 16px;
-        background: lighten($beige, 3%);
-
-        legend {
-            font-family: $header-font-family;
-            font-size: $header-font-base-size * 0.6;
-            font-weight: bold;
-            letter-spacing: -0.6px;
-            margin-bottom: 6px;
-        }
-    }
-}
-
-.side-nav {
-    float: right;
-    width: 20%;
-
-    h2 {
-        font-size: $header-font-base-size * 0.5;
-        text-transform: uppercase;
-        margin-bottom: 6px;
-    }
-
-    & + .content {
-        margin-right: 25%;
-    }
-
-    ol, ul {
-        margin: 0 0 0 $body-font-base-size + 2;
-        line-height: 1.1;
-
-        li {
-            margin-bottom: 6px;
-        }
-    }
-
-    ol {
-        list-style: decimal outside;
-    }
-
-    a {
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-}
-
-.form-group {
-    margin-bottom: 3px;
-    width: 44%;
-    margin-right: 4%;
-    display: inline-block;
-
-    label {
-        font-weight: bold;
-        font-size: $body-font-base-size * 0.7;
-        text-transform: uppercase;
-        display: block;
-        margin-bottom: 3px;
-    }
-
-    input[type="text"] {
-        width: 100%;
-    }
-
-    & + .form-button {
-        margin-top: 6px;
-    }
-}
-
-input[type="text"] {
-    font-family: $body-font-family;
-    font-size: $body-font-base-size * 1.2;
-    border: 1px solid $beige-light;
-    border-radius: 3px;
-    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
-    background: lighten($beige, 3%);
-    line-height: 1.2;
-    padding: 6px 4px;
-}

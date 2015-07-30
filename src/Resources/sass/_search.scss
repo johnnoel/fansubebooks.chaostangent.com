@@ -6,8 +6,7 @@
     }
 
     .search-title {
-        font-family: $header-font-family;
-        font-size: $header-font-base-size * 0.4;
+        font-family: $headings-font-family;
         font-weight: bold;
         letter-spacing: 0;
         text-transform: uppercase;
@@ -28,10 +27,8 @@
 
     .search-query {
         flex: 1 0 400px;
-        font-family: $body-font-family;
-        font-size: $body-font-base-size;
-        color: $body-font-color;
-        border: 1px solid $beige-light;
+        color: $text-color;
+        border: 1px solid $beige-darker;
         border-right: none;
         padding: 0 6px 0;
         border-top-left-radius: 4px;
@@ -48,11 +45,11 @@
     }
 
     .search-stats {
-        color: lighten($body-font-color, 25%);
+        color: $grey-lighter;
         margin: 6px 0 12px;
 
         b {
-            color: $body-font-color;
+            color: $text-color;
         }
     }
 }

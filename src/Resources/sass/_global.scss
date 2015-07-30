@@ -1,48 +1,100 @@
 h1, h2, h3, h4, h5, h6 {
-    font-family: $header-font-family;
-    color: $header-font-color;
-    font-size: $header-font-base-size;
-    line-height: 1;
+    font-family: $headings-font-family;
+    color: $headings-color;
+    line-height: $headings-line-height;
     letter-spacing: -0.85px;
 
     small {
         display: inline-block;
         margin-left: 4px;
-        font-size: $header-font-base-size * 0.6;
         font-weight: normal;
-        color: lighten($grey, 20%);
+        color: $grey-lighter;
+    }
+
+    &.alt {
+        text-transform: uppercase;
+    }
+}
+
+h1 {
+    font-size: $font-size-h1;
+    small {
+        font-size: $font-size-h1 * 0.8;
+    }
+}
+
+h2 {
+    font-size: $font-size-h2;
+    letter-spacing: -0.65px;
+    small {
+        font-size: $font-size-h2 * 0.8;
+    }
+}
+
+h3 {
+    font-size: $font-size-h3;
+    letter-spacing: -0.45px;
+    small {
+        font-size: $font-size-h3 * 0.8;
+    }
+}
+
+h4 {
+    font-size: $font-size-h4;
+    letter-spacing: -0.25px;
+    small {
+        font-size: $font-size-h4 * 0.9;
     }
 }
 
 h5 {
-    font-size: $header-font-base-size * 0.65;
+    font-size: $font-size-h5;
+}
+
+h6 {
+    font-size: $font-size-h6;
 }
 
 a {
-    color: $orange;
+    color: $link-color;
     text-decoration: underline;
+
+    &:visited {
+        color: $link-color-visited;
+    }
 }
 
 body {
     background: $beige;
-    font-family: $body-font-family;
-    font-size: $body-font-base-size;
-    line-height: 1;
-    color: $body-font-color;
+    font-family: $font-family-sans-serif;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    color: $text-color;
 }
 
 main {
-    @include container;
     @include clearfix;
+    @include container;
     padding-bottom: 24px;
 }
 
 hr {
-    border-color: $beige-light;
+    border-color: $beige-darker;
+}
+
+input[type="text"] {
+    font-family: $font-family-sans-serif;
+    font-size: $font-size-large;
+    border: 1px solid $beige-darker;
+    border-radius: 3px;
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+    background: $beige-lighter;
+    line-height: $line-height-base;
+    padding: 6px 4px;
 }
 
 .marque {
-    font-family: $header-font-family;
+    font-family: $headings-font-family;
     font-weight: bold;
     font-size: 28px;
     letter-spacing: -1.5px;
@@ -51,7 +103,7 @@ hr {
     .marque-alt {
         display: inline-block;
         margin-left: 2px;
-        color: $body-font-color;
+        color: $text-color;
         transition: color 0.1s linear;
     }
 
@@ -65,7 +117,7 @@ hr {
 
     .global-header-inner {
         @include container;
-        border-bottom: 1px solid $beige-light;
+        border-bottom: 1px solid $beige-darker;
         position: relative;
         padding-bottom: 4px;
     }
@@ -78,8 +130,6 @@ hr {
 }
 
 .global-nav {
-    font-size: $body-font-base-size * 0.9;
-
     li {
         display: inline-block;
         margin-left: 12px;
@@ -87,7 +137,7 @@ hr {
 
     a {
         text-decoration: none;
-        color: $body-font-color;
+        color: $text-color;
     }
 
     .on a {
@@ -99,8 +149,8 @@ hr {
 .global-footer {
     @include container;
     clear: both;
-    border-top: 1px solid $beige-light;
-    font-size: $body-font-base-size * 0.7;
+    border-top: 1px solid $beige-darker;
+    font-size: $font-size-small;
     color: lighten($grey, 20%);
     padding: 12px 0 24px;
     text-align: right;
@@ -122,7 +172,7 @@ hr {
     }
 
     .next, .prev, .pages li a {
-        border: 1px solid $beige-light;
+        border: 1px solid $beige-darker;
         border-radius: 4px;
         padding: 3px 6px;
     }
@@ -136,7 +186,8 @@ hr {
 
 .page-header {
     @include clearfix;
-    margin: 24px 0;
+    margin-top: 24px;
+    margin-bottom: 24px;
 
     .page-header-title {
         float: left;
@@ -145,5 +196,138 @@ hr {
     .page-header-actions {
         float: right;
         padding-top: 8px;
+    }
+}
+
+.btn {
+    background: $orange;
+    color: $beige;
+    line-height: 1;
+    border: none;
+    border-radius: 4px;
+    font-size: $font-size-large;
+    padding: 6px 10px;
+    transition: background-color 0.15s linear;
+
+    &:hover {
+        background: lighten($orange, 5%);
+    }
+}
+
+.content {
+    line-height: 1.3;
+
+    h2 {
+        border-bottom: 1px solid $beige-darker;
+        padding-bottom: 6px;
+        margin: 32px 0 12px;
+    }
+
+    ul, ol {
+        margin: 0 0 16px;
+
+        li {
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+    }
+
+    ul {
+        list-style: disc outside;
+    }
+
+    ol {
+        list-style: decimal outside;
+    }
+
+    p {
+        margin-bottom: 12px;
+    }
+
+    code, kbd {
+        background: $grey;
+        color: $beige;
+        display: inline-block;
+        border: none;
+        border-radius: 4px;
+        padding: 3px 4px;
+        vertical-align: middle;
+        font-family: $font-family-monospace;
+        font-size: $font-size-small;
+    }
+
+    form {
+        border: 1px solid $beige-darker;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        padding: 12px 16px;
+        background: $beige-lighter;
+
+        legend {
+            font-family: $headings-font-family;
+            font-size: $font-size-base;
+            font-weight: bold;
+            letter-spacing: -0.6px;
+            margin-bottom: 6px;
+        }
+    }
+}
+
+.side-nav {
+    float: right;
+    width: 20%;
+
+    h2 {
+        font-size: $font-size-base;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+
+    & + .content {
+        margin-right: 25%;
+    }
+
+    ol, ul {
+        margin: 0 0 0 $font-size-base + 2;
+        line-height: 1.1;
+
+        li {
+            margin-bottom: 6px;
+        }
+    }
+
+    ol {
+        list-style: decimal outside;
+    }
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.form-group {
+    margin-bottom: 3px;
+    width: 44%;
+    margin-right: 4%;
+    display: inline-block;
+
+    label {
+        font-weight: bold;
+        font-size: $font-size-small;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+    }
+
+    & + .form-button {
+        margin-top: 6px;
     }
 }

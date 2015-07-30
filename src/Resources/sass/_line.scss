@@ -1,19 +1,18 @@
 .line-grid {
     display: flex;
     flex-flow: row wrap;
-    margin: 0 -3px;
+    margin: 0 -12px;
 
     .line {
         display: flex;
         flex-flow: column nowrap;
-        flex: 1 0 470px;
+        flex: 1 0 350px;
         box-sizing: border-box;
-        width: 477px;
-        margin: 0 3px 6px;
+        margin: 0 12px 24px;
 
         .line-line {
             flex: 1 0 auto;
-            font-size: $body-font-base-size * 1.5;
+            font-size: $font-size-large;
         }
 
         .line-actions {
@@ -23,14 +22,17 @@
 }
 
 .line {
-    border: 1px solid $beige-light;
+    border-left: 6px solid $beige-darker;
     padding: 8px 12px;
-    border-radius: 8px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-    margin-bottom: 6px;
+    margin-bottom: 24px;
+    transition: border-left-color 0.15s linear;
+
+    &:hover {
+        border-left-color: $orange;
+    }
 
     .line-line {
-        font-size: $body-font-base-size * 2;
+        font-size: $font-size-large;
         line-height: 1.1;
         margin-bottom: 12px;
     }
@@ -73,8 +75,8 @@
         background-size: 22px;
     }
 
-    .line-votes, .line-link {
-        font-size: $body-font-base-size * 0.7;
+    .line-votes {
+        font-size: $font-size-small;
     }
 
     .line-links {
@@ -106,5 +108,23 @@
     .line-tweet {
         background: url(/img/twitter.svg) no-repeat 0 0;
         background-size: 22px;
+    }
+}
+
+.line-nav {
+    margin-top: 32px;
+    position: relative;
+    text-align: center;
+
+    .line-nav-prev {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .line-nav-next {
+        position: absolute;
+        right: 0;
+        top: 0;
     }
 }
