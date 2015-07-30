@@ -14,12 +14,12 @@
     {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
     <p>From: <a href="{{ path('series_view', { 'alias': series.alias }) }}">{{ series.title }}</a> / <a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">{{ file.name }}</a></p>
 
-    <nav>
-        <a href="">&larr; Previous line</a>
+    <nav class="line-nav">
+        <a href="" class="line-nav-prev">&larr; Previous line</a>
 
-        <a href="{{ path('random') }}">Random</a>
+        <a href="{{ path('random') }}" class="line-nav-random">Random</a>
 
-        <a href="">Next line &rarr;</a>
+        <a href="" class="line-nav-next">Next line &rarr;</a>
     </nav>
 </article>
 {% endblock %}
