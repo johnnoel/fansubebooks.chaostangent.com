@@ -1,0 +1,11 @@
+<div class="line-grid">
+    {% for line in lines %}
+    {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
+    {% endfor %}
+
+    {#{% if (lines|length % 3) != 0 %}
+    {% for i in 1..((lines|length % 3) - 1) %}
+    <div class="line"></div>
+    {% endfor %}
+    {% endif %}#}
+</div>

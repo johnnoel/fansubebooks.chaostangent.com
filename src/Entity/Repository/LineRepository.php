@@ -233,9 +233,13 @@ class LineRepository extends EntityRepository
      */
     public function search($q, $page = 1, $perPage = 30, Series $series = null)
     {
+        if (empty(trim($q))) {
+            return new SearchResult($q, [], 0, $page, $perPage);
+        }
+
         // default query parameters
         $defaultParams = [
-            ':query' => $q,
+            ':query' => trim($q),
             ':config' => 'english', // see CreateSearchIndex for this indexed value
         ];
 

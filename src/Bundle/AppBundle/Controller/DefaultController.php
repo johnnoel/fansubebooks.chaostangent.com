@@ -59,7 +59,7 @@ class DefaultController extends Controller
         $lineResults = [];
         $searchTime = 0;
 
-        if (!empty($query)) {
+        if (!empty(trim($query))) {
             $start = microtime(true);
 
             $om = $this->get('doctrine')->getManager();

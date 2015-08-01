@@ -1,5 +1,11 @@
 {% extends '::layout.html.twig' %}
 {% set location = 'series' %}
+{% if selected_file is not defined %}
+    {% set selected_file = null %}
+{% endif %}
+{% if results is not defined %}
+    {% set results = [] %}
+{% endif %}
 
 {% block title %}{{ series.title }}{% endblock %}
 
@@ -47,22 +53,20 @@
                     </div>
                 </fieldset>
 
-                {#{% if line_results|length > 0 or series_results|length > 0 %}
+                {% if results|length > 0 %}
                 <p class="search-stats">
                     Your search returned
-                    {% if series_results|length > 0 %}<b>{{ series_results.total }} series</b>{% endif %}
-                    {% if series_results|length > 0 and line_results|length > 0 %}and{% endif %}
-                    {% if line_results|length > 0 %}<b>{{ line_results.total }} line{% if line_results.total != 1 %}s{% endif %}</b>{% endif %}
+                    {% if results|length > 0 %}<b>{{ results.total }} line{% if results.total != 1 %}s{% endif %}</b>{% endif %}
                     in {{ (search_time * 1000)|number_format }}ms
                 </p>
-                {% endif %}#}
+                {% endif %}
             </form>
 
             <nav class="panel">
                 <h3 class="panel-title">Files within this series</h3>
                 <ul class="filelist">
                     {% for file in series.files %}
-                    <li{% if file.id == selected_file.id %} class="on"{% endif %}>
+                    <li{% if selected_file is not null and file.id == selected_file.id %} class="on"{% endif %}>
                         <a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}" title="{{ file.name|replace('_', ' ') }}">
                             {{ file.name|replace('_', ' ') }}
                         </a>
@@ -73,11 +77,24 @@
         </div>
     </header>
 
+    {% if selected_file is not null %}
     <h3>Showing lines from {{ selected_file.name|replace('_', ' ') }}</h3>
-    <div class="line-grid">
-    {% for line in selected_file.lines %}
-        {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
-    {% endfor %}
-    </div>
+    {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': selected_file.lines } %}
+    {% else %}
+        {% set resultStart = ((results.page - 1) * results.perPage) %}
+        {% set resultEnd = results.perPage %}
+        {% if results|length < resultEnd %}
+            {% set resultEnd = results|length %}
+        {% endif %}
+        <h3>Showing lines {{ resultStart }} - {{ resultStart + resultEnd }} for search &lsquo;{{ query }}&rsquo;</h3>
+
+        {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': results } %}
+        {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
+            'route': 'series_search',
+            'route_params': { 'alias': series.alias, 'q': query },
+            'page': results.page,
+            'pages': results.pages
+        } %}
+    {% endif %}
 </div>
 {% endblock %}

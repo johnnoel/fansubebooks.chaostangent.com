@@ -91,19 +91,20 @@ class SeriesController extends Controller
      *      defaults={"_format": "html"}
      * )
      * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Series:search.html.twig")
+     * @Template("ChaosTangentFansubEbooksAppBundle:Series:series.html.twig")
+     * @ParamConverter("series", class="Entity:Series", options={"repository_method": "getSeries", "map_method_signature": true})
      */
     public function searchAction(Series $series, Request $request)
     {
         $page = intval($request->query->get('page', 1));
         $query = $request->query->get('q', '');
 
-        $results = [];
+        $start = microtime(true);
 
-        if (!empty(trim($query))) {
-            $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
-            $results = $lineRepo->search($query, $page, 30, $series);
-        }
+        $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
+        $results = $lineRepo->search($query, $page, 30, $series);
+
+        $searchTime = microtime(true) - $start;
 
         if ($request->getRequestFormat() == 'json') {
             $serializer = $this->get('jms_serializer');
@@ -118,6 +119,7 @@ class SeriesController extends Controller
             'query' => $query,
             'series' => $series,
             'results' => $results,
+            'search_time' => $searchTime,
         ];
     }
 }
