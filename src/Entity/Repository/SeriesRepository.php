@@ -37,9 +37,9 @@ class SeriesRepository extends EntityRepository
 
         $rsm = new ResultSetMappingBuilder($this->_em);
         $rsm->addRootEntityFromClassMetadata('ChaosTangent\FansubEbooks\Entity\Series', 's');
-        $rsm->addScalarResult('file_count', 'file_count');
-        $rsm->addScalarResult('line_count', 'line_count');
-        $rsm->addScalarResult('tweet_count', 'tweet_count');
+        $rsm->addScalarResult('file_count', 'file_count', 'integer');
+        $rsm->addScalarResult('line_count', 'line_count', 'integer');
+        $rsm->addScalarResult('tweet_count', 'tweet_count', 'integer');
 
         $sql = 'WITH file_count AS ('.$fileSql.'), line_count AS ('.$lineSql.'), tweet_count AS ('.$tweetSql.')
             SELECT '.$rsm->generateSelectClause().', file_count.file_count, line_count.line_count, tweet_count.tweet_count
