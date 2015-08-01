@@ -1,0 +1,17 @@
+   ____                   __   ______             __
+  / __/__ ____  ___ __ __/ /  / __/ /  ___  ___  / /__ ___
+ / _// _ `/ _ \(_-</ // / _ \/ _// _ \/ _ \/ _ \/  '_/(_-<
+/_/  \_,_/_//_/___/\_,_/_.__/___/_.__/\___/\___/_/\_\/___/
+
+FansubEbooks is the spawn of John "ChaosTangent" Noel's deviant imagination.
+
+All code is released under Creative Commons Attribution 4.0 internation license and is available at: https://github.com/johnnoel/fansubebooks.chaostangent.com
+
+Technology involved:
+
+- Symfony 2.x
+- SASS
+- PostgreSQL
+- Cups of Yorkshire Tea
+- Probably electricity at some point
+- Maybe squirrels, you never know
