@@ -86,7 +86,7 @@
         {% if results|length < resultEnd %}
             {% set resultEnd = results|length %}
         {% endif %}
-        <h3>Showing lines {{ resultStart }} - {{ resultStart + resultEnd }} for search &lsquo;{{ query }}&rsquo;</h3>
+        <h3>Showing lines {{ resultStart + 1 }} - {{ resultStart + resultEnd }} for search &lsquo;{{ query }}&rsquo;</h3>
 
         {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': results } %}
         {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {

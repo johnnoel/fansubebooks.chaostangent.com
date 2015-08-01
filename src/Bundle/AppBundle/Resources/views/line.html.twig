@@ -1,4 +1,4 @@
-<div class="line">
+<div class="line{% if jumbo|default(false) %} line-jumbo{% endif %}">
     <p class="line-line">{{ line.line }}</p>
 
     <div class="line-actions">

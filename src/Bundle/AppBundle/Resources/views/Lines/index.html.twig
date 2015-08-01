@@ -7,19 +7,15 @@
 
 {% block body %}
 <article>
-    <header class="page-header">
-        <h2 class="page-header-title">Viewing line #{{ line.id }}</h2>
-    </header>
-
-    {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
-    <p>From: <a href="{{ path('series_view', { 'alias': series.alias }) }}">{{ series.title }}</a> / <a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">{{ file.name }}</a></p>
+    {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line, 'jumbo': true } %}
+    <p><b>#{{ line.id }}</b>, from: <a href="{{ path('series_view', { 'alias': series.alias }) }}">{{ series.title }}</a> - <a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">{{ file.name }}</a></p>
 
     <nav class="line-nav">
-        <a href="" class="line-nav-prev">&larr; Previous line</a>
+        <a href="{{ path('line', { 'id': line.id - 1 }) }}" class="btn btn-lg btn-action line-nav-prev">&larr; Previous line</a>
 
-        <a href="{{ path('random') }}" class="line-nav-random">Random</a>
+        <a href="{{ path('random') }}" class="btn btn-lg">Random</a>
 
-        <a href="" class="line-nav-next">Next line &rarr;</a>
+        <a href="{{ path('line', { 'id': line.id + 1 }) }}" class="btn btn-lg btn-action line-nav-next">Next line &rarr;</a>
     </nav>
 </article>
 {% endblock %}
