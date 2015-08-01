@@ -17,7 +17,7 @@ class SeriesRepository extends EntityRepository
 {
     public function getSeries($alias)
     {
-        $fileSql = 'SELECT COUNT(f.id) AS file_count FROM series s
+        $fileSql = 'SELECT COUNT(f.id) AS file_count, MAX(f.added) AS last_update FROM series s
             JOIN files f ON f.series_id = s.id
             WHERE s.alias = :alias
             GROUP BY s.id';
@@ -40,9 +40,10 @@ class SeriesRepository extends EntityRepository
         $rsm->addScalarResult('file_count', 'file_count', 'integer');
         $rsm->addScalarResult('line_count', 'line_count', 'integer');
         $rsm->addScalarResult('tweet_count', 'tweet_count', 'integer');
+        $rsm->addScalarResult('updated', 'updated', 'datetime');
 
         $sql = 'WITH file_count AS ('.$fileSql.'), line_count AS ('.$lineSql.'), tweet_count AS ('.$tweetSql.')
-            SELECT '.$rsm->generateSelectClause().', file_count.file_count, line_count.line_count, tweet_count.tweet_count
+            SELECT '.$rsm->generateSelectClause().', file_count.file_count, line_count.line_count, tweet_count.tweet_count, file_count.last_update AS updated
                 FROM series s, file_count, line_count, tweet_count
                 WHERE s.alias = :alias
                 LIMIT 1';
@@ -53,7 +54,8 @@ class SeriesRepository extends EntityRepository
 
         return $result[0]->setFileCount(intval($result['file_count']))
             ->setLineCount(intval($result['line_count']))
-            ->setTweetCount(intval($result['tweet_count']));
+            ->setTweetCount(intval($result['tweet_count']))
+            ->setUpdated($result['updated']);
     }
 
     /**
