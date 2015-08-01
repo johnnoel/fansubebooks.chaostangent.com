@@ -14,10 +14,11 @@
         All FansubEbooks code is open source under Creative Commons Attribution 4.0 International
         Code available at: https://github.com/johnnoel/fansubebooks.chaostangent.com
         -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
         <title>{% block title %}{% endblock %}{% if block('title') is not empty %} : {% endif %}Fansub Ebooks</title>
 
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
         <script src="{{ asset('js/head.js') }}"></script>
     </head>
     <body{% if location == 'home' %} class="home"{% endif %}>
@@ -25,6 +26,7 @@
             <div id="header-inner" class="container">
                 <a href="{{ path('home') }}" class="marque">fansub<span>ebooks</span></a>
                 <nav class="navbar">
+                    <button type="button" class="navbar-menu" id="menu">Show menu</button>
                     <ul>
                         <li{% if location == 'home' %} class="on"{% endif %}><a href="{{ path('home') }}">Home</a></li>
                         <li{% if location == 'popular' %} class="on"{% endif %}><a href="{{ path('popular') }}">Popular</a></li>

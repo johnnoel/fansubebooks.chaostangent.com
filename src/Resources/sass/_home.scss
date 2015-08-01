@@ -35,6 +35,14 @@
     .tweet {
         float: left;
         width: 75%;
+        box-sizing: border-box;
+        padding-right: 24px;
+
+        @media (max-width: 480px) {
+            float: none;
+            width: 100%;
+            padding-right: 0;
+        }
 
         a {
             color: #FFF;
@@ -42,6 +50,10 @@
 
         .tweet-tweet {
             font-size: $font-size-jumbo;
+
+            @media (max-width: 768px) {
+                font-size: $font-size-jumbo / 1.5;
+            }
         }
 
         .tweet-account {
@@ -67,6 +79,20 @@
         float: left;
         width: 25%;
 
+        @media (max-width: 480px) {
+            float: none;
+            width: 100%;
+
+            .stat {
+                float: left;
+                width: 50%;
+
+                & + .stat {
+                    margin-top: 0;
+                }
+            }
+        }
+
         .stat-title {
             color: $grey-darker;
             margin-bottom: 6px;
@@ -75,6 +101,10 @@
         .stat-stat {
             font-size: $font-size-jumbo;
             line-height: 1;
+
+            @media (max-width: 768px) {
+                font-size: $font-size-jumbo / 1.5;
+            }
         }
     }
 }
@@ -182,6 +212,7 @@
     box-sizing: border-box;
     width: 33%;
     padding-right: 24px;
+    margin-bottom: 24px;
 }
 
 #recently-updated {
@@ -189,4 +220,13 @@
     box-sizing: border-box;
     width: 67%;
     padding-left: 24px;
+
+}
+
+@media (max-width: 768px) {
+    #upcoming, #recently-updated {
+        width: 100%;
+        float: none;
+        padding: 0;
+    }
 }

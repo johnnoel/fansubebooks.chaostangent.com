@@ -5,6 +5,10 @@ body {
     line-height: $line-height-base;
     color: $text-color;
     margin: 12px 24px 0;
+
+    @media (max-width: 480px) {
+        margin: 12px 12px 0;
+    }
 }
 
 /*
@@ -12,6 +16,7 @@ body {
  */
 #header {
     #header-inner {
+        @include clearfix;
         border-bottom: 1px solid $beige-darker;
         position: relative;
         line-height: 1;
@@ -26,6 +31,16 @@ body {
         position: absolute;
         right: 0;
         bottom: 6px;
+
+        @media (max-width: 600px) {
+            margin-top: 2px;
+            bottom: 0;
+
+            li {
+                font-size: $font-size-large;
+                margin-bottom: 4px;
+            }
+        }
     }
 }
 
@@ -146,6 +161,7 @@ input[type="text"] {
     a {
         text-decoration: none;
         color: $text-color;
+        display: inline-block;
 
         &:hover {
             text-decoration: underline;
@@ -155,6 +171,67 @@ input[type="text"] {
     .on a {
         color: $orange;
         font-weight: bold;
+    }
+
+    .navbar-menu {
+        display: none;
+        box-sizing: content-box;
+        width: 24px;
+        height: 24px;
+        padding: 6px;
+        background: url(/img/menu.svg) no-repeat 6px 6px;
+        background-size: 24px 24px;
+        border: none;
+        font-size: 0;
+        color: transparent;
+        filter: saturate(0);
+        transition: filter 0.15s linear,
+            background-color 0.15s linear;
+    }
+
+    &.navbar-on {
+        > ul {
+            display: block;
+        }
+
+        .navbar-menu {
+            background-color: $beige-darker;
+            filter: saturate(100%);
+        }
+    }
+
+    @media (max-width: 600px) {
+        position: relative;
+
+        > ul {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 36px;
+            z-index: 10;
+            background: $beige-darker;
+            padding: 6px 0;
+            border: none;
+            border-radius: 4px;
+            border-top-right-radius: 0;
+        }
+
+        li {
+            display: block;
+            margin-left: 0;
+        }
+
+        a {
+            padding: 6px 16px;
+        }
+
+        .navbar-menu {
+            display: block;
+            //background-color: $beige-darker;
+            border: none;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+        }
     }
 }
 
@@ -186,6 +263,20 @@ input[type="text"] {
     .pagination-next, .pagination-prev, .pagination-pages, .pagination-pages li, .pagination-pages li a {
         display: inline-block;
     }
+
+    @media (max-width: 480px) {
+        .pagination-next, .pagination-prev {
+            display: block;
+            text-align: center;
+            margin-bottom: 6px;
+
+            span { display: none; }
+        }
+
+        .pagination-pages {
+            display: none;
+        }
+    }
 }
 
 .page-header {
@@ -211,7 +302,7 @@ input[type="text"] {
     line-height: 1;
     border: none;
     border-radius: 4px;
-    font-size: $font-size-large;
+    font-size: $font-size-base;
     padding: 6px 10px;
     transition: background-color 0.15s linear;
 
@@ -263,6 +354,7 @@ input[type="text"] {
     &.btn-lg {
         padding: 10px 14px;
         border-radius: 8px;
+        font-size: $font-size-large;
     }
 
     &.btn-disabled {
@@ -288,6 +380,10 @@ input[type="text"] {
 
     ul, ol {
         margin: 0 0 16px;
+
+        @media (max-width: 480px) {
+            margin: 0 24px 16px;
+        }
 
         li {
             margin-bottom: 6px;
@@ -369,6 +465,19 @@ input[type="text"] {
 
         &:hover {
             text-decoration: underline;
+        }
+    }
+
+    @media (max-width: 480px) {
+        float: none;
+        width: 100%;
+
+        & + .content {
+            margin-right: 0;
+        }
+
+        ol, ul {
+            margin-left: 24px;
         }
     }
 }

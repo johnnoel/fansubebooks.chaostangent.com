@@ -19,6 +19,17 @@
             flex: 0 0 auto;
         }
     }
+
+    @media (max-width: 480px) {
+        display: block;
+        margin: 12px 0 0;
+
+        .line {
+            margin: 0 0 24px;
+            width: 100%;
+            padding-right: 0;
+        }
+    }
 }
 
 .line {
@@ -140,5 +151,13 @@
         position: absolute;
         right: 0;
         top: 0;
+    }
+
+    @media (max-width: 480px) {
+        .line-nav-prev, .line-nav-next, .line-nav-random {
+            position: static;
+            display: block;
+            margin: 6px 0;
+        }
     }
 }

@@ -13,10 +13,19 @@
     width: 20%;
     padding-right: 24px;
     box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        width: 50%;
+    }
 }
 
 #series-nav {
     margin-left: 40%;
+
+    @media (max-width: 768px) {
+        margin-left: 0;
+        clear: left;
+    }
 }
 
 .seriesgrid {
@@ -34,6 +43,14 @@
         box-sizing: border-box;
         padding: 0 12px;
         margin-bottom: 24px;
+
+        @media (max-width: 768px) {
+            width: 33%;
+        }
+
+        @media (max-width: 480px) {
+            width: 50%;
+        }
     }
 }
 
@@ -78,6 +95,10 @@
     font-size: $font-size-small;
     line-height: 1;
     column-count: 2;
+
+    @media (max-width: 480px) {
+        column-count: 1;
+    }
 
     > li {
         margin-bottom: 4px;
