@@ -15,7 +15,7 @@ class SuggestFile implements \Serializable
 {
     /**
      * @Assert\File(maxSize="2m")
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="You must provide a file")
      * @AssertASSFile
      */
     public $file;

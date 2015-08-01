@@ -13,6 +13,7 @@
         <nav>
             <h2>Contents</h2>
             <ol>
+                <li><a href="#about">About</a></li>
                 <li><a href="#suggest-a-script">Contribute a script to the Fansub Ebooks library</a></li>
                 <li><a href="#suggest-a-series">Suggest a series for inclusion in the Fansub Ebooks library</a></li>
                 <li><a href="#fansub-file">I have a fansub, how do I get the script from it?</a></li>
@@ -23,6 +24,10 @@
     </aside>
 
     <div class="content">
+        <h2 id="about">About</h2>
+        <p>Fansub Ebooks is a project that takes lines from anime fansub scripts and <a href="https://twitter.com/fansub_ebooks">tweets</a> them out of context on Twitter. It was based on the, then assumed automated, <a href="https://twitter.com/horse_ebooks">@horse_ebooks</a> and attempts to capture the same amusing irreverance.</p>
+        <p>Fansub Ebooks is also a website that allows visitors to vote on lines; the highest voted lines that haven't already been tweeted will be tweeted next. There is also a <a href="{{ path('popular') }}">leaderboard of sorts</a> for the highest voted lines if you're that way inclined.</p>
+
         <h2 id="suggest-a-script">Contribute a script to the Fansub Ebooks library</h2>
         <p>Want to contribute a script? Splendid! A few things to bear in mind about your upload:</p>
         <ol>
@@ -60,16 +65,16 @@
         {{ form_end(suggest_series) }}
 
         <h2 id="fansub-file">I have a fansub, how do I get the script from it?</h2>
-        <p>It's unfortunately not a straightforward process due to how scripts are stored within Matroska files (by far the most common container format for anime fansubs). In an ideal world there'd be a <a href="https://github.com/johnnoel/ebmlreader">simple way of doing it</a>, until then:</p>
+        <p>It's unfortunately not a straightforward process due to how scripts are stored within <a href="http://matroska.org/technical/specs/subtitles/ssa.html">Matroska files</a> (by far the most common container format for anime fansubs). In an ideal world there'd be a <a href="https://github.com/johnnoel/ebmlreader">simple way of doing it</a>, until then:</p>
         <ol>
             <li>First of all, go and grab <a href="https://www.bunkus.org/videotools/mkvtoolnix/">MKVToolNix</a> and install it</li>
             <li>Open the command line, and run <kbd>mkvinfo &lt;filename&gt;</kbd> on the fansub file (assuming it's an MKV, if it's not ¯\_(ツ)_/¯)</li>
             <li>You're looking for the track that has the entry <code>Track type: subtitles</code>, note down the track ID</li>
-            <li>Still on the command line, run <kbd>mkvextract &lt;filename&gt; &lt;trackid&gt;:output.ass</kbd></li>
+            <li>Still on the command line, run <kbd>mkvextract tracks &lt;filename&gt; &lt;trackid&gt;:output.ass</kbd></li>
             <li>Once the subtitle file has been extracted, <b>rename the file to match the fansub you got it from</b></li>
             <li>Upload away!</li>
         </ol>
-        <p><a href="https://twitter.com/fansub_ebooks">Tweet @fansub_Ebooks</a> if you need a hand, unfortunately there's no guarantee of timeliness but patience is encouraged.</p>
+        <p><a href="https://twitter.com/fansub_ebooks">Tweet @fansub_Ebooks</a> if you need a hand, there's no guarantee of timeliness so patience is encouraged.</p>
 
         <h2 id="what-the-hell">What the hell?</h2>
         <p>I don't know either.</p>

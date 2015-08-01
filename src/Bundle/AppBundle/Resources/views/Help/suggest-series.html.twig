@@ -2,11 +2,29 @@
 {% set location = 'help' %}
 
 {% block body %}
-<h2>Suggest a series</h2>
-{% if form is not defined %}
-<p>Thanks for suggesting a series! It might take a bit of time to make it into the library, but if you <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a> you can keep updated on progress.</p>
-{% else %}
-<p>There was an error submitting your series suggestion, any errors are displayed below</p>
-{{ form(form) }}
-{% endif %}
+<article>
+    <header class="page-header">
+        <h2>Suggest a series</h2>
+    </header>
+
+    <div class="content">
+        {% if form is not defined %}
+        <div class="alert alert-success">Thanks for suggesting a series! It might take a bit of time to make it into the library, but if you <a href="https://twitter.com/fansub_ebooks">tweet @fansub_ebooks</a> you can keep updated on progress.</div>
+        <p>
+            <a href="{{ path('help') }}" class="btn btn-lg">&larr; Back to help page</a>
+            <a href="{{ path('home') }}" class="btn btn-lg btn-action">&larr; Back to homepage</a>
+        </p>
+        {% else %}
+        <div class="alert alert-error">There was an error submitting your series suggestion, any errors are displayed below</div>
+        {% form_theme form 'ChaosTangentFansubEbooksAppBundle::form_layout.html.twig' %}
+        {{ form_start(form) }}
+        <fieldset>
+            <legend>Suggest a series</legend>
+            {{ form_row(form.name) }}
+            {{ form_row(form.group) }}
+            {{ form_row(form.suggest) }}
+        </fieldset>
+        {{ form_end(form) }}
+        {% endif %}
+    </div>
 {% endblock %}

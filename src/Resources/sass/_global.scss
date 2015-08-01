@@ -172,6 +172,12 @@ input[type="text"] {
     padding: 8px 12px;
     border: none;
     border-radius: 8px;
+    margin-bottom: 12px;
+
+    &.alert-error {
+        background: #BD1901;
+        color: #FFF;
+    }
 }
 
 .pagination {
@@ -324,6 +330,7 @@ input[type="text"] {
             font-family: $headings-font-family;
             font-size: $font-size-base;
             font-weight: bold;
+            text-transform: uppercase;
             letter-spacing: -0.6px;
             margin-bottom: 6px;
         }
