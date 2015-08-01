@@ -5,44 +5,72 @@
 
 {% block body %}
 <article>
-    <header class="series-header">
-        <h2 class="series-header-title">{{ series.title }}</h2>
-        <a href="{{ series.image }}" class="series-header-thumbnail">
-            <img src="{{ series.thumbnail }}" alt="">
-        </a>
+    <header id="series-header">
+        <h2>{{ series.title }}</h2>
 
-        <dl class="series-header-stats">
-            <dt>Files</dt>
-            <dd>{{ series.fileCount|number_format }}</dd>
-            <dt>Lines</dt>
-            <dd>{{ series.lineCount|number_format }}</dd>
-            <dt>Tweets</dt>
-            <dd>{{ series.tweetCount|number_format }} ({{ ((series.tweetCount / series.lineCount) * 100)|number_format }}%)</dd>
-            <dt>Last update</dt>
-            <dd>{{ series.updated|date(datetime_format, 'UTC') }}</dd>
-        </dl>
+        <div class="panel" id="series-thumbnail">
+            <a href="{{ series.image }}" class="series">
+                <img src="{{ series.thumbnail }}" alt="" class="series-thumbnail">
+            </a>
+        </div>
 
-        <form method="get" action="{{ path('series_search', { 'alias': series.alias }) }}" class="series-search">
-            <h3 class="series-search-title">Search this series</h3>
-
-            <div class="series-search-inner">
-                <label for="search-query">Search term</label>
-                <input type="text" name="q" placeholder="e.g. magical" value="{{ query|default('') }}" id="search-query" class="series-search-query">
-                <button type="submit" class="series-search-search">Search</button>
+        <div class="panel" id="series-stats">
+            <div class="stats">
+                <div class="stat">
+                    <h3 class="stat-title">Files</h3>
+                    <span class="stat-stat">{{ series.fileCount|number_format }}</span>
+                </div>
+                <div class="stat">
+                    <h3 class="stat-title">Lines</h3>
+                    <span class="stat-stat">{{ series.lineCount|number_format }}</span>
+                </div>
+                <div class="stat">
+                    <h3 class="stat-title">Tweets</h3>
+                    <span class="stat-stat">{{ series.tweetCount|number_format }} ({{ ((series.tweetCount / series.lineCount) * 100)|number_format }}%)</span>
+                </div>
+                <div class="stat">
+                    <h3 class="stat-title">Last update</h3>
+                    <span class="stat-stat">{{ series.updated|date(datetime_format, 'UTC') }}</span>
+                </div>
             </div>
-        </form>
+        </div>
 
-        <nav class="series-header-files">
-            <ul>
-                {% for file in series.files %}
-                <li{% if file.id == selected_file.id %} class="on"{% endif %}>
-                    <a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">
-                        {{ file.name|replace('_', ' ') }}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-        </nav>
+        <div class="panel" id="series-nav">
+            <form method="GET" action="{{ path('series_search', { 'alias': series.alias }) }}" class="search">
+                <fieldset>
+                    <legend class="search-title">Search this series</legend>
+
+                    <div class="search-inner">
+                        <label for="search-query">Search term</label>
+                        <input type="text" name="q" placeholder="magical" value="{{ query|default('') }}" class="search-query">
+                        <button type="submit" class="search-action">Search</button>
+                    </div>
+                </fieldset>
+
+                {#{% if line_results|length > 0 or series_results|length > 0 %}
+                <p class="search-stats">
+                    Your search returned
+                    {% if series_results|length > 0 %}<b>{{ series_results.total }} series</b>{% endif %}
+                    {% if series_results|length > 0 and line_results|length > 0 %}and{% endif %}
+                    {% if line_results|length > 0 %}<b>{{ line_results.total }} line{% if line_results.total != 1 %}s{% endif %}</b>{% endif %}
+                    in {{ (search_time * 1000)|number_format }}ms
+                </p>
+                {% endif %}#}
+            </form>
+
+            <nav class="panel">
+                <h3 class="panel-title">Files within this series</h3>
+                <ul class="filelist">
+                    {% for file in series.files %}
+                    <li{% if file.id == selected_file.id %} class="on"{% endif %}>
+                        <a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}" title="{{ file.name|replace('_', ' ') }}">
+                            {{ file.name|replace('_', ' ') }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <h3>Showing lines from {{ selected_file.name|replace('_', ' ') }}</h3>
