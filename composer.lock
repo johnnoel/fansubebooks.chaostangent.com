@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f77e03dc8ab5b33556e5a36595353b49",
+    "hash": "a71922223aaa41ee5d6fb9eacb847e87",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -45,6 +45,59 @@
                 "transliterator"
             ],
             "time": "2014-05-15 22:08:22"
+        },
+        {
+            "name": "chaostangent/php-ass",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/johnnoel/php-ass.git",
+                "reference": "4e1f8d07f1bae2035f007d3cb776d4f576f00d32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/johnnoel/php-ass/zipball/4e1f8d07f1bae2035f007d3cb776d4f576f00d32",
+                "reference": "4e1f8d07f1bae2035f007d3cb776d4f576f00d32",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "": "src/"
+                }
+            },
+            "license": [
+                "Creative Commons Attribution-ShareAlike 3.0"
+            ],
+            "authors": [
+                {
+                    "name": "John Noel",
+                    "email": "john.noel@chaostangent.com"
+                }
+            ],
+            "description": "A library for reading Advanced Sub Station Alpha subtitle files",
+            "homepage": "http://github.com/johnnoel/php-ass",
+            "keywords": [
+                "ass",
+                "mkv",
+                "mp4",
+                "ssa",
+                "subtitle",
+                "subtitles"
+            ],
+            "support": {
+                "source": "https://github.com/johnnoel/php-ass/tree/v1.0.0",
+                "issues": "https://github.com/johnnoel/php-ass/issues"
+            },
+            "time": "2015-08-01 13:48:05"
         },
         {
             "name": "doctrine/annotations",

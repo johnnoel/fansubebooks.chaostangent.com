@@ -12,6 +12,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:cbakker/oauth-subscriber.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:johnnoel/php-ass.git"
         }
     ],
     "require": {
@@ -26,11 +30,13 @@
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
+
         "gedmo/doctrine-extensions": "^2.4",
         "jms/serializer-bundle": "^1.0",
         "guzzlehttp/guzzle": "^6.0",
         "guzzlehttp/oauth-subscriber": "dev-master",
-        "doctrine/doctrine-fixtures-bundle": "^2.2"
+        "doctrine/doctrine-fixtures-bundle": "^2.2",
+        "chaostangent/php-ass": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
