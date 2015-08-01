@@ -13,13 +13,11 @@
     </header>
 
     {% if series|length > 0 %}
-    <ul class="series-grid">
+    <div class="seriesgrid">
         {% for s in series %}
-        <li>
-            {% include 'ChaosTangentFansubEbooksAppBundle::series.html.twig' with { 'series': s } %}
-        </li>
+        {% include 'ChaosTangentFansubEbooksAppBundle::series.html.twig' with { 'series': s } %}
         {% endfor %}
-    </ul>
+    </div>
 
     {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
         'route': 'series',

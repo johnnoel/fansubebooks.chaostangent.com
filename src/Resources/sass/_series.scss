@@ -27,12 +27,14 @@
         margin-bottom: 6px;
         border: 1px solid $beige-darker;
         border-bottom-width: 6px;
+        transition: border-color 0.15s linear;
     }
 
     .series-title {
         font-size: $font-size-h4;
         font-weight: normal;
         margin-bottom: 6px;
+        transition: color 0.15s linear;
     }
 
     .series-stats {
@@ -44,6 +46,10 @@
         .series-title {
             color: $orange;
             text-decoration: underline;
+        }
+
+        .series-thumbnail {
+            border-color: $orange;
         }
     }
 }
