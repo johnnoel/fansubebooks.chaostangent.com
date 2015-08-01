@@ -50,7 +50,7 @@ class File
      */
     private $added;
     /**
-     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Line", mappedBy="file")
+     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Line", mappedBy="file", cascade="all")
      * @Serializer\Type("ArrayCollection<ChaosTangent\FansubEbooks\Entity\Line>")
      * @Serializer\MaxDepth(2)
      */
@@ -167,14 +167,15 @@ class File
     }
 
     /**
-     * Add lines
+     * Add line
      *
-     * @param \ChaosTangent\FansubEbooks\Entity\Line $lines
+     * @param \ChaosTangent\FansubEbooks\Entity\Line $line
      * @return File
      */
-    public function addLine(\ChaosTangent\FansubEbooks\Entity\Line $lines)
+    public function addLine(\ChaosTangent\FansubEbooks\Entity\Line $line)
     {
-        $this->lines[] = $lines;
+        $line->setFile($this);
+        $this->lines[] = $line;
 
         return $this;
     }
