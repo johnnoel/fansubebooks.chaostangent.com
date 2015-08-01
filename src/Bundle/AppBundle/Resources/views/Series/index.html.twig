@@ -17,6 +17,13 @@
         {% for s in series %}
         {% include 'ChaosTangentFansubEbooksAppBundle::series.html.twig' with { 'series': s } %}
         {% endfor %}
+
+        {# a whole lot of fudge for taming flexbox #}
+        {% if series|length % 5 > 0 %}
+        {% for i in 1..((series|length % 5) - 1) %}
+        <div class="series"></div>
+        {% endfor %}
+        {% endif %}
     </div>
 
     {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
