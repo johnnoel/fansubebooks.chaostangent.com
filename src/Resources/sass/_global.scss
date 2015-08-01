@@ -209,7 +209,7 @@ input[type="text"] {
     transition: background-color 0.15s linear;
 
     &:hover {
-        background: $grey-lighter;
+        background: $orange;
         text-decoration: none;
     }
 
@@ -218,6 +218,19 @@ input[type="text"] {
         border: 1px solid $grey;
         color: $grey;
         padding: 5px 9px;
+        transition: border-color 0.15s linear,
+            color 0.15s linear;
+
+        &:hover {
+            background: transparent;
+            border-color: $orange;
+            color: $orange;
+        }
+
+        &.btn-disabled {
+            background: transparent;
+            border-color: $grey-lightest;
+        }
     }
 
     &.btn-action {
@@ -243,6 +256,17 @@ input[type="text"] {
     &.btn-lg {
         padding: 10px 14px;
         border-radius: 8px;
+    }
+
+    &.btn-disabled {
+        cursor: default;
+        background: $grey-lightest;
+        color: $grey-lighter;
+        transition: none;
+
+        &:hover {
+            color: $grey-lighter;
+        }
     }
 }
 

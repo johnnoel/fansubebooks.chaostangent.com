@@ -3,22 +3,28 @@
     {% set route_params = {} %}
 {% endif %}
 
+{% macro page(route, route_params, page, activePage) %}
+<li><a href="{{ path(route, route_params|merge({ 'page': page })) }}" class="btn {% if page == activePage %}btn-action{% else %}btn-outline{% endif %}">{{ page }}</a></li>
+{% endmacro %}
+
+{% import _self as pagination %}
+
 <nav class="pagination">
     {% if page > 1 %}
-    <a href="{{ path(route, route_params|merge({ 'page': page - 1 })) }}" class="btn btn-action btn-outline pagination-prev">&larr; Previous <span>page</span></a>
+    <a href="{{ path(route, route_params|merge({ 'page': page - 1 })) }}" class="btn btn-outline pagination-prev">&larr; Previous <span>page</span></a>
     {% else %}
-    <div class="btn btn-outline btn-disabled pagination-prev">&larr; Previous <span>page</span></div>
+    <div class="btn btn-outline btn-disabled pagination-prev" aria-disabled="true">&larr; Previous <span>page</span></div>
     {% endif %}
 
     <ul class="pagination-pages">
         {% if pages < 7 %}
         {% for i in 1..pages %}
-        <li><a href="{{ path(route, route_params|merge({ 'page': i })) }}" class="btn btn-action{% if i != page %} btn-outline{% endif %}">{{ i }}</a></li>
+        {{ pagination.page(route, route_params, i, page) }}
         {% endfor %}
         {% else %}
 
         {% for i in 1..3 %}
-        <li><a href="{{ path(route, route_params|merge({ 'page': i })) }}" class="btn btn-action{% if i != page %} btn-outline{% endif %}">{{ i }}</a></li>
+        {{ pagination.page(route, route_params, i, page) }}
         {% endfor %}
         {% if page > 5 %}
         <li class="spacer">&hellip;</li>
@@ -26,7 +32,7 @@
 
         {% for i in (page - 1)..(page + 1) %}
         {% if i > 3 and i < (pages - 2) %}
-        <li><a href="{{ path(route, route_params|merge({ 'page': i })) }}" class="btn btn-action{% if i != page %} btn-outline{% endif %}">{{ i }}</a></li>
+        {{ pagination.page(route, route_params, i, page) }}
         {% endif %}
         {% endfor %}
 
@@ -35,14 +41,14 @@
         {% endif %}
 
         {% for i in (pages - 2)..pages %}
-        <li><a href="{{ path(route, route_params|merge({ 'page': i })) }}" class="btn btn-action{% if i != page %} btn-outline{% endif %}">{{ i }}</a></li>
+        {{ pagination.page(route, route_params, i, page) }}
         {% endfor %}
         {% endif %}
     </ul>
 
     {% if page < pages %}
-    <a href="{{ path(route, route_params|merge({ 'page': page + 1 })) }}" class="btn btn-action btn-outline pagination-next">Next <span>page</span> &rarr;</a>
+    <a href="{{ path(route, route_params|merge({ 'page': page + 1 })) }}" class="btn btn-outline pagination-next">Next <span>page</span> &rarr;</a>
     {% else %}
-    <div class="btn btn-outline btn-disabled pagination-next">Next <span>page</span> &rarr;</div>
+    <div class="btn btn-outline btn-disabled pagination-next" aria-disabled="true">Next <span>page</span> &rarr;</div>
     {% endif %}
 </nav>
