@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5bd6132327c1fab6e4edc66d7f2f6fb5",
+    "hash": "e6cbe36aa182238daa802d6a7b60abb9",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -48,16 +48,16 @@
         },
         {
             "name": "chaostangent/php-ass",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnnoel/php-ass.git",
-                "reference": "4e1f8d07f1bae2035f007d3cb776d4f576f00d32"
+                "reference": "62480bf46240544741e176cb2dc5fe424c1433df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnnoel/php-ass/zipball/4e1f8d07f1bae2035f007d3cb776d4f576f00d32",
-                "reference": "4e1f8d07f1bae2035f007d3cb776d4f576f00d32",
+                "url": "https://api.github.com/repos/johnnoel/php-ass/zipball/62480bf46240544741e176cb2dc5fe424c1433df",
+                "reference": "62480bf46240544741e176cb2dc5fe424c1433df",
                 "shasum": ""
             },
             "require": {
@@ -74,6 +74,7 @@
                     "": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Creative Commons Attribution-ShareAlike 3.0"
             ],
@@ -93,11 +94,7 @@
                 "subtitle",
                 "subtitles"
             ],
-            "support": {
-                "source": "https://github.com/johnnoel/php-ass/tree/v1.0.0",
-                "issues": "https://github.com/johnnoel/php-ass/issues"
-            },
-            "time": "2015-08-01 13:48:05"
+            "time": "2015-08-01 15:21:08"
         },
         {
             "name": "doctrine/annotations",

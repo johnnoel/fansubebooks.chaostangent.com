@@ -12,10 +12,6 @@
         {
             "type": "vcs",
             "url": "git@github.com:cbakker/oauth-subscriber.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:johnnoel/php-ass.git"
         }
     ],
     "require": {
