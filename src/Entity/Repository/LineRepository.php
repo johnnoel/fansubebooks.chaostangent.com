@@ -6,7 +6,8 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use ChaosTangent\FansubEbooks\Entity\Result\PaginatedResult,
     ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
-use ChaosTangent\FansubEbooks\Entity\Series,
+use ChaosTangent\FansubEbooks\Entity\Line,
+    ChaosTangent\FansubEbooks\Entity\Series,
     ChaosTangent\FansubEbooks\Entity\File;
 
 /**
@@ -17,6 +18,16 @@ use ChaosTangent\FansubEbooks\Entity\Series,
  */
 class LineRepository extends EntityRepository
 {
+    public function update(Line $line)
+    {
+        $this->_em->persist($line);
+        $this->_em->flush();
+
+        $cache = $this->_em->getConfiguration()->getResultCacheImpl();
+        $cache->delete('lines/'.$line->getId());
+        $cache->delete('lines/file/'.$line->getFile()->getId());
+    }
+
     /**
      * Get a line with relevant vote counts
      *
@@ -39,7 +50,10 @@ class LineRepository extends EntityRepository
             ->setMaxResults(1)
             ->setParameter('id', $id);
 
-        $result = $qb->getQuery()->getOneOrNullResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true, 300, 'lines/'.$id);
+
+        $result = $query->getOneOrNullResult();
 
         if ($result === null) {
             return $result;
@@ -74,7 +88,10 @@ class LineRepository extends EntityRepository
             ->addGroupBy('t.tweetId')
             ->setParameter('file', $file);
 
-        $result = $qb->getQuery()->getResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true, 300, 'lines/file/'.$file->getId());
+
+        $result = $query->getResult();
         $lines = [];
 
         foreach ($result as $row) {
@@ -102,8 +119,11 @@ class LineRepository extends EntityRepository
         $qb->select('COUNT(l)')
             ->from('Entity:Line', 'l');
 
+        $query = $qb->getQuery();
+        $query->useResultCache(true, 300, 'lines/total');
+
         try {
-            return $qb->getQuery()->getSingleScalarResult();
+            return $query->getSingleScalarResult();
         } catch (NoResultException $e) {
             return 0;
         }
@@ -318,7 +338,10 @@ class LineRepository extends EntityRepository
             ->setFirstResult(($page - 1) * $perPage)
             ->setMaxResults($perPage);
 
-        $result = $qb->getQuery()->getResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true, 300, 'lines/popular/'.$page.'-'.$perPage);
+
+        $result = $query->getResult();
         $ret = [];
 
         foreach ($result as $row) {

@@ -57,9 +57,10 @@ class LinesController extends Controller
             throw $this->createAccessDeniedException('Unable to vote from that IP address again');
         }
 
-        $om = $this->get('doctrine')->getManager();
-        $om->persist($vote);
-        $om->flush();
+        $line->addVote($vote);
+
+        $lineRepo = $this->get('fansubebooks.entity.repository.line_repository');
+        $lineRepo->update($line);
 
         if ($request->getRequestFormat() == 'json') {
             $serializer = $this->get('jms_serializer');
@@ -94,9 +95,10 @@ class LinesController extends Controller
             throw $this->createAccessDeniedException('Unable to vote from that IP address again');
         }
 
-        $om = $this->get('doctrine')->getManager();
-        $om->persist($vote);
-        $om->flush();
+        $line->addVote($vote);
+
+        $lineRepo = $this->get('fansubebooks.entity.repository.line_repository');
+        $lineRepo->update($line);
 
         if ($request->getRequestFormat() == 'json') {
             $serializer = $this->get('jms_serializer');

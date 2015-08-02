@@ -40,7 +40,7 @@ class Line
      */
     private $file;
     /**
-     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Vote", mappedBy="line")
+     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Vote", mappedBy="line", cascade="all")
      * @Serializer\Exclude
      */
     private $votes;
@@ -237,14 +237,15 @@ class Line
     }
 
     /**
-     * Add votes
+     * Add vote
      *
-     * @param \ChaosTangent\FansubEbooks\Entity\Vote $votes
+     * @param \ChaosTangent\FansubEbooks\Entity\Vote $vote
      * @return Line
      */
-    public function addVote(\ChaosTangent\FansubEbooks\Entity\Vote $votes)
+    public function addVote(\ChaosTangent\FansubEbooks\Entity\Vote $vote)
     {
-        $this->votes[] = $votes;
+        $vote->setLine($this);
+        $this->votes[] = $vote;
 
         return $this;
     }

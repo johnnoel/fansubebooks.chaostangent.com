@@ -44,8 +44,11 @@ class TweetRepository extends EntityRepository
         $qb->select('COUNT(t)')
             ->from('Entity:Tweet', 't');
 
+        $query = $qb->getQuery();
+        $query->useResultCache(true, 300, 'tweets/total');
+
         try {
-            return $qb->getQuery()->getSingleScalarResult();
+            return $query->getSingleScalarResult();
         } catch (NoResultException $e) {
             return 0;
         }
