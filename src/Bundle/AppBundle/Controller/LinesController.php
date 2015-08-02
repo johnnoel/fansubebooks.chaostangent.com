@@ -71,6 +71,7 @@ class LinesController extends Controller
         // todo redirect to referrer
         return $this->redirect($this->generateUrl('line', [
             'id' => $line->getId(),
+            'voted_up' => true,
         ]));
     }
 
@@ -107,6 +108,7 @@ class LinesController extends Controller
         // todo redirect to referrer
         return $this->redirect($this->generateUrl('line', [
             'id' => $line->getId(),
+            'voted_down' => true,
         ]));
     }
 
@@ -141,6 +143,7 @@ class LinesController extends Controller
 
         return $this->redirect($this->generateUrl('line', [
             'id' => $line->getId(),
+            'flagged' => true,
         ]));
     }
 

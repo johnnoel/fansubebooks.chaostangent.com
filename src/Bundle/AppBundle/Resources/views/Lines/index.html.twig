@@ -7,6 +7,13 @@
 
 {% block body %}
 <article>
+    {% if app.request.query.get('voted_up', false) %}
+    <br><div class="alert">Your vote up for this line has been counted!</div>
+    {% elseif app.request.query.get('voted_down', false) %}
+    <br><div class="alert">Your vote down for this line has been counted!</div>
+    {% elseif app.request.query.get('flagged', false) %}
+    <br><div class="alert">Thanks for flagging this line as inappropriate / incorrect!</div>
+    {% endif %}
     {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line, 'jumbo': true } %}
     <p><b>#{{ line.id }}</b>, from: <a href="{{ path('series_view', { 'alias': series.alias }) }}">{{ series.title }}</a> - <a href="{{ path('series_file', { 'alias': series.alias, 'file_id': file.id }) }}">{{ file.name }}</a></p>
 
