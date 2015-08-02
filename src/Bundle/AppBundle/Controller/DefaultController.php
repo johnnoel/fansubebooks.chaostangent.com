@@ -33,7 +33,7 @@ class DefaultController extends Controller
 
         $lineRepo = $om->getRepository('Entity:Line');
         $lineCount = $lineRepo->getTotal();
-        $upcoming = $lineRepo->getQueue(6);
+        $upcoming = $lineRepo->getQueue(3);
 
         $seriesRepo = $om->getRepository('Entity:Series');
         $updated = $seriesRepo->getMostRecentlyUpdated(4);
