@@ -51,7 +51,7 @@ class Client
     {
         $resp = $this->client->post('statuses/update.json', [
             'form_params' => [
-                'status' => urlencode($status),
+                'status' => $status,
                 'trim_user' => 'true',
             ],
         ]);
