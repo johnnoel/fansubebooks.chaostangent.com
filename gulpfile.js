@@ -9,7 +9,7 @@ var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
-    productionMode = false;
+    productionMode = !!require('yargs').argv.production;
 
 var config = {
     theme: {
@@ -41,6 +41,10 @@ gulp.task('theme:main', function() {
         .pipe(plugins.sourcemaps.init({ loadMaps: true }))
         .pipe(plugins.sass())
         .on('error', plugins.util.log)
+        .pipe(plugins.if(productionMode, plugins.minifyCss({
+            debug: !productionMode,
+            keepSpecialComments: 0
+        })))
         .pipe(plugins.rename(c.destName))
         .pipe(plugins.autoprefixer({
             browsers: ['last 2 versions'],
@@ -57,6 +61,10 @@ gulp.task('theme:fonts', function() {
         .pipe(plugins.sourcemaps.init({ loadMaps: true }))
         .pipe(plugins.sass())
         .on('error', plugins.util.log)
+        .pipe(plugins.if(productionMode, plugins.minifyCss({
+            debug: !productionMode,
+            keepSpecialComments: 0
+        })))
         .pipe(plugins.rename('fonts.css'))
         .pipe(plugins.sourcemaps.write('./'))
         .pipe(gulp.dest(c.dest));
@@ -70,6 +78,8 @@ gulp.task('js:head', function() {
     return gulp.src(c.src)
         .pipe(plugins.sourcemaps.init({ loadMaps: true }))
         .pipe(plugins.concat('head.js'))
+        .pipe(plugins.if(productionMode, plugins.uglify()))
+        .on('error', plugins.util.log)
         .pipe(plugins.sourcemaps.write('./'))
         .pipe(gulp.dest(c.dest));
 });
