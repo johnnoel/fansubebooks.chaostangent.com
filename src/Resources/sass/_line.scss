@@ -1,14 +1,13 @@
 .line-grid {
     display: flex;
     flex-flow: row wrap;
-    margin: 12px -12px 0;
+    margin: 12px 0 0;
 
     .line {
         display: flex;
         flex-flow: column nowrap;
-        flex: 1 0 350px;
+        flex: 1 0 340px;
         box-sizing: border-box;
-        margin: 0 12px 24px;
 
         .line-line {
             flex: 1 0 auto;
