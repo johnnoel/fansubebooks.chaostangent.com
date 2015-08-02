@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             // external extras
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
             // project specific
             new ChaosTangent\FansubEbooks\Bundle\AppBundle\ChaosTangentFansubEbooksAppBundle(),
         );

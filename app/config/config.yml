@@ -92,3 +92,36 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# Redis
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: redis://localhost
+            logging: %kernel.debug%
+            options:
+                profile: 2.8
+        cache:
+            type: predis
+            alias: cache
+            dsn: redis://localhost/1
+            logging: %kernel.debug%
+        session:
+            type: predis
+            alias: session
+            dsn: redis://localhost/2
+            logging: false
+    session:
+        client: session
+    doctrine:
+        metadata_cache:
+            client: cache
+            entity_manager: default
+        result_cache:
+            client: cache
+            entity_manager: default
+        query_cache:
+            client: cache
+            entity_manager: default

@@ -36,7 +36,9 @@
         "guzzlehttp/guzzle": "^6.0",
         "guzzlehttp/oauth-subscriber": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "^2.2",
-        "chaostangent/php-ass": "^1.0"
+        "chaostangent/php-ass": "^1.0",
+        "snc/redis-bundle": "^1.1",
+        "predis/predis": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
