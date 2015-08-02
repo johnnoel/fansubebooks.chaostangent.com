@@ -22,11 +22,31 @@ class SearchEvent extends Event
     /** @var Series */
     protected $series;
 
-    public function __construct($query, $page = 1, $time = 0, Series $series = null)
+    public function __construct($query, $page = 1, $time = 0.0, Series $series = null)
     {
         $this->query = $query;
         $this->page = $page;
         $this->time = $time;
         $this->series = $series;
+    }
+
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    public function getSeries()
+    {
+        return $this->series;
     }
 }

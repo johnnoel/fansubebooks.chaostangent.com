@@ -8,6 +8,14 @@ services:
         class: ChaosTangent\FansubEbooks\Twitter\Client
         arguments: [ %twitter% ]
 
+    fansubebooks.listener.logging_listener:
+        class: ChaosTangent\FansubEbooks\EventListener\LoggingListener
+        calls:
+            - [ setLogger, [ @logger ] ]
+        tags:
+            - { name: kernel.event_subscriber }
+            - { name: monolog.logger, channel: search }
+
     fansubebooks.entity.repository.line_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
