@@ -50,6 +50,8 @@ class SeriesRepository extends EntityRepository
 
         $query = $this->_em->createNativeQuery($sql, $rsm);
         $query->setParameter('alias', $alias);
+        $query->useResultCache(true, 300, 'series/alias/'.$alias);
+
         $result = $query->getOneOrNullResult();
 
         return $result[0]->setFileCount(intval($result['file_count']))
@@ -114,6 +116,7 @@ class SeriesRepository extends EntityRepository
             'limit' => $perPage,
             'offset' => ($page - 1) * $perPage,
         ]);
+        $query->useResultCache(true, 300, 'series/all/'.$page.'-'.$perPage);
 
         $result = $query->getResult();
         $ret = [];
@@ -223,7 +226,10 @@ class SeriesRepository extends EntityRepository
             ->orderBy('last_updated', 'DESC')
             ->setMaxResults($count);
 
-        $result = $qb->getQuery()->getResult();
+        $query = $qb->getQuery();
+        $query->useResultCache(true, 300, 'series/updated/'.$count);
+
+        $result = $query->getResult();
         $ret = [];
 
         foreach ($result as $row) {
