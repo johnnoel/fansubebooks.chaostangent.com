@@ -51,6 +51,14 @@ body {
     color: $grey-lighter;
     padding: 12px 0 24px;
     text-align: right;
+
+    a {
+        color: $grey-lighter;
+
+        &:hover {
+            color: $orange;
+        }
+    }
 }
 
 /*
