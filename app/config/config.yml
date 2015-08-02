@@ -36,6 +36,7 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    exception_controller: fansubebooks.controller.exception:showAction
     globals:
         datetime_format: 'D, d M Y H:i:s O' # RFC1123
     paths:
