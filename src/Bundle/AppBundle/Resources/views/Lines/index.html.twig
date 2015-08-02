@@ -9,7 +9,7 @@
 <meta name="twitter:site" content="fansub_ebooks">
 <meta name="og:title" content="FansubEbooks line #{{ line.id }}">
 <meta name="og:description" content="{{ line.line|truncate(200) }}">
-{% if line.series.image is not empty %}
+{% if line.series.thumbnail is not empty %}
 <meta name="og:image" content="{{ line.series.thumbnail }}">
 {% endif %}
 {% endspaceless %}

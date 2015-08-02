@@ -7,6 +7,18 @@
     {% set results = [] %}
 {% endif %}
 
+{% block head %}
+{% spaceless %}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="fansub_ebooks">
+<meta name="og:title" content="{{ series.title }} on FansubEbooks">
+<meta name="og:description" content="Explore all {{ series.lineCount|number_format }} in {{ series.fileCount|number_format }} for {{ series.title }} on FansubEbooks">
+{% if series.thumbnail is not empty %}
+<meta name="og:image" content="{{ series.image }}">
+{% endif %}
+{% endspaceless %}
+{% endblock %}
+
 {% block title %}{{ series.title }}{% endblock %}
 
 {% block body %}

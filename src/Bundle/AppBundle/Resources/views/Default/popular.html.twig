@@ -1,6 +1,15 @@
 {% extends '::layout.html.twig' %}
 {% set location = 'popular' %}
 
+{% block head %}
+{% spaceless %}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="fansub_ebooks">
+<meta name="og:title" content="Popular lines on FansubEbooks">
+<meta name="og:description" content="Explore the most popular lines on FansubEbooks">
+{% endspaceless %}
+{% endblock %}
+
 {% block title %}Popular{% endblock %}
 
 {% block body %}
