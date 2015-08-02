@@ -60,7 +60,7 @@ class HelpController extends Controller
 
             $authChecker = $this->get('security.authorization_checker');
             if ($authChecker->isGranted('suggest', $suggestion) === false) {
-                throw $this->createAccessDeniedException('Unable to make series suggestion from that IP address again');
+                throw new AccessDeniedHttpException('Unable to make series suggestion from that IP address again');
             }
 
             $om = $this->get('doctrine')->getManager();
@@ -94,7 +94,7 @@ class HelpController extends Controller
             $authChecker = $this->get('security.authorization_checker');
             if ($authChecker->isGranted('suggest', $suggestion) === false) {
                 // todo clean up upload
-                throw $this->createAccessDeniedException('Unable to make series suggestion from that IP address again');
+                throw new AccessDeniedHttpException('Unable to make series suggestion from that IP address again');
             }
 
             // todo try/catch

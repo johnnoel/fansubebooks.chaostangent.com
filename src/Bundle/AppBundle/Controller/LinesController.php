@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use ChaosTangent\FansubEbooks\Entity\Line,
     ChaosTangent\FansubEbooks\Entity\Vote,
     ChaosTangent\FansubEbooks\Entity\Flag;
@@ -54,7 +55,7 @@ class LinesController extends Controller
 
         $authChecker = $this->get('security.authorization_checker');
         if ($authChecker->isGranted('voteup', $vote) === false) {
-            throw $this->createAccessDeniedException('Unable to vote from that IP address again');
+            throw new AccessDeniedHttpException('Unable to vote from that IP address again');
         }
 
         $line->addVote($vote);
@@ -92,7 +93,7 @@ class LinesController extends Controller
 
         $authChecker = $this->get('security.authorization_checker');
         if ($authChecker->isGranted('votedown', $vote) === false) {
-            throw $this->createAccessDeniedException('Unable to vote from that IP address again');
+            throw new AccessDeniedHttpException('Unable to vote from that IP address again');
         }
 
         $line->addVote($vote);
@@ -129,7 +130,7 @@ class LinesController extends Controller
 
         $authChecker = $this->get('security.authorization_checker');
         if ($authChecker->isGranted('flag', $flag) === false) {
-            throw $this->createAccessDeniedException('Unable to flag from that IP address again');
+            throw new AccessDeniedHttpException('Unable to flag from that IP address again');
         }
 
         $om = $this->get('doctrine')->getManager();
