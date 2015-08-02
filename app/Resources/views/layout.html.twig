@@ -15,6 +15,7 @@
         Code available at: https://github.com/johnnoel/fansubebooks.chaostangent.com
         -->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        {% block head %}{% endblock %}
 
         <title>{% block title %}{% endblock %}{% if block('title') is not empty %} : {% endif %}Fansub Ebooks</title>
 
