@@ -23,5 +23,11 @@ monolog:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
+            channels: ["!search"]
         console:
             type:  console
+        searches:
+            type: stream
+            path: "%kernel.logs_dir%/search.log"
+            level: info
+            channels: ["search"]

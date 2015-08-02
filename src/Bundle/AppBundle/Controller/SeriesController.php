@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request,
 use JMS\Serializer\SerializationContext;
 use ChaosTangent\FansubEbooks\Entity\Series,
     ChaosTangent\FansubEbooks\Entity\File;
+use ChaosTangent\FansubEbooks\Event\SearchEvent,
+    ChaosTangent\FansubEbooks\Event\SearchEvents;
 
 /**
  * Series controller
@@ -105,6 +107,9 @@ class SeriesController extends Controller
         $results = $lineRepo->search($query, $page, 30, $series);
 
         $searchTime = microtime(true) - $start;
+
+        $searchEvent = new SearchEvent($query, $page, $searchTime, $series);
+        $this->get('event_dispatcher')->dispatch(SearchEvents::SEARCH_SERIES, $searchEvent);
 
         if ($request->getRequestFormat() == 'json') {
             $serializer = $this->get('jms_serializer');

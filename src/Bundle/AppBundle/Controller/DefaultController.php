@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use ChaosTangent\FansubEbooks\Event\SearchEvent,
+    ChaosTangent\FansubEbooks\Event\SearchEvents;
 
 /**
  * Default controller
@@ -72,6 +74,9 @@ class DefaultController extends Controller
             }
 
             $searchTime = microtime(true) - $start;
+
+            $searchEvent = new SearchEvent($query, $page, $searchTime);
+            $this->get('event_dispatcher')->dispatch(SearchEvents::SEARCH, $searchEvent);
         }
 
         return [
