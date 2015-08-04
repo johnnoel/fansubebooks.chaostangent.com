@@ -48,4 +48,31 @@ class FlagRepository extends EntityRepository
         return intval($qb->getQuery()->getSingleScalarResult());
 
     }
+
+    /**
+     * Get flags and associated lines within a time period
+     *
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @return array
+     */
+    public function getFlagsByPeriod(\DateTime $start = null, \DateTime $end = null)
+    {
+        $qb = $this->createQueryBuilder('f');
+        $qb->addSelect('l')
+            ->join('f.line', 'l')
+            ->orderBy('f.added', 'DESC');
+
+        if ($start !== null) {
+            $qb->andWhere($qb->expr()->gte('f.added', ':start'))
+                ->setParameter('start', $start);
+        }
+
+        if ($end !== null) {
+            $qb->andWhere($qb->expr()->lte('f.added', ':end'))
+                ->setParameter('end', $end);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
