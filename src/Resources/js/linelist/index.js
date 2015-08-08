@@ -10,7 +10,7 @@ import * as reducers from './reducers';
  */
 
 let app = combineReducers(reducers);
-let store = createStore(app, { pages: 200 });
+let store = createStore(app, window.__INITIAL_STATE__);
 
 React.render(<Provider store={store}>
     {() => <LineList />}

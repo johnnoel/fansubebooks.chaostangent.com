@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import map from 'lodash/collection/map';
 import { changePage } from '../actions';
 import Line from '../components/Line';
 import Pagination from '../components/Pagination';
@@ -12,7 +13,16 @@ import Pagination from '../components/Pagination';
  */
 class LineList extends Component {
     renderLines(lines) {
-        return <Line id={1} line="Hooray, I love miso!" positiveVoteCount={3} negativeVoteCount={0} tweetId="285279211990704129" />;
+        return map(lines, (line) => {
+            return <Line
+                id={line.id}
+                key={line.id}
+                line={line.line}
+                positiveVoteCount={line.positive_vote_count}
+                negativeVoteCount={line.negative_vote_count}
+                tweetId={line.tweet_id}
+            />;
+        });
     }
 
     render() {
@@ -20,7 +30,7 @@ class LineList extends Component {
 
         return <div>
             <div className="line-grid">
-                {this.renderLines()}
+                {this.renderLines(lines)}
             </div>
             <Pagination pages={pages} page={page} onPageClick={page => dispatch(changePage(page))} />
         </div>;

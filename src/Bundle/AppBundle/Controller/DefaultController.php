@@ -115,6 +115,11 @@ class DefaultController extends Controller
      */
     public function jsTestAction()
     {
-        return [];
+        $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
+        $lines = $lineRepo->getPopular(1, 50);
+
+        return [
+            'lines' => $lines,
+        ];
     }
 }
