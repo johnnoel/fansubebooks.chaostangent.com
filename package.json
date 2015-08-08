@@ -34,12 +34,14 @@
     "gulp-util": "^3.0.6",
     "immutable": "^3.7.4",
     "lodash": "^3.10.1",
+    "native-promise-only": "^0.8.1",
     "react": "^0.13.3",
     "react-redux": "^0.5.3",
     "redux": "^1.0.0-rc",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.3.0",
+    "xhr": "^2.0.3",
     "yargs": "^3.15.0"
   }
 }

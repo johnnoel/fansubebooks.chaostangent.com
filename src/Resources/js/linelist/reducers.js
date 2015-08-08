@@ -5,27 +5,40 @@ import { CHANGE_PAGE } from './actions';
  * @package FansubEbooks
  */
 
-export function page(state = 1, action) {
+function page(state = 1, action) {
     if (action) {
         switch (action.type) {
             case CHANGE_PAGE:
-                return action.payload;
+                return state;
         }
     }
 
     return state;
 }
 
-export function pages(state = 1, action) {
+function pages(state = 1, action) {
     //switch (action.type) {
     //}
 
     return state;
 }
 
-export function lines(state = [], action) {
+function lines(state = [], action) {
     //switch (action.type) {
     //}
 
     return state;
+}
+
+export default function root(state, action) {
+    switch (action.type) {
+        case CHANGE_PAGE:
+            return {
+                page: page(action.payload.page, action),
+                pages: pages(state.pages),
+                lines: lines(action.payload.lines, action)
+            };
+        default:
+            return state;
+    }
 }

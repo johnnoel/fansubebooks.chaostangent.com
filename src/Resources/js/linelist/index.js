@@ -1,16 +1,17 @@
 import React from 'react';
-import { combineReducers, createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import promiseMiddleware from './middleware/promise';
 import LineList from './containers/LineList';
-import * as reducers from './reducers';
+import app from './reducers';
 
 /**
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
  */
 
-let app = combineReducers(reducers);
-let store = createStore(app, window.__INITIAL_STATE__);
+let mw = applyMiddleware(promiseMiddleware)(createStore);
+let store = mw(app, window.__INITIAL_STATE__);
 
 React.render(<Provider store={store}>
     {() => <LineList />}

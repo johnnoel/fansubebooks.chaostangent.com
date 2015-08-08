@@ -6,7 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpFoundation\Response;
 use ChaosTangent\FansubEbooks\Event\SearchEvent,
     ChaosTangent\FansubEbooks\Event\SearchEvents;
 
@@ -102,6 +103,14 @@ class DefaultController extends Controller
 
         $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
         $lines = $lineRepo->getPopular($page, 50);
+
+        if ($request->getRequestFormat() == 'json') {
+            $serializer = $this->get('jms_serializer');
+
+            return new Response($serializer->serialize($lines->getResults(), 'json'), 200, [
+                'Content-Type' => 'application/json',
+            ]);
+        }
 
         return [
             'lines' => $lines,
