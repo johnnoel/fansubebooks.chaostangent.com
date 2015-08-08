@@ -49,7 +49,8 @@ class LinesAPI {
                     return;
                 }
 
-                resolve(JSON.parse(body));
+                resolve(lineId);
+                //resolve(JSON.parse(body));
             });
         });
     }
@@ -71,7 +72,8 @@ class LinesAPI {
                     return;
                 }
 
-                resolve(JSON.parse(body));
+                resolve(lineId);
+                //resolve(JSON.parse(body));
             });
         });
     }
@@ -93,7 +95,8 @@ class LinesAPI {
                     return;
                 }
 
-                resolve(JSON.parse(body));
+                resolve(lineId);
+                //resolve(JSON.parse(body));
             });
         });
     }

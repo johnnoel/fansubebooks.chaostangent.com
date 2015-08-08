@@ -16,22 +16,24 @@ class Line extends Component {
     }
 
     render() {
+        const line = this.props.line;
+
         return <div className="line">
-            <p className="line-line">{this.props.line}</p>
+            <p className="line-line">{line.line}</p>
             <div className="line-actions">
                 <div className="line-voteup">
-                    <button type="button">Vote up</button>
+                    <button type="button" onClick={() => this.props.onVoteUp()}>Vote up</button>
                 </div>
                 <div className="line-votes">
-                    <span className="line-positivevotes">+{this.props.positiveVoteCount}</span> /
-                    <span className="line-negativevotes">-{this.props.negativeVoteCount}</span> /
-                    <span className="line-score">{this.props.positiveVoteCount - this.props.negativeVoteCount}</span>
+                    <span className="line-positivevotes">+{line.positive_vote_count}</span> /
+                    <span className="line-negativevotes">-{line.negative_vote_count}</span> /
+                    <span className="line-score">{line.positive_vote_count - line.negative_vote_count}</span>
                 </div>
                 <div className="line-votedown">
-                    <button type="button">Vote down</button>
+                    <button type="button" onClick={() => this.props.onVoteDown()}>Vote down</button>
                 </div>
                 <div className="line-flag">
-                    <button type="button">Flag</button>
+                    <button type="button" onClick={() => this.props.onFlag()}>Flag</button>
                 </div>
                 <div className="line-links">
                     <a href="" className="line-permalink">Permalink</a>
@@ -43,17 +45,22 @@ class Line extends Component {
 }
 
 Line.propTypes = {
-    id: PropTypes.number.isRequired,
-    line: PropTypes.string.isRequired,
-    positiveVoteCount: PropTypes.number,
-    negativeVoteCount: PropTypes.number,
-    tweetId: PropTypes.string
+    line: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        line: PropTypes.string.isRequired,
+        positive_vote_count: PropTypes.number,
+        negative_vote_count: PropTypes.number,
+        tweet_id: PropTypes.string
+    }).isRequired,
+    onVoteUp: PropTypes.func,
+    onVoteDown: PropTypes.func,
+    onFlag: PropTypes.func
 };
 
 Line.defaultProps = {
-    positiveVoteCount: 0,
-    negativeVoteCount: 0,
-    tweetId: null
+    onVoteUp: () => {},
+    onVoteDown: () => {},
+    onFlag: () => {}
 };
 
 export default Line;
