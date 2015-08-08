@@ -12,7 +12,7 @@ export default function promiseMiddleware() {
         }
 
         const promise = action.payload;
-        const [ PENDING, FULFILLED, REJECTED ] = action.types;
+        const [ PENDING, REJECTED ] = action.meta;
 
         next({
             type: PENDING
@@ -20,7 +20,7 @@ export default function promiseMiddleware() {
 
         return promise.then(
             payload => next({
-                type: FULFILLED,
+                type: action.type,
                 payload,
             }), error => next({
                 type: REJECTED,

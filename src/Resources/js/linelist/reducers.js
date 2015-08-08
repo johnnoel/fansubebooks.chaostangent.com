@@ -30,7 +30,7 @@ function lines(state = [], action) {
     return state;
 }
 
-export default function root(state, action) {
+export default function root(state = { page: 1, pages: 1, lines: [] }, action) {
     switch (action.type) {
         case CHANGE_PAGE:
             return {
