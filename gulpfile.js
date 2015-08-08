@@ -9,6 +9,9 @@ var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
+    browserify = require('browserify'),
+    babelify = require('babelify'),
+    watchify = require('watchify'),
     productionMode = !!require('yargs').argv.production;
 
 var config = {
@@ -30,6 +33,14 @@ var config = {
         head: {
             src: 'src/Resources/js/head/**/*.js',
             dest: 'web/js/'
+        },
+        vendor: {
+        },
+        linelist: {
+            src: 'src/Resources/js/linelist/',
+            entry: 'LineList.js',
+            destName: 'linelist.js',
+            destPath: 'web/js/'
         }
     }
 };
@@ -82,6 +93,41 @@ gulp.task('js:head', function() {
         .on('error', plugins.util.log)
         .pipe(plugins.sourcemaps.write('./'))
         .pipe(gulp.dest(c.dest));
+});
+
+/**
+ * Line list
+ *
+ * React component for a container of lines that may be paginated
+ */
+gulp.task('js:linelist', function() {
+    var c = config.js.linelist,
+        b = browserify({
+            entries: [ c.src+c.entry ],
+            transform: [ babelify ],
+            cache: {}, packageCache: {},
+            fullPaths: true,
+            debug: !productionMode
+        });
+
+    function bundle(b) {
+        return b.bundle()
+            .pipe(source(c.destName))
+            .pipe(buffer())
+            .pipe(plugins.sourcemaps.init({ loadMaps: true }))
+            .pipe(plugins.if(productionMode, plugins.uglify()))
+            .pipe(plugins.sourcemaps.write('./'))
+            .pipe(gulp.dest(c.destPath));
+    }
+
+    if (!productionMode) {
+        var w = watchify(b);
+        w.on('update', function() { bundle(w); });
+        w.on('log', plugins.util.log);
+        return bundle(w);
+    }
+
+    return bundle(b);
 });
 
 gulp.task('js', [ 'js:head' ]);
