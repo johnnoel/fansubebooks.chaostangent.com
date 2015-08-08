@@ -31,3 +31,7 @@ monolog:
             path: "%kernel.logs_dir%/search.log"
             level: info
             channels: ["search"]
+
+parameters:
+    router.request_context.host: fansubebooks.chaostangent.com
+    router.request_context.scheme: http

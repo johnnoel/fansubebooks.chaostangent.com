@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
+    del = require('del'),
     browserify = require('browserify'),
     babelify = require('babelify'),
     watchify = require('watchify'),
@@ -35,6 +36,14 @@ var config = {
             dest: 'web/js/'
         },
         vendor: {
+        },
+        routing: {
+            src: [
+                'vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.js',
+                'web/js/fos_js_routes.js'
+            ],
+            destPath: 'web/js/',
+            destName: 'routing.js'
         },
         linelist: {
             src: 'src/Resources/js/linelist/',
@@ -93,6 +102,37 @@ gulp.task('js:head', function() {
         .on('error', plugins.util.log)
         .pipe(plugins.sourcemaps.write('./'))
         .pipe(gulp.dest(c.dest));
+});
+
+/**
+ * Routing
+ *
+ * First generate the routing file in web/js/fos_js_routes.js
+ * Then combine all of the relevant files
+ * Then remove the web/js/fos_js_routes.js file
+ */
+gulp.task('js:routing:generate', function() {
+    var env = (productionMode) ? 'prod' : 'dev';
+    return gulp.src('')
+        .pipe(plugins.shell([
+            '/usr/bin/php app/console fos:js-routing:dump -q --env='+env
+        ]));
+});
+
+gulp.task('js:routing:concat', [ 'js:routing:generate' ], function() {
+    var c = config.js.routing;
+
+    return gulp.src(c.src)
+        .pipe(plugins.sourcemaps.init({ loadMaps: true }))
+        .pipe(plugins.concat(c.destName))
+        .pipe(plugins.if(productionMode, plugins.uglify()))
+        .on('error', plugins.util.log)
+        .pipe(plugins.sourcemaps.write('./'))
+        .pipe(gulp.dest(c.destPath));
+});
+
+gulp.task('js:routing', [ 'js:routing:generate', 'js:routing:concat' ], function(cb) {
+    del([ 'web/js/fos_js_routes.js' ], cb);
 });
 
 /**

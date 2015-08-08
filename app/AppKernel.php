@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             // external extras
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             // project specific
             new ChaosTangent\FansubEbooks\Bundle\AppBundle\ChaosTangentFansubEbooksAppBundle(),
         );

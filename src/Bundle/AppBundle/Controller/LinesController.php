@@ -42,7 +42,8 @@ class LinesController extends Controller
     /**
      * @Route("/l/{id}/voteup.{_format}", name="line_voteup",
      *      requirements={"id": "\d+", "_format": "|json"},
-     *      defaults={"_format": "html"}
+     *      defaults={"_format": "html"},
+     *      options={"expose": true}
      * )
      * @Method({"POST"})
      */
@@ -80,7 +81,8 @@ class LinesController extends Controller
     /**
      * @Route("/l/{id}/votedown.{_format}", name="line_votedown",
      *      requirements={"id": "\d+", "_format": "|json"},
-     *      defaults={"_format": "html"}
+     *      defaults={"_format": "html"},
+     *      options={"expose": true}
      * )
      * @Method({"POST"})
      */
@@ -118,7 +120,8 @@ class LinesController extends Controller
     /**
      * @Route("/l/{id}/flag.{_format}", name="line_flag",
      *      requirements={"id": "\d+", "_format": "|json"},
-     *      defaults={"_format": "html"}
+     *      defaults={"_format": "html"},
+     *      options={"expose": true}
      * )
      * @Method({"POST"})
      */

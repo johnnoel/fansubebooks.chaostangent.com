@@ -88,7 +88,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/popular", name="popular")
+     * @Route("/popular.{_format}", name="popular",
+     *      requirements={"_format": "|json"},
+     *      defaults={"_format": "html"},
+     *      options={"expose": true}
+     * )
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Default:popular.html.twig")
      */
