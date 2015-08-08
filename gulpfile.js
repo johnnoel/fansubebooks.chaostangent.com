@@ -38,7 +38,7 @@ var config = {
         },
         linelist: {
             src: 'src/Resources/js/linelist/',
-            entry: 'LineList.js',
+            entry: 'index.js',
             destName: 'linelist.js',
             destPath: 'web/js/'
         }

@@ -3,15 +3,15 @@ import React, { Component, PropTypes } from 'react';
 /**
  * Pagination component
  *
- * @author John Noel <john.noel@rckt.co.uk>
+ * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
  */
 class Pagination extends Component {
     renderPrevPage() {
         if (this.props.page > 1) {
-            return <a href="" className="btn btn-outline pagination-prev">
+            return <button type="button" className="btn btn-outline pagination-prev" onClick={() => this.props.onPageClick(this.props.page - 1)}>
                 &larr; Previous page
-            </a>;
+            </button>;
         }
 
         return <div className="btn btn-outline btn-disabled pagination-prev" aria-disabled="true">
@@ -22,7 +22,7 @@ class Pagination extends Component {
     renderPage(number) {
         let classes = (number == this.props.page) ? 'btn btn-action' : 'btn btn-outline';
         return <li key={'page-'+number}>
-            <a href="" className={classes}>{number}</a>
+            <button type="button" className={classes} onClick={() => this.props.onPageClick(number)}>{number}</button>
         </li>;
     }
 
@@ -65,9 +65,9 @@ class Pagination extends Component {
 
     renderNextPage() {
         if (this.props.page < this.props.pages) {
-            return <a href="" className="btn btn-outline pagination-next">
+            return <button type="button" className="btn btn-outline pagination-next" onClick={() => this.props.onPageClick(this.props.page + 1)}>
                 Next page &rarr;
-            </a>;
+            </button>;
         }
 
         return <div className="btn btn-outline btn-disabled pagination-next" aria-disabled="true">
@@ -86,11 +86,13 @@ class Pagination extends Component {
 
 Pagination.propTypes = {
     pages: PropTypes.number.isRequired,
-    page: PropTypes.number
+    page: PropTypes.number,
+    onPageClick: PropTypes.func
 };
 
 Pagination.defaultProps = {
-    page: 1
+    page: 1,
+    onPageClick: () => {}
 };
 
 export default Pagination;

@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 /**
  * Line component
  *
- * @author John Noel <john.noel@rckt.co.uk>
+ * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
  */
 class Line extends Component {
