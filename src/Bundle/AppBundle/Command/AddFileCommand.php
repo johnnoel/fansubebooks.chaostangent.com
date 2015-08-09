@@ -31,23 +31,29 @@ class AddFileCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $filePaths = $input->getArgument('files');
+
+        if (count($filePaths) === 0) {
+            $output->writeln('<error>Missing files argument</error>');
+            return;
+        }
+
         $seriesId = $input->getArgument('series');
 
         $om = $this->getContainer()->get('doctrine')->getManager();
         $seriesRepo = $om->getRepository('Entity:Series');
 
         $series = $seriesRepo->findOneByAlias($seriesId);
-        if ($series === null) {
+        if ($series === null && intval($seriesId) > 0) {
             $series = $seriesRepo->find($seriesId);
+        }
 
-            if ($series === null) {
-                $output->writeln('<error>Could not find series with alias/ID: '.$seriesId.'</error>');
-                return;
-            }
+        if ($series === null) {
+            $output->writeln('<error>Could not find series with alias/ID: '.$seriesId.'</error>');
+            return;
         }
 
         $fileRepo = $om->getRepository('Entity:File');
-        $filePaths = $input->getArgument('files');
         $files = [];
 
         foreach ($filePaths as $file) {
