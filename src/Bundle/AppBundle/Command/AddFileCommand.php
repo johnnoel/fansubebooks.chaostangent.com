@@ -81,15 +81,31 @@ class AddFileCommand extends ContainerAwareCommand
             }
 
             $events = $script->getBlock('Events');
+            // keep a rolling buffer of lines, ensures no repeats due to
+            // style overrides and whatnot
+            $buffer = [];
+
             // gather all of the Dialogue lines from Events block
+            // todo check $events is time ordered
             foreach ($events as $line) {
                 if (!($line instanceof Dialogue)) {
                     continue;
                 }
 
-                $text = trim($line->getTextWithoutStyleOverrides());
+                $text = trim($line->getVisibleText());
                 if (empty($text)) {
                     continue;
+                }
+
+                // if we've seen this line in the last x unique lines, ignore it
+                if (in_array($text, $buffer)) {
+                    continue;
+                }
+
+                // keep up to 10 lines
+                $buffer[] = $text;
+                if (count($buffer) > 10) {
+                    array_shift($buffer);
                 }
 
                 $l = new Line();

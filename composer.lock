@@ -48,16 +48,16 @@
         },
         {
             "name": "chaostangent/php-ass",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnnoel/php-ass.git",
-                "reference": "62480bf46240544741e176cb2dc5fe424c1433df"
+                "reference": "5fd6048c2e24d6436b3f46caaf55062e918983be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnnoel/php-ass/zipball/62480bf46240544741e176cb2dc5fe424c1433df",
-                "reference": "62480bf46240544741e176cb2dc5fe424c1433df",
+                "url": "https://api.github.com/repos/johnnoel/php-ass/zipball/5fd6048c2e24d6436b3f46caaf55062e918983be",
+                "reference": "5fd6048c2e24d6436b3f46caaf55062e918983be",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
                 "subtitle",
                 "subtitles"
             ],
-            "time": "2015-08-01 15:21:08"
+            "time": "2015-08-09 09:46:01"
         },
         {
             "name": "doctrine/annotations",
