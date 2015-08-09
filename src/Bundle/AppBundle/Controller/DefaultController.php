@@ -116,19 +116,4 @@ class DefaultController extends Controller
             'lines' => $lines,
         ];
     }
-
-    /**
-     * @Route("/test", name="test")
-     * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Default:test.html.twig")
-     */
-    public function jsTestAction()
-    {
-        $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
-        $lines = $lineRepo->getPopular(1, 50);
-
-        return [
-            'lines' => $lines,
-        ];
-    }
 }
