@@ -8,7 +8,7 @@
         <div class="tweet-tweet">
             {{ latest_tweet.line.line }}
         </div>
-        <p class="tweet-series">From: <a href="{{ path('series_view', { 'alias': latest_tweet.line.file.series.alias }) }}">{{ latest_tweet.line.file.series.title }}</a></p>
+        <p class="tweet-series">From: <a href="{{ path('line', { 'id': latest_tweet.line.id }) }}">#{{ latest_tweet.line.id }}</a> / <a href="{{ path('series_view', { 'alias': latest_tweet.line.file.series.alias }) }}">{{ latest_tweet.line.file.series.title }}</a></p>
         <div class="tweet-details">
             <div class="tweet-actions">
                 <a href="https://twitter.com/fansub_ebooks" class="tweet-account">@fansub_ebooks</a>
