@@ -12,6 +12,20 @@ body {
 }
 
 /*
+ * Skip to content
+ */
+#skip-to {
+    position: absolute;
+    left: 0; top: 0;
+    background: $grey-darker;
+    color: $beige;
+
+    &:focus, &:active {
+        z-index: 1000;
+    }
+}
+
+/*
  * Layout
  */
 #header {
