@@ -504,6 +504,21 @@ input[type="text"] {
     }
 }
 
+.side-image {
+    float: right;
+    width: 33%;
+
+    img {
+        display: inline-block;
+        border: 1px solid $beige-darker;
+    }
+}
+
+.side-image-otherside, .side-image + .content {
+    padding-right: 24px;
+    margin-right: 33%;
+}
+
 .form-group {
     margin-bottom: 3px;
     width: 44%;

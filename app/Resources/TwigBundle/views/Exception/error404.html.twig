@@ -9,16 +9,21 @@
         <h2>404 not found</h2>
     </header>
 
-    <aside class="side-nav"></aside>
+    <aside class="side-image">
+        <img src="{{ asset('img/404-yuruyuri.jpg') }}" alt="">
+    </aside>
 
-    <div class="content">
-        <div class="alert">The page you were looking for wasn't found.</div>
-        <p>This probably shouldn't have happened. You're likely quite annoyed by now. How about a random line to sooth your temper?</p>
+    <div class="side-image-otherside">
+        <div class="content">
+            <div class="alert">The page you were looking for wasn't found.</div>
+            <p>This probably shouldn't have happened. You're likely quite annoyed by now. How about a random line to sooth your temper?</p>
+        </div>
+
+        {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': random_line, 'jumbo': true } %}
+
+        <div class="content">
+            <p>No? <a href="https://twitter.com/fansub_ebooks">Tweet @fansub_ebooks</a> and describe the problem so it can get sorted quick as you blink.</p>
+        </div>
     </div>
-
-    {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': random_line, 'jumbo': true } %}
-
-    <div class="content">
-        <p>No? <a href="https://twitter.com/fansub_ebooks">Tweet @fansub_ebooks</a> and describe the problem so it can get sorted quick as you blink.</p>
 </article>
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends '::layout.html.twig' %}
+{% set location = '' %}
+
+{% block title %}500 internal server error{% endblock %}
+
+{% block body %}
+<article>
+    <header class="page-header">
+        <h2>500 internal server error</h2>
+    </header>
+
+    <aside class="side-image">
+        <img src="{{ asset('img/500-tsukuyomi.jpg') }}" alt="">
+    </aside>
+
+    <div class="content">
+        <div class="alert">Something went wrong with the last action</div>
+        <p>This definitely shouldn't have happened. Sorry about that.</p>
+        <p>It's been logged and should be sorted soon. Not being sorted quick enough? <a href="https://twitter.com/fansub_ebooks">Tweet @fansub_ebooks</a> to see what's going on.</p>
+    </div>
+</article>
+{% endblock %}
