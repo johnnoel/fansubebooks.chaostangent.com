@@ -36,6 +36,14 @@ var config = {
             dest: 'web/js/'
         },
         vendor: {
+            src: 'vendor.js',
+            dest: 'web/js/',
+            externals: [
+                { id: 'react', expose: 'react' },
+                { id: 'redux', expose: 'redux' },
+                { id: 'xhr', expose: 'xhr' },
+                { id: 'native-promise-only', expose: 'native-promise-only' }
+            ]
         },
         routing: {
             src: [
@@ -105,6 +113,54 @@ gulp.task('js:head', function() {
 });
 
 /**
+ * Get a vendor aware browserify package
+ *
+ * You'll need to add an entry point once you've obtained this
+ */
+function getBrowserify() {
+    var b = browserify({
+        transform: [ babelify ],
+        cache: {}, packageCache: {},
+        fullPaths: false,
+        debug: !productionMode
+    });
+
+    config.js.vendor.externals.forEach(function(external) {
+        b.external(external.id);
+    });
+
+    return b;
+}
+
+/**
+ * Vendor
+ *
+ * A browserify bundle of commonly used libraries
+ */
+gulp.task('js:vendor', function() {
+    var c = config.js.vendor,
+        b = browserify({
+            cache: {}, packageCache: {},
+            fullPaths: false,
+            debug: !productionMode
+        });
+
+    c.externals.forEach(function(external) {
+        b.require(external.id, { expose: external.expose });
+    });
+
+    return b.bundle()
+        .pipe(source(c.src))
+        .pipe(buffer())
+        .pipe(plugins.sourcemaps.init({ loadMaps: true }))
+        .pipe(plugins.if(productionMode, plugins.uglify()))
+        .pipe(plugins.sourcemaps.write('./'))
+        .pipe(plugins.size({ showFiles: true }))
+        .pipe(plugins.size({ showFiles: true, gzip: true }))
+        .pipe(gulp.dest(c.dest));
+});
+
+/**
  * Routing
  *
  * First generate the routing file in web/js/fos_js_routes.js
@@ -142,13 +198,9 @@ gulp.task('js:routing', [ 'js:routing:generate', 'js:routing:concat' ], function
  */
 gulp.task('js:linelist', function() {
     var c = config.js.linelist,
-        b = browserify({
-            entries: [ c.src+c.entry ],
-            transform: [ babelify ],
-            cache: {}, packageCache: {},
-            fullPaths: true,
-            debug: !productionMode
-        });
+        b = getBrowserify();
+
+    b.add(c.src+c.entry);
 
     function bundle(b) {
         return b.bundle()
