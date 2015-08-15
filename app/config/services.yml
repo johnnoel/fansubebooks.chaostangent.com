@@ -16,6 +16,13 @@ services:
             - { name: kernel.event_subscriber }
             - { name: monolog.logger, channel: search }
 
+    fansubebooks.serializer.context:
+        class: JMS\Serializer\Context
+        factory: [ JMS\Serializer\SerializationContext, create ]
+        calls:
+            - [ setGroups, [ [ 'Default' ] ] ]
+            - [ enableMaxDepthChecks, [ 1 ] ]
+
     fansubebooks.entity.repository.series_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager

@@ -41,6 +41,7 @@ var config = {
             externals: [
                 { id: 'react', expose: 'react' },
                 { id: 'redux', expose: 'redux' },
+                { id: 'react-redux', expose: 'react-redux' },
                 { id: 'xhr', expose: 'xhr' },
                 { id: 'native-promise-only', expose: 'native-promise-only' }
             ]
@@ -57,6 +58,14 @@ var config = {
             src: 'src/Resources/js/linelist/',
             entry: 'index.js',
             destName: 'linelist.js',
+            destPath: 'web/js/'
+        },
+
+        // page/route specific
+        home: {
+            src: 'src/Resources/js/',
+            entry: 'home.js',
+            destName: 'home.js',
             destPath: 'web/js/'
         }
     }
@@ -200,7 +209,9 @@ gulp.task('js:linelist', function() {
     var c = config.js.linelist,
         b = getBrowserify();
 
-    b.add(c.src+c.entry);
+    //b.add(c.src+c.entry);
+    // note: not add, expose this as an external package
+    b.require('./'+c.src+c.entry, { expose: 'linelist' });
 
     function bundle(b) {
         return b.bundle()
@@ -220,6 +231,26 @@ gulp.task('js:linelist', function() {
     }
 
     return bundle(b);
+});
+
+gulp.task('js:home', function() {
+    var c = config.js.home,
+        b = getBrowserify();
+
+    b.add(c.src+c.entry);
+    b.external('linelist');
+
+    function bundle(b, c) {
+        return b.bundle()
+            .pipe(source(c.destName))
+            .pipe(buffer())
+            .pipe(plugins.sourcemaps.init({ loadMaps: true }))
+            .pipe(plugins.if(productionMode, plugins.uglify()))
+            .pipe(plugins.sourcemaps.write('./'))
+            .pipe(gulp.dest(c.destPath));
+    }
+
+    return bundle(b, c);
 });
 
 gulp.task('js', [ 'js:head' ]);

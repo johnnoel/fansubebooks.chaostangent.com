@@ -39,11 +39,15 @@ class DefaultController extends Controller
         $seriesRepo = $om->getRepository('Entity:Series');
         $updated = $seriesRepo->getMostRecentlyUpdated(4);
 
+        $serializer = $this->get('jms_serializer');
+        $context = $this->get('fansubebooks.serializer.context');
+
         return [
             'latest_tweet' => $latestTweet,
             'tweet_count' => $tweetCount,
             'line_count' => $lineCount,
             'upcoming' => $upcoming,
+            'upcoming_serialized' => $serializer->serialize($upcoming, 'json', $context),
             'updated' => $updated,
         ];
     }

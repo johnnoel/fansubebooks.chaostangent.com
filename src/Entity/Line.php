@@ -345,6 +345,7 @@ class Line
      * @Serializer\VirtualProperty
      * @Serializer\SerializedName("series")
      * @Serializer\Type("ChaosTangent\FansubEbooks\Entity\Series")
+     * @Serializer\Groups({"full"})
      */
     public function getSeries()
     {
