@@ -219,12 +219,14 @@ class LineRepository extends EntityRepository
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
                 'SUM(CASE WHEN v.positive = false THEN 1 ELSE 0 END) AS negative_votes',
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE -1 END) AS score',
+                'MAX(v.added) AS last_vote',
             ])->join('l.votes', 'v')
             ->where($qb->expr()->notIn('l.id', $sqb->getDql()))
             ->andWhere($qb->expr()->lte('l.characterCount', ':cc'))
             ->groupBy('l.id')
             ->having($qb->expr()->gte('SUM(CASE WHEN v.positive = true THEN 1 ELSE -1 END)', ':score'))
             ->orderBy('score', 'DESC')
+            ->addOrderBy('last_vote', 'ASC')
             ->setMaxResults($count)
             ->setParameters([
                 'score' => 0,
