@@ -74,6 +74,8 @@ class AddFileCommand extends ContainerAwareCommand
             $f->setName($file->getFilename())
                 ->setSeries($series);
 
+            $timeStart = microtime(true);
+
             // parse file
             $script = $reader->fromFile($file->getPathname());
 
@@ -140,6 +142,14 @@ class AddFileCommand extends ContainerAwareCommand
             // store!
             $om->persist($f);
             $om->flush();
+
+            $timeTaken = microtime(true) - $timeStart;
+
+            $output->writeln(sprintf('Successfully read <info>%d</info> lines from <comment>%s</comment> in %fs',
+                count($lines),
+                $file->getFilename(),
+                $timeTaken
+            ));
         }
     }
 }
