@@ -13,6 +13,7 @@ var gulp = require('gulp'),
     browserify = require('browserify'),
     babelify = require('babelify'),
     watchify = require('watchify'),
+    es = require('event-stream'),
     productionMode = !!require('yargs').argv.production;
 
 if (productionMode) {
@@ -147,34 +148,6 @@ function getBrowserify() {
 }
 
 /**
- * Vendor
- *
- * A browserify bundle of commonly used libraries
- */
-gulp.task('js:vendor', function() {
-    var c = config.js.vendor,
-        b = browserify({
-            cache: {}, packageCache: {},
-            fullPaths: false,
-            debug: !productionMode
-        });
-
-    c.externals.forEach(function(external) {
-        b.require(external.id, { expose: external.expose });
-    });
-
-    return b.bundle()
-        .pipe(source(c.src))
-        .pipe(buffer())
-        .pipe(plugins.sourcemaps.init({ loadMaps: true }))
-        .pipe(plugins.if(productionMode, plugins.uglify()))
-        .pipe(plugins.sourcemaps.write('./'))
-        .pipe(plugins.size({ showFiles: true }))
-        .pipe(plugins.size({ showFiles: true, gzip: true }))
-        .pipe(gulp.dest(c.dest));
-});
-
-/**
  * Routing
  *
  * First generate the routing file in web/js/fos_js_routes.js
@@ -189,20 +162,40 @@ gulp.task('js:routing:generate', function() {
         ]));
 });
 
-gulp.task('js:routing:concat', [ 'js:routing:generate' ], function() {
-    var c = config.js.routing;
+/**
+ * Vendor
+ *
+ * A browserify bundle of commonly used libraries as well as the routing
+ * system from FOSJsRouting bundle
+ */
+gulp.task('js:vendor', [ 'js:routing:generate' ], function() {
+    var cb = config.js.vendor,
+        cr = config.js.routing,
+        b = browserify({
+            cache: {}, packageCache: {},
+            fullPaths: false,
+            debug: !productionMode
+        });
 
-    return gulp.src(c.src)
+    cb.externals.forEach(function(external) {
+        b.require(external.id, { expose: external.expose });
+    });
+
+    var browserifyStream = b.bundle()
+        .pipe(source(cb.src))
+        .pipe(buffer());
+
+    var routingStream = gulp.src(cr.src)
+        .pipe(buffer());
+
+    return es.merge(browserifyStream, routingStream)
         .pipe(plugins.sourcemaps.init({ loadMaps: true }))
-        .pipe(plugins.concat(c.destName))
+        .pipe(plugins.concat(cb.src))
         .pipe(plugins.if(productionMode, plugins.uglify()))
-        .on('error', plugins.util.log)
         .pipe(plugins.sourcemaps.write('./'))
-        .pipe(gulp.dest(c.destPath));
-});
-
-gulp.task('js:routing', [ 'js:routing:generate', 'js:routing:concat' ], function(cb) {
-    del([ 'web/js/fos_js_routes.js' ], cb);
+        .pipe(plugins.size({ showFiles: true }))
+        .pipe(plugins.size({ showFiles: true, gzip: true }))
+        .pipe(gulp.dest(cb.dest));
 });
 
 /**
