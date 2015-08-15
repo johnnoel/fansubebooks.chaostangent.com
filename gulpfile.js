@@ -15,6 +15,11 @@ var gulp = require('gulp'),
     watchify = require('watchify'),
     productionMode = !!require('yargs').argv.production;
 
+if (productionMode) {
+    // fudgy, but means certain optimisations in things like react kick in
+    process.env.NODE_ENV = 'production';
+}
+
 var config = {
     theme: {
         main: {
