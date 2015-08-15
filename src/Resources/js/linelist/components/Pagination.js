@@ -76,6 +76,12 @@ class Pagination extends Component {
     }
 
     render() {
+        let { page, pages } = this.props;
+
+        if (page == 1 && pages == 1) {
+            return null;
+        }
+
         return <nav className="pagination">
             {this.renderPrevPage()}
             {this.renderPageList()}
