@@ -79,6 +79,12 @@
                 filter: saturate(100%);
             }
         }
+
+        &.active button {
+            filter: saturate(100%);
+            opacity: 1;
+            transition: none;
+        }
     }
 
     .line-voteup button {

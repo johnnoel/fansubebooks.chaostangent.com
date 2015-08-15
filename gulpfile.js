@@ -164,6 +164,7 @@ function getBrowserify() {
  */
 function bundleWithBrowserify(browserify, config) {
     return browserify.bundle()
+        .on('error', plugins.util.log)
         .pipe(source(config.destName))
         .pipe(buffer())
         .pipe(plugins.sourcemaps.init({ loadMaps: true }))

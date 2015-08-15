@@ -1,7 +1,8 @@
 import map from 'lodash/collection/map';
 import clone from 'lodash/lang/clone';
+import LinesAPI from './api';
 
-import { VOTEUP_LINE, VOTEDOWN_LINE, CHANGE_PAGE } from './actions';
+import { VOTEUP_LINE, VOTEDOWN_LINE, FLAG_LINE, CHANGE_PAGE } from './actions';
 
 /**
  * @author John Noel <john.noel@chaostangent.com>
@@ -28,27 +29,39 @@ function lines(state = [], action) {
     switch (action.type) {
         case VOTEUP_LINE:
             let votedUpId = action.payload;
-            return map(state, (line) => {
+            return map(state, line => {
                 let d = clone(line, true);
 
                 if (line.id == votedUpId) {
                     d.positive_vote_count++;
+                    d.user_positive_vote = true;
                 }
 
                 return d;
             });
         case VOTEDOWN_LINE:
             let votedDownId = action.payload;
-            return map(state, (line) => {
+            return map(state, line => {
                 let d = clone(line, true);
 
                 if (line.id == votedDownId) {
                     d.negative_vote_count++;
+                    d.user_negative_vote = true;
                 }
 
                 return d;
             });
+        case FLAG_LINE:
+            let flagId = action.payload;
+            return map(state, line => {
+                let d = clone(line, true);
 
+                if (line.id == flagId) {
+                    d.user_flag = true;
+                }
+
+                return d;
+            });
         default:
             return state;
     }
@@ -56,6 +69,12 @@ function lines(state = [], action) {
 
 export default function root(state = { page: 1, pages: 1, lines: [] }, action) {
     switch (action.type) {
+        case '@@redux/INIT':
+            return {
+                page: page(state.page, action),
+                pages: pages(state.pages, action),
+                lines: LinesAPI.mergeUserVotes(state.lines)
+            };
         // change_page changes both the page number and the line set
         case CHANGE_PAGE:
             return {

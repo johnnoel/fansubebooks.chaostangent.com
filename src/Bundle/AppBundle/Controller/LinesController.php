@@ -143,7 +143,7 @@ class LinesController extends Controller
 
         if ($request->getRequestFormat() == 'json') {
             $serializer = $this->get('jms_serializer');
-            return new Response($serializer->serializer($flag, 'json'), 200, [
+            return new Response($serializer->serialize($flag, 'json'), 200, [
                 'Content-Type' => 'application/json',
             ]);
         }
