@@ -8,15 +8,17 @@ import React, { Component, PropTypes } from 'react';
  */
 class Line extends Component {
     renderTweetLink() {
-        if (this.props.tweetId !== null) {
-            return <a href={`https://twitter.com/fansub_ebooks/status/${this.props.tweetId}`} className="line-tweet">Twitter</a>;
+        let { line } = this.props;
+
+        if (line.tweet_id) {
+            return <a href={`https://twitter.com/fansub_ebooks/status/${line.tweet_id}`} className="line-tweet">Twitter</a>;
         }
 
         return null;
     }
 
     render() {
-        const line = this.props.line;
+        let { line } = this.props;
 
         return <div className="line">
             <p className="line-line">{line.line}</p>
@@ -25,8 +27,8 @@ class Line extends Component {
                     <button type="button" onClick={() => this.props.onVoteUp()}>Vote up</button>
                 </div>
                 <div className="line-votes">
-                    <span className="line-positivevotes">+{line.positive_vote_count}</span> /
-                    <span className="line-negativevotes">-{line.negative_vote_count}</span> /
+                    <span className="line-positivevotes">+{line.positive_vote_count}</span>{' / '}
+                    <span className="line-negativevotes">-{line.negative_vote_count}</span>{' / '}
                     <span className="line-score">{line.positive_vote_count - line.negative_vote_count}</span>
                 </div>
                 <div className="line-votedown">
@@ -36,7 +38,7 @@ class Line extends Component {
                     <button type="button" onClick={() => this.props.onFlag()}>Flag</button>
                 </div>
                 <div className="line-links">
-                    <a href="" className="line-permalink">Permalink</a>
+                    <a href={Routing.generate('line', { id: line.id })} className="line-permalink">Permalink</a>
                     {this.renderTweetLink()}
                 </div>
             </div>

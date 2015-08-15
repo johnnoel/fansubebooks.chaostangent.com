@@ -26,7 +26,8 @@ class LinesController extends Controller
     /**
      * @Route("/l/{id}.{_format}", name="line",
      *      requirements={"id": "\d+", "_format": "|json"},
-     *      defaults={"_format": "html"}
+     *      defaults={"_format": "html"},
+     *      options={"expose": true}
      * )
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Lines:index.html.twig")

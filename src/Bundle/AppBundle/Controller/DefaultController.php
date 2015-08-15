@@ -108,16 +108,19 @@ class DefaultController extends Controller
         $lineRepo = $this->get('doctrine')->getManager()->getRepository('Entity:Line');
         $lines = $lineRepo->getPopular($page, 50);
 
-        if ($request->getRequestFormat() == 'json') {
-            $serializer = $this->get('jms_serializer');
+        $serializer = $this->get('jms_serializer');
+        $context = $this->get('fansubebooks.serializer.context');
+        $serialized = $serializer->serialize($lines->getResults(), 'json', $context);
 
-            return new Response($serializer->serialize($lines->getResults(), 'json'), 200, [
+        if ($request->getRequestFormat() == 'json') {
+            return new Response($serialized, 200, [
                 'Content-Type' => 'application/json',
             ]);
         }
 
         return [
             'lines' => $lines,
+            'lines_serialized' => $serialized,
         ];
     }
 }

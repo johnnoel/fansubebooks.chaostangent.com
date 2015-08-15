@@ -19,17 +19,26 @@
     </header>
 
     {% if lines|length > 0 %}
-    <div class="line-grid">
-        {% for line in lines %}
-        {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
-        {% endfor %}
+    <div id="popular">
+        {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': lines } %}
+        {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
+            'route': 'popular',
+            'page': lines.page,
+            'pages': lines.pages
+        } %}
+        {% endif %}
     </div>
-
-    {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
-        'route': 'popular',
-        'page': lines.page,
-        'pages': lines.pages
-    } %}
-    {% endif %}
 </article>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    window.__LINE_DATA__ = {{ lines_serialized|raw }};
+    window.__PAGE__ = {{ lines.page }};
+    window.__PAGES__ = {{ lines.pages }};
+</script>
+
+<script src="{{ asset('js/vendor.js') }}"></script>
+<script src="{{ asset('js/linelist.js') }}"></script>
+<script src="{{ asset('js/popular.js') }}"></script>
 {% endblock %}

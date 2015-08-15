@@ -73,6 +73,12 @@ var config = {
             entry: 'home.js',
             destName: 'home.js',
             destPath: 'web/js/'
+        },
+        popular: {
+            src: 'src/Resources/js/',
+            entry: 'popular.js',
+            destName: 'popular.js',
+            destPath: 'web/js/'
         }
     }
 };
@@ -131,6 +137,8 @@ gulp.task('js:head', function() {
  * Get a vendor aware browserify package
  *
  * You'll need to add an entry point once you've obtained this
+ *
+ * @return Browserify
  */
 function getBrowserify() {
     var b = browserify({
@@ -145,6 +153,23 @@ function getBrowserify() {
     });
 
     return b;
+}
+
+/**
+ * Default bundle with browserify function
+ *
+ * @param Browserify browserify Can also be watchify
+ * @param object config A standard config object
+ * @return stream
+ */
+function bundleWithBrowserify(browserify, config) {
+    return browserify.bundle()
+        .pipe(source(config.destName))
+        .pipe(buffer())
+        .pipe(plugins.sourcemaps.init({ loadMaps: true }))
+        .pipe(plugins.if(productionMode, plugins.uglify()))
+        .pipe(plugins.sourcemaps.write('./'))
+        .pipe(gulp.dest(config.destPath));
 }
 
 /**
@@ -207,30 +232,22 @@ gulp.task('js:linelist', function() {
     var c = config.js.linelist,
         b = getBrowserify();
 
-    //b.add(c.src+c.entry);
     // note: not add, expose this as an external package
     b.require('./'+c.src+c.entry, { expose: 'linelist' });
 
-    function bundle(b) {
-        return b.bundle()
-            .pipe(source(c.destName))
-            .pipe(buffer())
-            .pipe(plugins.sourcemaps.init({ loadMaps: true }))
-            .pipe(plugins.if(productionMode, plugins.uglify()))
-            .pipe(plugins.sourcemaps.write('./'))
-            .pipe(gulp.dest(c.destPath));
-    }
-
     if (!productionMode) {
         var w = watchify(b);
-        w.on('update', function() { bundle(w); });
+        w.on('update', function() { bundleWithBrowserify(w, c); });
         w.on('log', plugins.util.log);
-        return bundle(w);
+        return bundleWithBrowserify(w, c);
     }
 
-    return bundle(b);
+    return bundleWithBrowserify(b, c);
 });
 
+/*
+ * Home page
+ */
 gulp.task('js:home', function() {
     var c = config.js.home,
         b = getBrowserify();
@@ -238,17 +255,20 @@ gulp.task('js:home', function() {
     b.add(c.src+c.entry);
     b.external('linelist');
 
-    function bundle(b, c) {
-        return b.bundle()
-            .pipe(source(c.destName))
-            .pipe(buffer())
-            .pipe(plugins.sourcemaps.init({ loadMaps: true }))
-            .pipe(plugins.if(productionMode, plugins.uglify()))
-            .pipe(plugins.sourcemaps.write('./'))
-            .pipe(gulp.dest(c.destPath));
-    }
+    return bundleWithBrowserify(b, c);
+});
 
-    return bundle(b, c);
+/*
+ * Popular page
+ */
+gulp.task('js:popular', function() {
+    var c = config.js.popular,
+        b = getBrowserify();
+
+    b.add(c.src+c.entry);
+    b.external('linelist');
+
+    return bundleWithBrowserify(b, c);
 });
 
 gulp.task('js', [ 'js:head' ]);
