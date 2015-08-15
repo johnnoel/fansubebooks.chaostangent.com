@@ -20,7 +20,7 @@ class FlagVoter extends AbstractVoter
     /**
      * Can flag this many times within an hour
      */
-    const FLAGS_PER_HOUR = 10;
+    const FLAGS_PER_HOUR = 50;
 
     /** @var FlagRepository */
     protected $flagRepo;
