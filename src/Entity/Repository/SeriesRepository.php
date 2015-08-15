@@ -68,7 +68,8 @@ class SeriesRepository extends EntityRepository
 
         $sql = 'WITH file_count AS ('.$fileSql.'), line_count AS ('.$lineSql.'), tweet_count AS ('.$tweetSql.')
             SELECT '.$rsm->generateSelectClause().', file_count.file_count, line_count.line_count, tweet_count.tweet_count, file_count.last_update AS updated
-                FROM series s, file_count, line_count, tweet_count
+                FROM series s, file_count, line_count
+                LEFT JOIN tweet_count ON true
                 WHERE s.alias = :alias
                 LIMIT 1';
 
