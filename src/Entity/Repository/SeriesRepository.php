@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use ChaosTangent\FansubEbooks\Entity\Result\PaginatedResult,
     ChaosTangent\FansubEbooks\Entity\Result\SearchResult;
+use ChaosTangent\FansubEbooks\Entity\Series;
 
 /**
  * Series entity repository
@@ -15,6 +16,29 @@ use ChaosTangent\FansubEbooks\Entity\Result\PaginatedResult,
  */
 class SeriesRepository extends EntityRepository
 {
+    /**
+     * Add a new series to the database
+     *
+     * @param Series $series
+     */
+    public function create(Series $series)
+    {
+        $this->_em->persist($series);
+        $this->_em->flush();
+
+        $cache = $this->_em->getConfiguration()->getResultCacheImpl();
+        $cache->delete('series/alias/'.$series->getAlias());
+        // todo series/all
+    }
+
+    /**
+     * Get a series by its alias
+     *
+     * If a series isn't found, returns null
+     *
+     * @param string $alias
+     * @return Series|null
+     */
     public function getSeries($alias)
     {
         $fileSql = 'SELECT COUNT(f.id) AS file_count, MAX(f.added) AS last_update FROM series s
@@ -53,6 +77,10 @@ class SeriesRepository extends EntityRepository
         $query->useResultCache(true, 300, 'series/alias/'.$alias);
 
         $result = $query->getOneOrNullResult();
+
+        if ($result === null) {
+            return null;
+        }
 
         return $result[0]->setFileCount(intval($result['file_count']))
             ->setLineCount(intval($result['line_count']))

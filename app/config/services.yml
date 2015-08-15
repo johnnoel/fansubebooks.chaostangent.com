@@ -16,6 +16,12 @@ services:
             - { name: kernel.event_subscriber }
             - { name: monolog.logger, channel: search }
 
+    fansubebooks.entity.repository.series_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ ChaosTangent\FansubEbooks\Entity\Series ]
+
     fansubebooks.entity.repository.line_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager

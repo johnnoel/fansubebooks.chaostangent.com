@@ -44,8 +44,9 @@ class AddSeriesCommand extends ContainerAwareCommand
         }
 
         $om = $this->getContainer()->get('doctrine')->getManager();
-        $om->persist($series);
-        $om->flush();
+        $repo = $om->getRepository(Series::class);
+
+        $repo->create($series);
 
         $serializer = $this->getContainer()->get('jms_serializer');
 
