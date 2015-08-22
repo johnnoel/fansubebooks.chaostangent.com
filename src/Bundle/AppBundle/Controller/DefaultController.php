@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\Response;
 use ChaosTangent\FansubEbooks\Event\SearchEvent,
     ChaosTangent\FansubEbooks\Event\SearchEvents;
+use ChaosTangent\FansubEbooks\Entity\Series;
 
 /**
  * Default controller
@@ -127,6 +128,21 @@ class DefaultController extends Controller
         return [
             'lines' => $lines,
             'lines_serialized' => $serialized,
+        ];
+    }
+
+    /**
+     * @Route("/sitemap.xml", name="sitemap", defaults={"_format": "xml"})
+     * @Method({"GET"})
+     * @Template("ChaosTangentFansubEbooksAppBundle:Default:sitemap.xml.twig")
+     */
+    public function sitemapAction()
+    {
+        $seriesRepo = $this->get('doctrine')->getManager()->getRepository(Series::class);
+        $series = $seriesRepo->findAll();
+
+        return [
+            'series' => $series,
         ];
     }
 }
