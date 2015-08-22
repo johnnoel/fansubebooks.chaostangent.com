@@ -21,21 +21,22 @@
     {% if lines|length > 0 %}
     <div id="popular">
         {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': lines } %}
-        {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
-            'route': 'popular',
-            'page': lines.page,
-            'pages': lines.pages
-        } %}
-        {% endif %}
     </div>
+
+    {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
+        'route': 'popular',
+        'page': lines.page,
+        'pages': lines.pages
+    } %}
+    {% endif %}
 </article>
 {% endblock %}
 
 {% block javascripts %}
 <script>
-    window.__LINE_DATA__ = {{ lines_serialized|raw }};
-    window.__PAGE__ = {{ lines.page }};
-    window.__PAGES__ = {{ lines.pages }};
+    var initialState = {
+        lines: {{ lines_serialized|raw }}
+    };
 </script>
 
 <script src="{{ asset('js/vendor.js') }}"></script>

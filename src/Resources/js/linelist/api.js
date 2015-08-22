@@ -1,4 +1,3 @@
-import map from 'lodash/collection/map';
 import xhr from 'xhr';
 import 'native-promise-only';
 import LocalStorage from '../localstorage/localstorage';
@@ -12,30 +11,6 @@ import LocalStorage from '../localstorage/localstorage';
 class LinesAPI {
     constructor() {
         this.storage = new LocalStorage('fansubebooks_');
-    }
-
-    /**
-     * Get the next set of lines
-     *
-     * @param number page
-     * @return Promise
-     */
-    getLines(page) {
-        return new Promise((resolve, reject) => {
-            xhr({
-                uri: Routing.generate('popular', { page: page, _format: 'json' })
-            }, (err, resp, body) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-
-                resolve({
-                    page: page,
-                    lines: this.mergeUserVotes(JSON.parse(body))
-                });
-            });
-        });
     }
 
     /**
@@ -57,7 +32,6 @@ class LinesAPI {
 
                 this.updateUserVotes(lineId, 'positive');
                 resolve(lineId);
-                //resolve(JSON.parse(body));
             });
         });
     }
@@ -81,7 +55,6 @@ class LinesAPI {
 
                 this.updateUserVotes(lineId, 'negative');
                 resolve(lineId);
-                //resolve(JSON.parse(body));
             });
         });
     }
@@ -105,7 +78,6 @@ class LinesAPI {
 
                 this.updateUserVotes(lineId, 'flag');
                 resolve(lineId);
-                //resolve(JSON.parse(body));
             });
         });
     }
@@ -153,15 +125,15 @@ class LinesAPI {
      * Given an array of line objects, merge in the user vote status, i.e.
      * whether a user has voted positively, negatively or flagged a line
      *
-     * @param array lines
-     * @return array
+     * @param ImmutableList lines
+     * @return ImmutableList
      */
     mergeUserVotes(lines) {
         let p = this.getUserVotes('positive'),
             n = this.getUserVotes('negative'),
             f = this.getUserVotes('flag');
 
-        return map(lines, line => {
+        return lines.map(line => {
             line.user_positive_vote = (p.indexOf(line.id) !== -1);
             line.user_negative_vote = (n.indexOf(line.id) !== -1);
             line.user_flag = (f.indexOf(line.id) !== -1);

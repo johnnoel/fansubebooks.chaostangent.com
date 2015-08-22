@@ -7,9 +7,6 @@ import LineList from 'linelist';
  * @package FansubEbooks
  */
 
-new LineList({
-    element: document.getElementById('popular'),
-    lines: window.__LINE_DATA__,
-    page: window.__PAGE__,
-    pages: window.__PAGES__
+new LineList(document.getElementById('popular'), {
+    lines: initialState.lines
 });
