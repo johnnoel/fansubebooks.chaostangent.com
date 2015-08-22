@@ -64,6 +64,7 @@ class DefaultController extends Controller
 
         $seriesResults = [];
         $lineResults = [];
+        $lineResultsSerialized = '';
         $searchTime = 0;
 
         if (!empty(trim($query))) {
@@ -82,12 +83,17 @@ class DefaultController extends Controller
 
             $searchEvent = new SearchEvent($query, $page, $searchTime);
             $this->get('event_dispatcher')->dispatch(SearchEvents::SEARCH, $searchEvent);
+
+            $serializer = $this->get('jms_serializer');
+            $context = $this->get('fansubebooks.serializer.context');
+            $lineResultsSerialized = $serializer->serialize($lineResults->getResults(), 'json', $context);
         }
 
         return [
             'query' => $query,
             'series_results' => $seriesResults,
             'line_results' => $lineResults,
+            'line_results_serialized' => $lineResultsSerialized,
             'search_time' => $searchTime,
         ];
     }

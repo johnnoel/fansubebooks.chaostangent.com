@@ -46,10 +46,8 @@
     {% endif %}
 
     {% if line_results|length > 0 %}
-    <div class="line-grid series-results">
-        {% for line in line_results %}
-        {% include 'ChaosTangentFansubEbooksAppBundle::line.html.twig' with { 'line': line } %}
-        {% endfor %}
+    <div id="lines">
+        {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': line_results } %}
     </div>
 
     {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
@@ -62,4 +60,16 @@
     } %}
 {% endif %}
 </article>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    var initialState = {
+        lines: {{ line_results_serialized|raw }}
+    };
+</script>
+
+<script src="{{ asset('js/vendor.js') }}"></script>
+<script src="{{ asset('js/linelist.js') }}"></script>
+<script src="{{ asset('js/lines.js') }}"></script>
 {% endblock %}
