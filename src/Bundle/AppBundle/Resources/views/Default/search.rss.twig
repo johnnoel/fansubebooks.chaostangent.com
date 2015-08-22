@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+    xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/"
+    xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>fansubebooks.chaostangent.com search for "{{ query }}"</title>
+        <link>{{ url('search', { 'q': query }) }}</link>
+        <description>Search results for "{{ query }}" at fansubebooks.chaostangent.com</description>
+        <opensearch:totalResults>{{ line_results.total + series_results.total }}</opensearch:totalResults>
+        <opensearch:startIndex>1</opensearch:startIndex>
+        <opensearch:itemsPerPage>30</opensearch:itemsPerPage>
+        <atom:link rel="search" type="application/opensearchdescription+xml" href="{{ url('search_opensearch') }}"/>
+        <opensearch:Query role="request" searchTerms="{{ query }}" startPage="1" />
+
+        {% for series in series_results %}
+        <item>
+            <title><![CDATA[{{ series.title|raw }}]]></title>
+            <link>{{ url('series_view', { 'alias': series.alias }) }}</link>
+        </item>
+        {% endfor %}
+
+        {% for line in line_results %}
+        <item>
+            <title><![CDATA[{{ line.line|raw }}]]></title>
+            <link>{{ url('line', { 'id': line.id }) }}</link>
+        </item>
+        {% endfor %}
+    </channel>
+</rss>

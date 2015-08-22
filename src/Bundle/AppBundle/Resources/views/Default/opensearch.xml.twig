@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+    <ShortName>Search fansubebooks.chaostangent.com</ShortName>
+    <Description>Search for lines and series on fansubebooks.chaostangent.com</Description>
+    <Contact>john.noel@chaostangent.com</Contact>
+    <Url type="application/atom+xml" template="{{ url('search', { 'q': '', '_format': 'atom' }) }}{searchTerms}" />
+    <Url type="application/rss+xml" template="{{ url('search', { 'q': '', '_format': 'rss' }) }}{searchTerms}" />
+    <Url type="text/html" template="{{ url('search', { 'q': '' }) }}{searchTerms}" />
+    <Image height="96" width="96" type="image/png">{{ asset('img/favicon/favicon-96x96', null, true) }}</Image>
+    <Image height="16" width="16" type="image/png">{{ asset('img/favicon/favicon-16x16', null, true) }}</Image>
+    <Developer>John Noel</Developer>
+    <Attribution>Creative Commons Attribution 4.0 International license</Attribution>
+    <SyndicationRight>open</SyndicationRight>
+    <AdultContent>false</AdultContent>
+    <Language>en-GB</Language>
+    <OutputEncoding>UTF-8</OutputEncoding>
+    <InputEncoding>UTF-8</InputEncoding>
+</OpenSearchDescription>

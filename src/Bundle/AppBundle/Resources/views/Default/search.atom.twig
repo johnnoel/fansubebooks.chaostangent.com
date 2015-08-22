@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+    xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
+
+    <title>fansubebooks.chaostangent.com search for "{{ query }}"</title>
+    <link href="{{ url('search', { 'q': query }) }}" />
+    <updated>{{ 'now'|date('Y-m-d\\TH:i:s\\Z', 'UTC') }}</updated>
+    <author>
+        <name>chaostangent.com</name>
+    </author>
+
+    <opensearch:totalResults>{{ line_results.total + series_results.total }}</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <opensearch:itemsPerPage>30</opensearch:itemsPerPage>
+    <opensearch:Query role="request" searchTerms="{{ query }}" startPage="1" />
+    <link rel="alternate" href="{{ url('search', { 'q': query, 'page': line_results.page }) }}" type="text/html" />
+    <link rel="self" href="{{ url('search', { 'q': query, 'page': line_results.page, '_format': 'atom' }) }}" type="application/atom+xml" />
+    <link rel="first" href="{{ url('search', { 'q': query, 'page': 1, '_format': 'atom' }) }}" type="application/atom+xml" />
+    {% if line_results.page > 1 %}
+    <link rel="previous" href="{{ url('search', { 'q': query, 'page': line_results.page - 1, '_format': 'atom' }) }}" type="application/atom+xml" />
+    {% endif %}
+    {% if line_results.page < line_results.pages %}
+    <link rel="next" href="{{ url('search', { 'q': query, 'page': line_results.page + 1, '_format': 'atom' }) }}" type="application/atom+xml" />
+    {% endif %}
+    <link rel="last" href="{{ url('search', { 'q': query, 'page': line_results.pages, '_format': 'atom' }) }}" type="application/atom+xml" />
+    <link rel="search" type="application/opensearchdescription+xml" href="{{ url('search_opensearch') }}" />
+
+    {% for series in series_results %}
+    <entry>
+        <title><![CDATA[{{ series.title|raw }}]]></title>
+        <link href="{{ url('series_view', { 'alias': series.alias }) }}"/>
+    </entry>
+    {% endfor %}
+
+    {% for line in line_results %}
+    <entry>
+        <title><![[CDATA[{{ line.line|raw }}]]></title>
+        <link href="{{ url('line', { 'id': line.id }) }}"/>
+    </entry>
+    {% endfor %}
+</feed>

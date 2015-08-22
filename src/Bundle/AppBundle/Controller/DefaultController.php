@@ -54,7 +54,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/search", name="search")
+     * @Route("/search.{_format}", name="search",
+     *      requirements={"_format": "|rss|atom"},
+     *      defaults={"_format": "html"}
+     * )
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Default:search.html.twig")
      */
@@ -73,7 +76,7 @@ class DefaultController extends Controller
 
             $om = $this->get('doctrine')->getManager();
             $lineRepo = $om->getRepository('Entity:Line');
-            $lineResults = $lineRepo->search($query, $page);
+            $lineResults = $lineRepo->search($query, $page, 30);
 
             if ($page == 1) {
                 $seriesRepo = $om->getRepository('Entity:Series');
@@ -90,13 +93,31 @@ class DefaultController extends Controller
             $lineResultsSerialized = $serializer->serialize($lineResults->getResults(), 'json', $context);
         }
 
-        return [
+        $viewData = [
             'query' => $query,
             'series_results' => $seriesResults,
             'line_results' => $lineResults,
             'line_results_serialized' => $lineResultsSerialized,
             'search_time' => $searchTime,
         ];
+
+        if ($request->getRequestFormat() == 'rss') {
+            return $this->render('ChaosTangentFansubEbooksAppBundle:Default:search.rss.twig', $viewData);
+        } else if ($request->getRequestFormat() == 'atom') {
+            return $this->render('ChaosTangentFansubEbooksAppBundle:Default:search.atom.twig', $viewData);
+        }
+
+        return $viewData;
+    }
+
+    /**
+     * @Route("/opensearch.xml", name="search_opensearch", defaults={"_format": "xml"})
+     * @Method({"GET"})
+     * @Template("ChaosTangentFansubEbooksAppBundle:Default:opensearch.xml.twig")
+     */
+    public function opensearchAction()
+    {
+        return [];
     }
 
     /**

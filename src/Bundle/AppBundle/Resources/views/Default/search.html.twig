@@ -65,7 +65,7 @@
 {% block javascripts %}
 <script>
     var initialState = {
-        lines: {{ line_results_serialized|raw }}
+        lines: {% if line_results_serialized is not empty %}{{ line_results_serialized|raw }}{% else %}[]{% endif %}
     };
 </script>
 
