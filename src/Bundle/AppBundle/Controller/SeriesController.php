@@ -58,10 +58,14 @@ class SeriesController extends Controller
         $lineRepo = $om->getRepository(Line::class);
         $lines = $lineRepo->getLinesByFile($file, 1, 50);
 
+        $serializer = $this->get('jms_serializer');
+        $context = $this->get('fansubebooks.serializer.context');
+
         return [
             'series' => $series,
             'selected_file' => $file,
             'lines' => $lines,
+            'lines_serialized' => $serializer->serialize($lines->getResults(), 'json', $context),
         ];
     }
 
@@ -82,12 +86,12 @@ class SeriesController extends Controller
         $lineRepo = $this->get('doctrine')->getManager()->getRepository(Line::class);
         $lines = $lineRepo->getLinesByFile($file, $page, 50);
 
+        $serializer = $this->get('jms_serializer');
+        $context = $this->get('fansubebooks.serializer.context');
+
         if ($request->getRequestFormat() == 'json') {
             $file->setLines($lines->getResults())
                 ->setLineCount($lines->getTotal());
-
-            $serializer = $this->get('jms_serializer');
-            $context = SerializationContext::create()->enableMaxDepthChecks();
 
             return new Response($serializer->serialize($file, 'json', $context), 200, [
                 'Content-Type' => 'application/json',
@@ -98,6 +102,7 @@ class SeriesController extends Controller
             'series' => $series,
             'selected_file' => $file,
             'lines' => $lines,
+            'lines_serialized' => $serializer->serialize($lines->getResults(), 'json', $context),
         ];
     }
 
@@ -125,10 +130,10 @@ class SeriesController extends Controller
         $searchEvent = new SearchEvent($query, $page, $searchTime, $series);
         $this->get('event_dispatcher')->dispatch(SearchEvents::SEARCH_SERIES, $searchEvent);
 
-        if ($request->getRequestFormat() == 'json') {
-            $serializer = $this->get('jms_serializer');
-            $context = SerializationContext::create()->enableMaxDepthChecks();
+        $serializer = $this->get('jms_serializer');
+        $context = $this->get('fansubebooks.serializer.context');
 
+        if ($request->getRequestFormat() == 'json') {
             return new Response($serializer->serialize($results, 'json', $context), 200, [
                 'Content-Type' => 'application/json',
             ]);
@@ -139,6 +144,7 @@ class SeriesController extends Controller
             'series' => $series,
             'results' => $results,
             'search_time' => $searchTime,
+            'lines_serialized' => $serializer->serialize($results->getResults(), 'json', $context),
         ];
     }
 }

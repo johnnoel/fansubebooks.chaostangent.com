@@ -91,7 +91,10 @@
 
     {% if selected_file is not null %}
     <h3>Showing lines from {{ selected_file.name|replace('_', ' ') }}</h3>
-    {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': lines } %}
+    <div id="lines">
+        {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': lines } %}
+    </div>
+
     {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
         'route': 'series_file',
         'route_params': { 'alias': series.alias, 'file_id': selected_file.id },
@@ -106,7 +109,9 @@
         {% endif %}
         <h3>Showing lines {{ resultStart + 1 }} - {{ resultStart + resultEnd }} for search &lsquo;{{ query }}&rsquo;</h3>
 
-        {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': results } %}
+        <div id="lines">
+            {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': results } %}
+        </div>
         {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
             'route': 'series_search',
             'route_params': { 'alias': series.alias, 'q': query },
@@ -115,4 +120,16 @@
         } %}
     {% endif %}
 </article>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    var initialState = {
+        lines: {{ lines_serialized|raw }}
+    };
+</script>
+
+<script src="{{ asset('js/vendor.js') }}"></script>
+<script src="{{ asset('js/linelist.js') }}"></script>
+<script src="{{ asset('js/lines.js') }}"></script>
 {% endblock %}

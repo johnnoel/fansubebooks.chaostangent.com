@@ -49,7 +49,7 @@
         <h2 class="panel-title">Upcoming <small>based on votes</small></h2>
 
         {% if upcoming|length > 0 %}
-        <div id="upcoming-grid">
+        <div id="lines">
             {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with {
                 'lines': upcoming
             } %}
@@ -77,10 +77,12 @@
 
 {% block javascripts %}
 <script>
-    window.__LINE_DATA__ = {{ upcoming_serialized|raw }};
+    var initialState = {
+        lines: {{ upcoming_serialized|raw }}
+    };
 </script>
 
 <script src="{{ asset('js/vendor.js') }}"></script>
 <script src="{{ asset('js/linelist.js') }}"></script>
-<script src="{{ asset('js/home.js') }}"></script>
+<script src="{{ asset('js/lines.js') }}"></script>
 {% endblock %}

@@ -67,17 +67,11 @@ var config = {
             destPath: 'web/js/'
         },
 
-        // page/route specific
-        home: {
+        // generic
+        lines: {
             src: 'src/Resources/js/',
-            entry: 'home.js',
-            destName: 'home.js',
-            destPath: 'web/js/'
-        },
-        popular: {
-            src: 'src/Resources/js/',
-            entry: 'popular.js',
-            destName: 'popular.js',
+            entry: 'lines.js',
+            destName: 'lines.js',
             destPath: 'web/js/'
         }
     }
@@ -249,21 +243,8 @@ gulp.task('js:linelist', function() {
 /*
  * Home page
  */
-gulp.task('js:home', function() {
-    var c = config.js.home,
-        b = getBrowserify();
-
-    b.add(c.src+c.entry);
-    b.external('linelist');
-
-    return bundleWithBrowserify(b, c);
-});
-
-/*
- * Popular page
- */
-gulp.task('js:popular', function() {
-    var c = config.js.popular,
+gulp.task('js:lines', function() {
+    var c = config.js.lines,
         b = getBrowserify();
 
     b.add(c.src+c.entry);

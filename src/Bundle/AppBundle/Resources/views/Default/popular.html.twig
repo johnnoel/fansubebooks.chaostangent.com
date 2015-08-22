@@ -19,7 +19,7 @@
     </header>
 
     {% if lines|length > 0 %}
-    <div id="popular">
+    <div id="lines">
         {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': lines } %}
     </div>
 
@@ -41,5 +41,5 @@
 
 <script src="{{ asset('js/vendor.js') }}"></script>
 <script src="{{ asset('js/linelist.js') }}"></script>
-<script src="{{ asset('js/popular.js') }}"></script>
+<script src="{{ asset('js/lines.js') }}"></script>
 {% endblock %}
