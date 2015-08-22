@@ -55,6 +55,10 @@ class File
      * @Serializer\MaxDepth(2)
      */
     private $lines;
+    /**
+     * @var integer
+     */
+    private $lineCount;
 
     /**
      * Constructor
@@ -219,5 +223,32 @@ class File
         $this->lines = $lines;
 
         return $this;
+    }
+
+    /**
+     * Set lineCount
+     *
+     * @param integer $lineCount
+     * @return File
+     */
+    public function setLineCount($lineCount)
+    {
+        $this->lineCount = $lineCount;
+
+        return $this;
+    }
+
+    /**
+     * Get lineCount
+     *
+     * @return integer
+     */
+    public function getLineCount()
+    {
+        if ($this->lineCount === null) {
+            $this->lineCount = $this->getLines()->count();
+        }
+
+        return $this->lineCount;
     }
 }

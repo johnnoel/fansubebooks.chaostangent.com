@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\Response;
 use JMS\Serializer\SerializationContext;
 use ChaosTangent\FansubEbooks\Entity\Series,
-    ChaosTangent\FansubEbooks\Entity\File;
+    ChaosTangent\FansubEbooks\Entity\File,
+    ChaosTangent\FansubEbooks\Entity\Line;
 use ChaosTangent\FansubEbooks\Event\SearchEvent,
     ChaosTangent\FansubEbooks\Event\SearchEvents;
 
@@ -49,14 +50,18 @@ class SeriesController extends Controller
      */
     public function seriesAction(Series $series)
     {
-        $fileRepo = $this->get('doctrine')->getManager()->getRepository('Entity:File');
+        $om = $this->get('doctrine')->getManager();
+
+        $fileRepo = $om->getRepository('Entity:File');
         $file = $series->getFiles()->first();
-        // hmm
-        $file = $fileRepo->getFile($file->getId());
+
+        $lineRepo = $om->getRepository(Line::class);
+        $lines = $lineRepo->getLinesByFile($file, 1, 50);
 
         return [
             'series' => $series,
             'selected_file' => $file,
+            'lines' => $lines,
         ];
     }
 
@@ -68,11 +73,19 @@ class SeriesController extends Controller
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksAppBundle:Series:series.html.twig")
      * @ParamConverter("series", class="Entity:Series", options={"repository_method": "getSeries", "map_method_signature": true})
-     * @ParamConverter("file", class="Entity:File", options={"id": "file_id", "repository_method": "getFile"})
+     * @ParamConverter("file", class="Entity:File", options={"id": "file_id"})
      */
     public function fileAction(Series $series, File $file, Request $request)
     {
+        $page = intval($request->query->get('page', 1));
+
+        $lineRepo = $this->get('doctrine')->getManager()->getRepository(Line::class);
+        $lines = $lineRepo->getLinesByFile($file, $page, 50);
+
         if ($request->getRequestFormat() == 'json') {
+            $file->setLines($lines->getResults())
+                ->setLineCount($lines->getTotal());
+
             $serializer = $this->get('jms_serializer');
             $context = SerializationContext::create()->enableMaxDepthChecks();
 
@@ -84,6 +97,7 @@ class SeriesController extends Controller
         return [
             'series' => $series,
             'selected_file' => $file,
+            'lines' => $lines,
         ];
     }
 

@@ -71,10 +71,19 @@ class LineRepository extends EntityRepository
      * Get a collection of lines within a file
      *
      * @param File $file
-     * @return array An array of lines
+     * @param integer $page
+     * @param integer $perPage
+     * @return PaginatedResult
      */
-    public function getLinesByFile(File $file)
+    public function getLinesByFile(File $file, $page = 1, $perPage = 30)
     {
+        $qb = $this->createQueryBuilder('l');
+        $qb->select([ 'COUNT(l.id)' ])
+            ->where($qb->expr()->eq('l.file', ':file'))
+            ->setParameter('file', $file);
+
+        $total = $qb->getQuery()->getSingleScalarResult();
+
         $qb = $this->createQueryBuilder('l');
         $qb->addSelect([
                 'SUM(CASE WHEN v.positive = true THEN 1 ELSE 0 END) AS positive_votes',
@@ -86,10 +95,14 @@ class LineRepository extends EntityRepository
             ->where($qb->expr()->eq('l.file', ':file'))
             ->groupBy('l.id')
             ->addGroupBy('t.tweetId')
+            ->setMaxResults($perPage)
+            ->setFirstResult(($page - 1) * $perPage)
             ->setParameter('file', $file);
 
         $query = $qb->getQuery();
-        $query->useResultCache(true, 300, 'lines/file/'.$file->getId());
+        $query->useResultCache(true, 300,
+            sprintf('lines/file/%d/%d-%d', $file->getId(), $page, $perPage)
+        );
 
         $result = $query->getResult();
         $lines = [];
@@ -103,7 +116,7 @@ class LineRepository extends EntityRepository
             $lines[] = $line;
         }
 
-        return $lines;
+        return new PaginatedResult($lines, $total, $page, $perPage);
     }
 
     /**

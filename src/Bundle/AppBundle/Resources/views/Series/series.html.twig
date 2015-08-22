@@ -91,7 +91,13 @@
 
     {% if selected_file is not null %}
     <h3>Showing lines from {{ selected_file.name|replace('_', ' ') }}</h3>
-    {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': selected_file.lines } %}
+    {% include 'ChaosTangentFansubEbooksAppBundle::linegrid.html.twig' with { 'lines': lines } %}
+    {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
+        'route': 'series_file',
+        'route_params': { 'alias': series.alias, 'file_id': selected_file.id },
+        'page': lines.page,
+        'pages': lines.pages
+    } %}
     {% else %}
         {% set resultStart = ((results.page - 1) * results.perPage) %}
         {% set resultEnd = results.perPage %}
