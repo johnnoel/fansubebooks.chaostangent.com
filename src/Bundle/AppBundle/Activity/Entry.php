@@ -200,18 +200,18 @@ class Entry
      */
     public function getMessage()
     {
-        if ($this->getType() == self::ACTIVITY_SERIES_ADD) {
+        if ($this->type == self::ACTIVITY_SERIES_ADD) {
             return 'New series "'.$this->series->getTitle().'" added';
-        } else if ($this->getType() == self::ACTIVITY_VOTE_UP) {
-            return 'Line voted up';
-        } else if ($this->getType() == self::ACTIVITY_VOTE_DOWN) {
-            return 'Line voted down';
-        } else if ($this->getType() == self::ACTIVITY_SUGGEST_SERIES) {
+        } else if ($this->type == self::ACTIVITY_VOTE_UP) {
+            return 'Line #'.$this->line->getId().' voted up';
+        } else if ($this->type == self::ACTIVITY_VOTE_DOWN) {
+            return 'Line #'.$this->line->getId().' voted down';
+        } else if ($this->type == self::ACTIVITY_SUGGEST_SERIES) {
             return 'New series suggested';
-        } else if ($this->getType() == self::ACTIVITY_SUGGEST_SCRIPT) {
+        } else if ($this->type == self::ACTIVITY_SUGGEST_SCRIPT) {
             return 'New script submitted';
-        } else if ($this->getType() == self::ACTIVITY_FLAG) {
-            return 'Line flagged as bad';
+        } else if ($this->type == self::ACTIVITY_FLAG) {
+            return 'Line #'.$this->line->getId().' flagged as bad';
         }
 
         return 'Well, something happened';
