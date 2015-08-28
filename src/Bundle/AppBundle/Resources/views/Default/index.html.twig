@@ -55,6 +55,7 @@
                     <p lang="en" dir="ltr">{{ tweet.line.line }}</p>
                     &mdash; Fansub Ebooks (@fansub_ebooks) <a href="https://twitter.com/fansub_ebooks/status/{{ tweet.tweetId }}">{{ tweet.tweeted|date(datetime_format, 'UTC') }}</a>
                 </blockquote>
+                <p class="tweettrain-details">From: <a href="{{ path('line', { 'id': tweet.line.id }) }}">#{{ tweet.line.id }}</a> / <a href="{{ path('series_view', { 'alias': tweet.line.file.series.alias }) }}">{{ tweet.line.file.series.title }}</a></p>
             </div>
             {% endfor %}
         </div>

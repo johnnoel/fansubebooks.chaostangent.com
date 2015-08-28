@@ -23,8 +23,10 @@ class TweetRepository extends EntityRepository
     public function getLatestTweets($count = 5)
     {
         $qb = $this->createQueryBuilder('t');
-        $qb->addSelect('l')
+        $qb->addSelect('l', 'f', 's')
             ->join('t.line', 'l')
+            ->join('l.file', 'f')
+            ->join('f.series', 's')
             ->orderBy('t.tweeted', 'DESC')
             ->setMaxResults($count);
 

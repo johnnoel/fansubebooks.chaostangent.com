@@ -203,6 +203,16 @@
         vertical-align: top;
         width: 33%;
     }
+
+    .tweettrain-details {
+        font-size: $font-size-small;
+        color: $grey-lighter;
+        width: 100%;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 .activity {
