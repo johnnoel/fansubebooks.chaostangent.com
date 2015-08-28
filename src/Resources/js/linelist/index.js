@@ -12,6 +12,10 @@ import app from './reducers';
  */
 export default class LineListComponent {
     constructor(element, initialState) {
+        if (!element) {
+            return;
+        }
+
         let mw = applyMiddleware(promiseMiddleware)(createStore),
             store = mw(app, initialState);
 
