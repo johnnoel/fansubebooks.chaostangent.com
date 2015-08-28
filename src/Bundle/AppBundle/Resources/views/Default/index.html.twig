@@ -67,11 +67,11 @@
             {% for entry in activity %}
             <li class="activity-entry activity-{{ entry.typeAsText }}">
                 {% if entry.typeAsText == 'series' %}
-                <a href="{{ path('series_view', { 'alias': entry.series.alias }) }}">{{ entry.message }}</a>
+                <a href="{{ path('series_view', { 'alias': entry.object.alias }) }}">{{ entry.message }}</a>
                 {% elseif entry.typeAsText == 'suggestseries' or entry.typeAsText == 'suggestscript' %}
                 {{ entry.message }}
                 {% else %}
-                <a href="{{ path('line', { 'id': entry.line.id }) }}">{{ entry.message }}</a>
+                <a href="{{ path('line', { 'id': entry.object.line.id }) }}">{{ entry.message }}</a>
                 {% endif %}
                 <time datetime="{{ entry.dateTime|date('Y-m-d\\TH:i:sP', 'UTC') }}">{{ entry.dateTime|time_diff }}</time>
             </li>

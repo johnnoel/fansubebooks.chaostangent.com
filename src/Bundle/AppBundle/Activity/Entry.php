@@ -27,23 +27,11 @@ class Entry
      */
     private $dateTime;
     /**
-     * The line (if any) that was the endpoint of the activity
+     * The object that was the endpoint of this activity
      *
-     * @var Line
+     * @var Series|Vote|Suggestion
      */
-    private $line;
-    /**
-     * The suggestion (if any) that was the endpoint of this activity
-     *
-     * @var Suggestion
-     */
-    private $suggestion;
-    /**
-     * The series (if any) that was the endpoint of this activity
-     *
-     * @var Series
-     */
-    private $series;
+    private $object;
     /**
      * The type of activity
      *
@@ -75,72 +63,26 @@ class Entry
     }
 
     /**
-     * Set line
+     * Set object
      *
-     * @param Line $line
+     * @param Series|Vote|Suggestion $object
      * @return Entry
      */
-    public function setLine($line)
+    public function setObject($object)
     {
-        $this->line = $line;
+        $this->object = $object;
 
         return $this;
     }
 
     /**
-     * Get line
+     * Get object
      *
-     * @return Line
+     * @return Series|Vote|Suggestion
      */
-    public function getLine()
+    public function getObject()
     {
-        return $this->line;
-    }
-
-    /**
-     * Set suggestion
-     *
-     * @param Suggestion $suggestion
-     * @return Entry
-     */
-    public function setSuggestion($suggestion)
-    {
-        $this->suggestion = $suggestion;
-
-        return $this;
-    }
-
-    /**
-     * Get suggestion
-     *
-     * @return Suggestion
-     */
-    public function getSuggestion()
-    {
-        return $this->suggestion;
-    }
-
-    /**
-     * Set series
-     *
-     * @param Series $series
-     * @return Entry
-     */
-    public function setSeries($series)
-    {
-        $this->series = $series;
-
-        return $this;
-    }
-
-    /**
-     * Get series
-     *
-     * @return Series
-     */
-    public function getSeries()
-    {
-        return $this->series;
+        return $this->object;
     }
 
     /**
@@ -201,17 +143,17 @@ class Entry
     public function getMessage()
     {
         if ($this->type == self::ACTIVITY_SERIES_ADD) {
-            return 'New series "'.$this->series->getTitle().'" added';
+            return 'New series "'.$this->object->getTitle().'" added';
         } else if ($this->type == self::ACTIVITY_VOTE_UP) {
-            return 'Line #'.$this->line->getId().' voted up';
+            return 'Line #'.$this->object->getLine()->getId().' voted up';
         } else if ($this->type == self::ACTIVITY_VOTE_DOWN) {
-            return 'Line #'.$this->line->getId().' voted down';
+            return 'Line #'.$this->object->getLine()->getId().' voted down';
         } else if ($this->type == self::ACTIVITY_SUGGEST_SERIES) {
             return 'New series suggested';
         } else if ($this->type == self::ACTIVITY_SUGGEST_SCRIPT) {
             return 'New script submitted';
         } else if ($this->type == self::ACTIVITY_FLAG) {
-            return 'Line #'.$this->line->getId().' flagged as bad';
+            return 'Line #'.$this->object->getLine()->getId().' flagged as bad';
         }
 
         return 'Well, something happened';

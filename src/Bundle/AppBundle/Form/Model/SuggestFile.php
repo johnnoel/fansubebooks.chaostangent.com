@@ -32,7 +32,7 @@ class SuggestFile implements \Serializable
     public function unserialize($serialized)
     {
         $unserialized = unserialize($serialized);
-        $this->file = new \SplFileInfo($serialized['file']);
-        $this->uploadedFilename = $serialized['uploaded_filename'];
+        $this->file = new \SplFileInfo($unserialized['file']);
+        $this->uploadedFilename = $unserialized['uploaded_filename'];
     }
 }

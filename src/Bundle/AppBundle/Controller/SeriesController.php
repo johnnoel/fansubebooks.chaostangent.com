@@ -147,4 +147,50 @@ class SeriesController extends Controller
             'lines_serialized' => $serializer->serialize($results->getResults(), 'json', $context),
         ];
     }
+
+    /**
+     * @Route("/{alias}/markov", name="series_markov")
+     * @Method({"GET"})
+     * @Template("ChaosTangentFansubEbooksAppBundle:Series:markov.html.twig")
+     * @ParamConverter("series", class="Entity:Series", options={"repository_method": "getSeries", "map_method_signature": true})
+     */
+    public function markovAction(Series $series, Request $request)
+    {
+        $corpus = '';
+        foreach ($series->getFiles() as $file) {
+            foreach ($file->getLines() as $line) {
+                $corpus .= $line->getLine().' ';
+            }
+        }
+
+        $corpus = preg_split('/\s+/u', $corpus, 0, PREG_SPLIT_NO_EMPTY);
+
+        $length = 140;
+        $startPoint = mt_rand(0, count($corpus) - 1);
+
+        $output = $corpus[$startPoint];
+        $lastWord = $corpus[$startPoint];
+
+        while (mb_strlen($output) < $length) {
+            $nextWords = [];
+
+            reset($corpus);
+            while ((list($k, $v) = each($corpus)) !== false) {
+                if ($v != $lastWord) {
+                    continue;
+                }
+
+                $nextWords[] = next($corpus);
+            }
+
+            $nextWord = $nextWords[array_rand($nextWords)];
+            $output .= ' '.$nextWord;
+
+            $lastWord = $nextWord;
+        }
+
+        return new Response($output);
+
+        return [];
+    }
 }

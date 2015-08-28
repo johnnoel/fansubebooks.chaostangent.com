@@ -36,7 +36,8 @@
         "snc/redis-bundle": "^1.1",
         "predis/predis": "^1.0",
         "twig/extensions": "^1.2",
-        "friendsofsymfony/jsrouting-bundle": "^1.5"
+        "friendsofsymfony/jsrouting-bundle": "^1.5",
+        "aws/aws-sdk-php": "^3.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

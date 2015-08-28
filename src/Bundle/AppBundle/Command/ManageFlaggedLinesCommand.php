@@ -3,8 +3,7 @@
 namespace ChaosTangent\FansubEbooks\Bundle\AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputInterface,
+use Symfony\Component\Console\Input\InputInterface,
     Symfony\Component\Console\Output\OutputInterface,
     Symfony\Component\Console\Helper\Table,
     Symfony\Component\Console\Question\Question;
@@ -27,7 +26,7 @@ class ManageFlaggedLinesCommand extends ContainerAwareCommand
     {
         $om = $this->getContainer()->get('doctrine')->getManager();
         $flagRepo = $om->getRepository('Entity:Flag');
-        $flags = $flagRepo->getFlagsByPeriod(); // get all flags
+        $flags = $flagRepo->getByAdded(); // get all flags
 
         if (empty($flags)) {
             $output->writeln('<comment>No lines flagged!</comment>');

@@ -42,7 +42,7 @@ class Aggregator
             $entry = new Entry();
             $entry->setDateTime($s->getAdded())
                 ->setType(Entry::ACTIVITY_SERIES_ADD)
-                ->setSeries($s);
+                ->setObject($s);
 
             $activity[] = $entry;
         }
@@ -55,7 +55,7 @@ class Aggregator
             $entry = new Entry();
             $entry->setDateTime($vote->getAdded())
                 ->setType($type)
-                ->setLine($vote->getLine());
+                ->setObject($vote);
 
             $activity[] = $entry;
         }
@@ -66,7 +66,7 @@ class Aggregator
             $entry = new Entry();
             $entry->setDateTime($flag->getAdded())
                 ->setType(Entry::ACTIVITY_FLAG)
-                ->setLine($flag->getLine());
+                ->setObject($flag);
 
             $activity[] = $entry;
         }
@@ -80,7 +80,7 @@ class Aggregator
             $entry = new Entry();
             $entry->setDateTime($suggestion->getAdded())
                 ->setType($type)
-                ->setSuggestion($suggestion);
+                ->setObject($suggestion);
 
             $activity[] = $entry;
         }

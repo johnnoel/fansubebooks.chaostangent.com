@@ -1,0 +1,34 @@
+Activity for fansubebooks.chaostangent.com
+------------------------------------------
+{{ start|date(datetime_format, 'UTC') }} to {{ finish|date(datetime_format, 'UTC') }}
+
+{{ flags|length }} lines flagged
+{{ votes_up|length }} lines voted up
+{{ votes_down|length }} lines voted down
+{{ series_suggestions|length }} series suggestions made
+{{ script_suggestions|length }} script suggestions made
+
+
+Line activity
+-------------
+
+{% for entry in activity if (entry.typeAsText == 'voteup' or entry.typeAsText == 'votedown' or entry.typeAsText == 'flag') %}
+{% set obj = entry.object %}
+{{ entry.typeAsText }}: #{{ obj.line.id }} - {{ obj.line.line }} - {{ entry.dateTime|date(datetime_format, 'UTC') }} @ {{ obj.ip }}
+{% endfor %}
+
+
+{% if series_suggestions|length > 0 or script_suggestions|length > 0 %}
+Suggestions
+-----------
+
+{% for entry in activity if (entry.typeAsText == 'suggestseries' or entry.typeAsText == 'suggestscript') %}
+{% if entry.typeAsText == 'suggestseries' %}
+[{{ entry.object.data.group }}] {{ entry.object.data.name }}
+{% else %}
+{{ entry.object.data.uploadedFilename }}
+{% endif %}
+{{ entry.dateTime|date(datetime_format, 'UTC') }}
+{{ entry.object.ip }}
+{% endfor %}
+{% endif %}

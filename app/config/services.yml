@@ -57,3 +57,8 @@ services:
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments: [ ChaosTangent\FansubEbooks\Entity\Suggestion ]
+
+    fansubebooks.aws.sdk:
+        class: Aws\Sdk
+        arguments:
+            - { credentials: { key: %aws_access_key%, secret: %aws_secret_key% }, region: %aws_region%, debug: false }

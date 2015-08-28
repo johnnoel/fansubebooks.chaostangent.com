@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request,
 use ChaosTangent\FansubEbooks\Event\SearchEvent,
     ChaosTangent\FansubEbooks\Event\SearchEvents;
 use ChaosTangent\FansubEbooks\Entity\Series;
+use ChaosTangent\FansubEbooks\Bundle\AppBundle\Activity\Entry;
 
 /**
  * Default controller

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <meta charset="utf-8">
+        <title>Activity for {{ start|date(datetime_format, 'UTC') }} -> {{ finish|date(datetime_format, 'UTC') }} from fansubebooks.chaostangent.com</title>
+    </head>
+    <body style="margin:0;padding:0;background:#FBFBF9;">
+        <div style="margin:0;padding:12px;background:#FBFBF9;">
+            <h1 style="font:bold 24px/1 Arial,Helvetica,sans-serif;text-align:center;margin:0 0 12px;padding:0 0 12px;border-bottom:1px solid #E6E4DD;">
+                {{ start|date(datetime_format, 'UTC') }}
+                <span style="display:block;font-size:14px;font-weight:normal;">to</span>
+                {{ finish|date(datetime_format, 'UTC') }}
+            </h1>
+            <div style="padding-bottom:24px;margin-bottom:24px;">
+                <div style="float:left;width:20%;box-sizing:border-box;padding:0 12px;">
+                    <span style="font:64px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;letter-spacing:-4px;">{{ flags|length }}</span>
+                    <span style="font:11px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;color:#777;">lines flagged</span>
+                </div>
+                <div style="float:left;width:20%;box-sizing:border-box;padding:0 12px;">
+                    <span style="font:64px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;letter-spacing:-4px;">{{ votes_up|length }}</span>
+                    <span style="font:11px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;color:#777;">lines voted up</span>
+                </div>
+                <div style="float:left;width:20%;box-sizing:border-box;padding:0 12px;">
+                    <span style="font:64px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;letter-spacing:-4px;">{{ votes_down|length }}</span>
+                    <span style="font:11px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;color:#777;">lines voted down</span>
+                </div>
+                <div style="float:left;width:20%;box-sizing:border-box;padding:0 12px;">
+                    <span style="font:64px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;letter-spacing:-4px;">{{ series_suggestions|length }}</span>
+                    <span style="font:11px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;color:#777;">series suggestions made</span>
+                </div>
+                <div style="float:left;width:20%;box-sizing:border-box;padding:0 12px;">
+                    <span style="font:64px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;letter-spacing:-4px;">{{ script_suggestions|length }}</span>
+                    <span style="font:11px/1 Arial,Helvetica,sans-serif;display:block;text-align:center;color:#777;">script suggestions made</span>
+                </div>
+                <br style="clear:both;">
+            </div>
+
+            <h2 style="font:bold 18px/1 Arial,Helvetica,sans-serif;margin:0 0 12px;padding:0 0 12px;border-bottom:1px solid #E6E4DD;">Line activity</h2>
+
+            <table style="width:100%;border-collapse:collapse;margin-bottom:36px;">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="2" style="font:12px/1 Arial,Helvetica,sans-serif;text-align:left;color:#777;border-bottom:2px solid #E6E4DD;">#</th>
+                        <th scope="col" style="font:12px/1 Arial,Helvetica,sans-serif;text-align:left;color:#777;border-bottom:2px solid #E6E4DD;padding-left:6px;">Line</th>
+                        <th scope="col" style="font:12px/1 Arial,Helvetica,sans-serif;text-align:left;color:#777;border-bottom:2px solid #E6E4DD;padding-left:6px;">When</th>
+                        <th scope="col" style="font:12px/1 Arial,Helvetica,sans-serif;text-align:left;color:#777;border-bottom:2px solid #E6E4DD;padding-left:6px;">IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in activity if (entry.typeAsText == 'voteup' or entry.typeAsText == 'votedown' or entry.typeAsText == 'flag') %}
+                    {% set obj = entry.object %}
+                    <tr>
+                        <td style="font:14px/1.2 Arial,Helvetica,sans-serif;border-bottom:1px solid #E6E4DD;padding:6px 6px 6px 0;vertical-align:top;"><img src="http://fansubebooks.chaostangent.com/img/{{ entry.typeAsText }}.svg" width="20" height="20" alt=""></td>
+                        <td style="font:14px/1.2 Arial,Helvetica,sans-serif;border-bottom:1px solid #E6E4DD;padding:6px;vertical-align:top;"><a href="{{ url('line', { 'id': obj.line.id }) }}" style="color:#D54000;">#{{ obj.line.id }}</a></td>
+                        <td style="font:14px/1.2 Arial,Helvetica,sans-serif;border-bottom:1px solid #E6E4DD;padding:6px;vertical-align:top;">{{ obj.line.line }}</td>
+                        <td style="font:12px/1.2 Arial,Helvetica,sans-serif;border-bottom:1px solid #E6E4DD;padding:6px;vertical-align:top;color:#777;">{{ entry.dateTime|date(datetime_format, 'UTC') }}</td>
+                        <td style="font:12px/1.2 Arial,Helvetica,sans-serif;border-bottom:1px solid #E6E4DD;padding:6px 0 6px 6px;vertical-align:top;color:#777;">{{ obj.ip }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if series_suggestions|length > 0 or script_suggestions|length > 0 %}
+            <h2 style="font:bold 18px/1 Arial,Helvetica,sans-serif;margin:0 0 12px;padding:0 0 12px;border-bottom:1px solid #E6E4DD;">Suggestions</h2>
+
+            <table style="width:100%;border-collapse:collapse;margin-bottom:36px;">
+                <thead>
+                    <tr>
+                        <th scope="col" style="font:12px/1 Arial,Helvetica,sans-serif;text-align:left;color:#777;border-bottom:2px solid #E6E4DD;">Type</th>
+                        <th scope="col" style="font:12px/1 Arial,Helvetica,sans-serif;text-align:left;color:#777;border-bottom:2px solid #E6E4DD;padding-left:6px;">What</th>
+                        <th scope="col" style="font:12px/1 Arial,Helvetica,sans-serif;text-align:left;color:#777;border-bottom:2px solid #E6E4DD;padding-left:6px;">When</th>
+                        <th scope="col" style="font:12px/1 Arial,Helvetica,sans-serif;text-align:left;color:#777;border-bottom:2px solid #E6E4DD;padding-left:6px;">IP address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in activity if (entry.typeAsText == 'suggestseries' or entry.typeAsText == 'suggestscript') %}
+                    <tr>
+                        <td style="font:14px/1.2 Arial,Helvetica,sans-serif;border-bottom:1px solid #E6E4DD;padding:6px 6px 6px 0;vertical-align:top;">
+                            {% if entry.typeAsText == 'suggestseries' %}
+                            Series
+                            {% else %}
+                            Script
+                            {% endif %}
+                        </td>
+                        <td style="font:14px/1.2 Arial,Helvetica,sans-serif;border-bottom:1px solid #E6E4DD;padding:6px;vertical-align:top;">
+                            {% if entry.typeAsText == 'suggestseries' %}
+                            [{{ entry.object.data.group }}] {{ entry.object.data.name }}
+                            {% else %}
+                            {{ entry.object.data.uploadedFilename }}
+                            {% endif %}
+                        </td>
+                        <td style="font:12px/1.2 Arial,Helvetica,sans-serif;border-bottom:1px solid #E6E4DD;padding:6px;vertical-align:top;color:#777;">{{ entry.dateTime|date(datetime_format, 'UTC') }}</td>
+                        <td style="font:12px/1.2 Arial,Helvetica,sans-serif;border-bottom:1px solid #E6E4DD;padding:6px 0 6px 6px;vertical-align:top;color:#777;">{{ entry.object.ip }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </body>
+</html>
