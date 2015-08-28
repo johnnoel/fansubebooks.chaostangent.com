@@ -267,4 +267,31 @@ class SeriesRepository extends EntityRepository
 
         return $ret;
     }
+
+    /**
+     * Get series that have been added within a specific time frame
+     *
+     * Used by Activity aggregator
+     *
+     * @param \DateTime $start
+     * @param \DateTime $finish
+     * @return array An array of series ordered by when they were added
+     */
+    public function getByAdded(\DateTime $start = null, \DateTime $finish = null)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->orderBy('s.added', 'DESC');
+
+        if ($start !== null) {
+            $qb->andWhere($qb->expr()->gte('s.added', ':start'))
+                ->setParameter('start', $start);
+        }
+
+        if ($finish !== null) {
+            $qb->andWhere($qb->expr()->lte('s.added', ':finish'))
+                ->setParameter('finish', $finish);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

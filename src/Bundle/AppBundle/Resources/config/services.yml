@@ -28,3 +28,9 @@ services:
             - @fansubebooks.entity.repository.line_repository
             - @twig
             - %kernel.debug%
+
+    # activity aggregator
+    fansubebooks.activity.aggregator:
+        class: ChaosTangent\FansubEbooks\Bundle\AppBundle\Activity\Aggregator
+        arguments:
+            - @doctrine.orm.entity_manager

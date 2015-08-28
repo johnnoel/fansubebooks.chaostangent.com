@@ -121,6 +121,16 @@ class Vote
     }
 
     /**
+     * Fluent interface for getPositive()
+     *
+     * @return boolean
+     */
+    public function isPositive()
+    {
+        return $this->positive;
+    }
+
+    /**
      * Set line
      *
      * @param \ChaosTangent\FansubEbooks\Entity\Line $line

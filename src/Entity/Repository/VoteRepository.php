@@ -47,4 +47,31 @@ class VoteRepository extends EntityRepository
 
         return intval($qb->getQuery()->getSingleScalarResult());
     }
+
+    /**
+     * Get votes that occurred within a specific timeframe
+     *
+     * @param \DateTime $start
+     * @param \DateTime $finish
+     * @return array An array of votes
+     */
+    public function getByAdded(\DateTime $start = null, \DateTime $finish = null)
+    {
+        $qb = $this->createQueryBuilder('v');
+        $qb->addSelect('l')
+            ->join('v.line', 'l')
+            ->orderBy('v.added', 'DESC');
+
+        if ($start !== null) {
+            $qb->andWhere($qb->expr()->gte('v.added', ':start'))
+                ->setParameter('start', $start);
+        }
+
+        if ($finish !== null) {
+            $qb->andWhere($qb->expr()->lte('v.added', ':finish'))
+                ->setParameter('finish', $finish);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

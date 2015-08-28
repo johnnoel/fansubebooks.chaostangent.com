@@ -56,7 +56,7 @@ class FlagRepository extends EntityRepository
      * @param \DateTime $end
      * @return array
      */
-    public function getFlagsByPeriod(\DateTime $start = null, \DateTime $end = null)
+    public function getByAdded(\DateTime $start = null, \DateTime $end = null)
     {
         $qb = $this->createQueryBuilder('f');
         $qb->addSelect('l')

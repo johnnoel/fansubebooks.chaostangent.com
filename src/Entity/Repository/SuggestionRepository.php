@@ -48,4 +48,29 @@ class SuggestionRepository extends EntityRepository
         return intval($qb->getQuery()->getSingleScalarResult());
 
     }
+
+    /**
+     * Get suggestions that occurred within a specific timeframe
+     *
+     * @param \DateTime $start
+     * @param \DateTime $finish
+     * @return array An array of suggestions
+     */
+    public function getByAdded(\DateTime $start = null, \DateTime $finish = null)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->orderBy('s.added', 'DESC');
+
+        if ($start !== null) {
+            $qb->andWhere($qb->expr()->gte('s.added', ':start'))
+                ->setParameter('start', $start);
+        }
+
+        if ($finish !== null) {
+            $qb->andWhere($qb->expr()->lte('s.added', ':finish'))
+                ->setParameter('finish', $finish);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

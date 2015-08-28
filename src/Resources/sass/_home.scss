@@ -205,6 +205,47 @@
     }
 }
 
+.activity {
+    .activity-entry {
+        padding: 3px 0;
+    }
+
+    .activity-voteup, .activity-votedown, .activity-flag {
+        padding-left: 24px;
+        position: relative;
+
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 3px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    .activity-voteup:before {
+        background: url(/img/voteup.svg) no-repeat 0 0;
+        background-size: 22px;
+    }
+
+    .activity-votedown:before {
+        background: url(/img/votedown.svg) no-repeat 0 0;
+        background-size: 22px;
+    }
+
+    .activity-flag:before {
+        background: url(/img/flag.svg) no-repeat 3px 2px;
+        background-size: 18px;
+    }
+
+    time {
+        font-size: $font-size-small;
+        float: right;
+        color: $grey-lighter;
+    }
+}
+
 .stat {
     .stat-title {
         font-size: $font-size-h5;
@@ -239,13 +280,23 @@
 }
 
 #recently-tweeted {
+    float: left;
     width: 67%;
     box-sizing: border-box;
     padding-right: 24px;
     margin-bottom: 24px;
 }
 
+#activity {
+    float: left;
+    width: 33%;
+    box-sizing: border-box;
+    padding-left: 24px;
+    margin-bottom: 24px;
+}
+
 #upcoming {
+    clear: left;
     float: left;
     box-sizing: border-box;
     width: 33%;

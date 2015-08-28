@@ -60,6 +60,24 @@
         </div>
     </div>
 
+    <div id="activity" class="panel">
+        <h2 class="panel-title">Activity</h2>
+        <ul class="activity">
+            {% for entry in activity %}
+            <li class="activity-entry activity-{{ entry.typeAsText }}">
+                {% if entry.typeAsText == 'series' %}
+                <a href="{{ path('series_view', { 'alias': entry.series.alias }) }}">{{ entry.message }}</a>
+                {% elseif entry.typeAsText == 'suggestseries' or entry.typeAsText == 'suggestscript' %}
+                {{ entry.message }}
+                {% else %}
+                <a href="{{ path('line', { 'id': entry.line.id }) }}">{{ entry.message }}</a>
+                {% endif %}
+                <time datetime="{{ entry.dateTime|date('Y-m-d\\TH:i:sP', 'UTC') }}">{{ entry.dateTime|time_diff }}</time>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
     <div id="upcoming" class="panel">
         <h2 class="panel-title">Upcoming <small>based on votes</small></h2>
 

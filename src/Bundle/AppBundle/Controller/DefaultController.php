@@ -40,6 +40,9 @@ class DefaultController extends Controller
         $seriesRepo = $om->getRepository('Entity:Series');
         $updated = $seriesRepo->getMostRecentlyUpdated(4);
 
+        $activityAgg = $this->get('fansubebooks.activity.aggregator');
+        $activity = $activityAgg->getActivity(null, null, 8);
+
         $serializer = $this->get('jms_serializer');
         $context = $this->get('fansubebooks.serializer.context');
 
@@ -50,6 +53,7 @@ class DefaultController extends Controller
             'upcoming' => $upcoming,
             'upcoming_serialized' => $serializer->serialize($upcoming, 'json', $context),
             'updated' => $updated,
+            'activity' => $activity,
         ];
     }
 
