@@ -20,15 +20,15 @@ class TweetRepository extends EntityRepository
      *
      * @return Tweet
      */
-    public function getLatestTweet()
+    public function getLatestTweets($count = 5)
     {
         $qb = $this->createQueryBuilder('t');
         $qb->addSelect('l')
             ->join('t.line', 'l')
             ->orderBy('t.tweeted', 'DESC')
-            ->setMaxResults(1);
+            ->setMaxResults($count);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $qb->getQuery()->getResult();
     }
 
     /**

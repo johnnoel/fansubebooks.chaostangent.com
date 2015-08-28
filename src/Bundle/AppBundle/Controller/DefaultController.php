@@ -30,7 +30,7 @@ class DefaultController extends Controller
         $om = $this->get('doctrine')->getManager();
 
         $tweetRepo = $om->getRepository('Entity:Tweet');
-        $latestTweet = $tweetRepo->getLatestTweet();
+        $latestTweets = $tweetRepo->getLatestTweets(4);
         $tweetCount = $tweetRepo->getTotal();
 
         $lineRepo = $om->getRepository('Entity:Line');
@@ -44,7 +44,7 @@ class DefaultController extends Controller
         $context = $this->get('fansubebooks.serializer.context');
 
         return [
-            'latest_tweet' => $latestTweet,
+            'latest_tweets' => $latestTweets,
             'tweet_count' => $tweetCount,
             'line_count' => $lineCount,
             'upcoming' => $upcoming,

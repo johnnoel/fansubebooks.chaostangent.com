@@ -4,6 +4,7 @@
 <div id="home-feature" class="container">
     <div class="tweet">
         <h2 class="tweet-title">Latest tweet</h2>
+        {% set latest_tweet = latest_tweets[0] %}
         {% if latest_tweet %}
         <div class="tweet-tweet">
             {{ latest_tweet.line.line }}
@@ -45,6 +46,20 @@
         <a class="btn btn-lg" href="https://twitter.com/fansub_ebooks">Follow @fansub_ebooks on Twitter</a>
     </div>
 
+    <div id="recently-tweeted" class="panel">
+        <h2 class="panel-title">Recently tweeted</h2>
+        <div class="tweettrain">
+            {% for tweet in latest_tweets[1:] %}
+            <div class="tweettrain-tweet">
+                <blockquote class="twitter-tweet" lang="en">
+                    <p lang="en" dir="ltr">{{ tweet.line.line }}</p>
+                    &mdash; Fansub Ebooks (@fansub_ebooks) <a href="https://twitter.com/fansub_ebooks/status/{{ tweet.tweetId }}">{{ tweet.tweeted|date(datetime_format, 'UTC') }}</a>
+                </blockquote>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <div id="upcoming" class="panel">
         <h2 class="panel-title">Upcoming <small>based on votes</small></h2>
 
@@ -76,6 +91,8 @@
 {% endblock %}
 
 {% block javascripts %}
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 <script>
     var initialState = {
         lines: {{ upcoming_serialized|raw }}
