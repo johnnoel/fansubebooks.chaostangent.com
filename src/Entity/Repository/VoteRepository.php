@@ -53,14 +53,16 @@ class VoteRepository extends EntityRepository
      *
      * @param \DateTime $start
      * @param \DateTime $finish
+     * @param integer $count
      * @return array An array of votes
      */
-    public function getByAdded(\DateTime $start = null, \DateTime $finish = null)
+    public function getByAdded(\DateTime $start = null, \DateTime $finish = null, $count = 10)
     {
         $qb = $this->createQueryBuilder('v');
         $qb->addSelect('l')
             ->join('v.line', 'l')
-            ->orderBy('v.added', 'DESC');
+            ->orderBy('v.added', 'DESC')
+            ->setMaxResults($count);
 
         if ($start !== null) {
             $qb->andWhere($qb->expr()->gte('v.added', ':start'))

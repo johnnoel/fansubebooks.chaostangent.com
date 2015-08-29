@@ -53,10 +53,11 @@ class FlagRepository extends EntityRepository
      * Get flags and associated lines within a time period
      *
      * @param \DateTime $start
-     * @param \DateTime $end
+     * @param \DateTime $finish
+     * @param integer $count
      * @return array
      */
-    public function getByAdded(\DateTime $start = null, \DateTime $end = null)
+    public function getByAdded(\DateTime $start = null, \DateTime $finish = null, $count = 10)
     {
         $qb = $this->createQueryBuilder('f');
         $qb->addSelect('l')
@@ -68,9 +69,9 @@ class FlagRepository extends EntityRepository
                 ->setParameter('start', $start);
         }
 
-        if ($end !== null) {
-            $qb->andWhere($qb->expr()->lte('f.added', ':end'))
-                ->setParameter('end', $end);
+        if ($finish !== null) {
+            $qb->andWhere($qb->expr()->lte('f.added', ':finish'))
+                ->setParameter('finish', $finish);
         }
 
         return $qb->getQuery()->getResult();

@@ -275,12 +275,14 @@ class SeriesRepository extends EntityRepository
      *
      * @param \DateTime $start
      * @param \DateTime $finish
+     * @param integer $count
      * @return array An array of series ordered by when they were added
      */
-    public function getByAdded(\DateTime $start = null, \DateTime $finish = null)
+    public function getByAdded(\DateTime $start = null, \DateTime $finish = null, $count = 10)
     {
         $qb = $this->createQueryBuilder('s');
-        $qb->orderBy('s.added', 'DESC');
+        $qb->orderBy('s.added', 'DESC')
+            ->setMaxResults($count);
 
         if ($start !== null) {
             $qb->andWhere($qb->expr()->gte('s.added', ':start'))

@@ -37,7 +37,7 @@ class Aggregator
         $activity = [];
 
         $seriesRepo = $this->om->getRepository(Series::class);
-        $series = $seriesRepo->getByAdded($start, $finish);
+        $series = $seriesRepo->getByAdded($start, $finish, $count);
         foreach ($series as $s) {
             $entry = new Entry();
             $entry->setDateTime($s->getAdded())
@@ -48,7 +48,7 @@ class Aggregator
         }
 
         $voteRepo = $this->om->getRepository(Vote::class);
-        $votes = $voteRepo->getByAdded($start, $finish);
+        $votes = $voteRepo->getByAdded($start, $finish, $count);
         foreach ($votes as $vote) {
             $type = ($vote->isPositive()) ? Entry::ACTIVITY_VOTE_UP : Entry::ACTIVITY_VOTE_DOWN;
 
@@ -61,7 +61,7 @@ class Aggregator
         }
 
         $flagRepo = $this->om->getRepository(Flag::class);
-        $flags = $flagRepo->getByAdded($start, $finish);
+        $flags = $flagRepo->getByAdded($start, $finish, $count);
         foreach ($flags as $flag) {
             $entry = new Entry();
             $entry->setDateTime($flag->getAdded())
@@ -72,7 +72,7 @@ class Aggregator
         }
 
         $suggestionRepo = $this->om->getRepository(Suggestion::class);
-        $suggestions = $suggestionRepo->getByAdded($start, $finish);
+        $suggestions = $suggestionRepo->getByAdded($start, $finish, $count);
         foreach ($suggestions as $suggestion) {
             $type = ($suggestion->getType() == 'series') ?
                 Entry::ACTIVITY_SUGGEST_SERIES : Entry::ACTIVITY_SUGGEST_SCRIPT;
