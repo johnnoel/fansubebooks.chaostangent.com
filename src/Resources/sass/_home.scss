@@ -62,7 +62,23 @@
         }
 
         .tweet-favourite, .tweet-retweet, .tweet-reply {
-            svg path { fill: $beige; }
+            display: inline;
+            width: auto;
+            height: auto;
+
+            svg {
+                width: 32px;
+                height: 32px;
+
+                path {
+                    transition: fill 0.15s linear;
+                    fill: $beige;
+                }
+            }
+
+            &:hover {
+                svg path { fill: #FFF; }
+            }
         }
 
         .tweet-account, .tweet-favourite, .tweet-retweet, .tweet-reply {
@@ -106,112 +122,6 @@
                 font-size: $font-size-jumbo / 1.5;
             }
         }
-    }
-}
-
-.tweet {
-    line-height: 1;
-    margin-bottom: 24px;
-
-    .tweet-title {
-        font-size: $font-size-h5;
-        text-transform: uppercase;
-        margin-bottom: 6px;
-    }
-
-    .tweet-series {
-        margin-top: 24px;
-    }
-
-    .tweet-details {
-        margin-top: 12px;
-        line-height: 1;
-    }
-
-    .tweet-actions {
-        display: inline-block;
-    }
-
-    .tweet-account {
-        box-sizing: border-box;
-        padding: 7px 6px 0;
-        height: 27px;
-        background: $grey;
-        color: $beige;
-        border: none;
-        border-radius: 30px;
-        display: inline-block;
-        text-decoration: none;
-        font-size: $font-size-small;
-        vertical-align: 100%;
-        transition: background-color 0.15s linear;
-
-        &:hover {
-            background: $orange;
-        }
-    }
-
-    .tweet-favourite, .tweet-reply, .tweet-retweet {
-        svg {
-            width: 32px;
-            height: 32px;
-
-            path {
-                transition: fill 0.15s linear;
-                fill: $grey;
-            }
-        }
-
-        &:hover {
-            svg path { fill: $orange; }
-        }
-    }
-
-    .tweet-datetime {
-        display: inline-block;
-        vertical-align: 100%;
-        font-size: $font-size-small;
-    }
-}
-
-// twitter embed
-.twitter-tweet {
-    border-left: 6px solid $orange;
-    padding: 0 0 0 12px;
-    font-size: $font-size-small;
-
-    p {
-        font-size: $font-size-large;
-        margin-bottom: 12px;
-    }
-}
-
-.tweettrain {
-    font-size: 0;
-    text-align: justify;
-
-    &:after {
-        content: '';
-        display: inline-block;
-        width: 100%;
-    }
-
-    .tweettrain-tweet {
-        text-align: left;
-        font-size: $font-size-base;
-        display: inline-block;
-        vertical-align: top;
-        width: 33%;
-    }
-
-    .tweettrain-details {
-        font-size: $font-size-small;
-        color: $grey-lighter;
-        width: 100%;
-        margin: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 }
 

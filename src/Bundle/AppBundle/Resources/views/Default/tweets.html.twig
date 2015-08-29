@@ -1,0 +1,41 @@
+{% extends '::layout.html.twig' %}
+{% set location = 'tweets' %}
+
+{% block title %}Tweets{% endblock %}
+
+{% block body %}
+<article>
+    <header class="page-header">
+        <h1>Tweets</h1>
+    </header>
+
+    {% if tweets|length > 0 %}
+    <div id="tweets">
+        <div class="tweetlist">
+            {% for tweet in tweets %}
+            <div class="tweet">
+                <div class="tweet-tweet">{{ tweet.line.line }}</div>
+                <div class="tweet-details">
+                    <p class="tweet-series">From: <a href="{{ path('line', { 'id': tweet.line.id }) }}">#{{ tweet.line.id }}</a> / <a href="{{ path('series_view', { 'alias': tweet.line.file.series.alias }) }}">{{ tweet.line.file.series.title }}</a></p>
+                    <div class="tweet-actions">
+                        <a href="https://twitter.com/intent/tweet?in_reply_to={{ tweet.tweetId }}" class="tweet-reply">Reply</a>
+                        <a href="https://twitter.com/intent/retweet?tweet_id={{ tweet.tweetId }}" class="tweet-retweet">Retweet</a>
+                        <a href="https://twitter.com/intent/favorite?tweet_id={{ tweet.tweetId }}" class="tweet-favourite">Favourite</a>
+                    </div>
+                    <a href="https://twitter.com/fansub_ebooks/status/{{ tweet.tweetId }}" class="tweet-datetime">
+                        <time datetime="{{ tweet.tweeted|date('Y-m-d\\TH:i:sP', 'UTC') }}">{{ tweet.tweeted|date(datetime_format, 'UTC') }}</time>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
+        'route': 'tweets',
+        'page': tweets.page,
+        'pages': tweets.pages
+    } %}
+    {% endif %}
+</article>
+{% endblock %}

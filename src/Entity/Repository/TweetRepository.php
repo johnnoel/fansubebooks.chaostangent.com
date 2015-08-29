@@ -4,6 +4,7 @@ namespace ChaosTangent\FansubEbooks\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\NoResultException;
+use ChaosTangent\FansubEbooks\Entity\Result\PaginatedResult;
 
 /**
  * Tweet entity repository
@@ -16,21 +17,26 @@ class TweetRepository extends EntityRepository
     /**
      * Get the latest tweet with pre-populated line
      *
-     * Used on: homepage
+     * Used on: homepage, tweets
      *
+     * @param integer $page
+     * @param integer $perPage
      * @return Tweet
      */
-    public function getLatestTweets($count = 5)
+    public function getLatest($page = 1, $perPage = 30)
     {
+        $total = $this->getTotal();
+
         $qb = $this->createQueryBuilder('t');
         $qb->addSelect('l', 'f', 's')
             ->join('t.line', 'l')
             ->join('l.file', 'f')
             ->join('f.series', 's')
             ->orderBy('t.tweeted', 'DESC')
-            ->setMaxResults($count);
+            ->setFirstResult(($page - 1) * $perPage)
+            ->setMaxResults($perPage);
 
-        return $qb->getQuery()->getResult();
+        return new PaginatedResult($qb->getQuery()->getResult(), $total, $page, $perPage);
     }
 
     /**

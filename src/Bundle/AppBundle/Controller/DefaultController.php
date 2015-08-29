@@ -8,7 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\HttpFoundation\Response;
-use ChaosTangent\FansubEbooks\Entity\Series;
+use ChaosTangent\FansubEbooks\Entity\Series,
+    ChaosTangent\FansubEbooks\Entity\Tweet;
 use ChaosTangent\FansubEbooks\Bundle\AppBundle\Activity\Entry;
 
 /**
@@ -29,7 +30,7 @@ class DefaultController extends Controller
         $om = $this->get('doctrine')->getManager();
 
         $tweetRepo = $om->getRepository('Entity:Tweet');
-        $latestTweets = $tweetRepo->getLatestTweets(4);
+        $latestTweets = $tweetRepo->getLatest(1, 4);
         $tweetCount = $tweetRepo->getTotal();
 
         $lineRepo = $om->getRepository('Entity:Line');
@@ -85,6 +86,27 @@ class DefaultController extends Controller
         return [
             'lines' => $lines,
             'lines_serialized' => $serialized,
+        ];
+    }
+
+    /**
+     * @Route("/tweets.{_format}", name="tweets",
+     *      requirements={"_format": "|json"},
+     *      defaults={"_format": "html"},
+     *      options={"expose": true}
+     * )
+     * @Method({"GET"})
+     * @Template("ChaosTangentFansubEbooksAppBundle:Default:tweets.html.twig")
+     */
+    public function tweetsAction(Request $request)
+    {
+        $page = intval($request->query->get('page', 1));
+
+        $tweetRepo = $this->get('doctrine')->getManager()->getRepository(Tweet::class);
+        $tweets = $tweetRepo->getLatest($page, 50);
+
+        return [
+            'tweets' => $tweets,
         ];
     }
 

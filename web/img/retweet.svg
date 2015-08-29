@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- License Agreement at http://iconmonstr.com/license/ -->
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+<path id="retweet-3-icon" fill="#D54000" d="M256,50C142.229,50,50,142.229,50,256c0,113.771,92.229,206,206,206s206-92.229,206-206
+	C462,142.229,369.771,50,256,50z M148.992,343.993v-123.68H116.92l50.057-50.307l50.311,50.307h-31.526v86.911h82.142l36.768,36.769
+	H148.992z M347.023,343.626l-50.31-50.31h31.489v-86.541h-82.156l-36.768-36.769h155.691v123.31h32.109L347.023,343.626z"/>
+</svg>
