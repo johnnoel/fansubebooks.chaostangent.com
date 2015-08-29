@@ -122,16 +122,16 @@
         },
         {
             "name": "chaostangent/php-ass",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnnoel/php-ass.git",
-                "reference": "b955c3f98979cf5491ba6ed8ac51836845ac5021"
+                "reference": "ddf41b80515a70728ff31c4defbc84afa543ed2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnnoel/php-ass/zipball/b955c3f98979cf5491ba6ed8ac51836845ac5021",
-                "reference": "b955c3f98979cf5491ba6ed8ac51836845ac5021",
+                "url": "https://api.github.com/repos/johnnoel/php-ass/zipball/ddf41b80515a70728ff31c4defbc84afa543ed2d",
+                "reference": "ddf41b80515a70728ff31c4defbc84afa543ed2d",
                 "shasum": ""
             },
             "require": {
@@ -168,7 +168,7 @@
                 "subtitle",
                 "subtitles"
             ],
-            "time": "2015-08-09 12:03:05"
+            "time": "2015-08-29 10:42:41"
         },
         {
             "name": "doctrine/annotations",
@@ -1094,16 +1094,16 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.5",
+            "version": "v2.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "12da6e0c6ffbc7702d9f83ff12f3649a0bc5b600"
+                "reference": "5d330411e27ab0ced67e1e5383ccae975c23c17d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/12da6e0c6ffbc7702d9f83ff12f3649a0bc5b600",
-                "reference": "12da6e0c6ffbc7702d9f83ff12f3649a0bc5b600",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/5d330411e27ab0ced67e1e5383ccae975c23c17d",
+                "reference": "5d330411e27ab0ced67e1e5383ccae975c23c17d",
                 "shasum": ""
             },
             "require": {
@@ -1169,7 +1169,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2015-08-11 16:33:57"
+            "time": "2015-08-28 11:07:14"
         },
         {
             "name": "guzzlehttp/guzzle",
