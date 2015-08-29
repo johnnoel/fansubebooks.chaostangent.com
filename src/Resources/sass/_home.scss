@@ -24,6 +24,18 @@
                 color: #FFF;
             }
         }
+
+        @media (max-width: 600px) {
+            .navbar {
+                .on a {
+                    color: $orange;
+                }
+
+                a {
+                    color: $grey;
+                }
+            }
+        }
     }
 }
 
@@ -211,6 +223,10 @@
 
     .panel-actions {
         right: 24px;
+
+        @media (max-width: 600px) {
+            right: 0;
+        }
     }
 }
 
@@ -240,7 +256,7 @@
 }
 
 @media (max-width: 768px) {
-    #upcoming, #recently-updated {
+    #recently-tweeted, #activity, #upcoming, #recently-updated {
         width: 100%;
         float: none;
         padding: 0;

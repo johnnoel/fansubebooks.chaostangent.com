@@ -156,4 +156,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+    @media (max-width: 600px) {
+        .tweettrain-tweet {
+            display: block;
+            width: auto;
+        }
+    }
 }
