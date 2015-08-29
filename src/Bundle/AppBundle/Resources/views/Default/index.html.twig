@@ -9,8 +9,8 @@
         <div class="tweet-tweet">
             {{ latest_tweet.line.line }}
         </div>
-        <p class="tweet-series">From: <a href="{{ path('line', { 'id': latest_tweet.line.id }) }}">#{{ latest_tweet.line.id }}</a> / <a href="{{ path('series_view', { 'alias': latest_tweet.line.file.series.alias }) }}">{{ latest_tweet.line.file.series.title }}</a></p>
         <div class="tweet-details">
+            <p class="tweet-series">From: <a href="{{ path('line', { 'id': latest_tweet.line.id }) }}">#{{ latest_tweet.line.id }}</a> / <a href="{{ path('series_view', { 'alias': latest_tweet.line.file.series.alias }) }}">{{ latest_tweet.line.file.series.title }}</a></p>
             <div class="tweet-actions">
                 <a href="https://twitter.com/fansub_ebooks" class="tweet-account">@fansub_ebooks</a>
                 <a href="https://twitter.com/intent/tweet?in_reply_to={{ latest_tweet.tweetId }}" class="tweet-reply">{% include '@svg/reply.svg.twig' %}</a>
@@ -48,7 +48,7 @@
 
     <div id="recently-tweeted" class="panel">
         <h2 class="panel-title">Recently tweeted</h2>
-        <a href="" class="btn panel-actions">View all</a>
+        <a href="{{ path('tweets') }}" class="btn panel-actions">View all</a>
         <div class="tweettrain">
             {% for tweet in latest_tweets[1:] %}
             <div class="tweettrain-tweet">

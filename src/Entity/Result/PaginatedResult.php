@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @author John Noel <john.noel@chaostangent>
  * @package FansubEbooks
  */
-class PaginatedResult implements \IteratorAggregate, \Countable
+class PaginatedResult implements \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**
      * @var array
@@ -116,5 +116,37 @@ class PaginatedResult implements \IteratorAggregate, \Countable
     public function count()
     {
         return count($this->results);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset, $this->results);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetGet($offset)
+    {
+        return $this->results[$offset];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetSet($offset, $value)
+    {
+        return \RuntimeException('A PaginatedResult is read only after creation');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetUnset($offset)
+    {
+        return \RuntimeException('A PaginatedResult is read only after creation');
     }
 }
