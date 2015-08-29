@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request,
 use ChaosTangent\FansubEbooks\Entity\Series,
     ChaosTangent\FansubEbooks\Entity\Tweet;
 use ChaosTangent\FansubEbooks\Bundle\AppBundle\Activity\Entry;
+use ChaosTangent\FansubEbooks\Twitter\Util as TwitterUtil;
 
 /**
  * Default controller
@@ -100,12 +101,19 @@ class DefaultController extends Controller
      */
     public function tweetsAction(Request $request)
     {
-        $page = intval($request->query->get('page', 1));
-
+        $url = $request->query->get('q', null);
         $tweetRepo = $this->get('doctrine')->getManager()->getRepository(Tweet::class);
-        $tweets = $tweetRepo->getLatest($page, 50);
+
+        if ($url === null) {
+            $page = intval($request->query->get('page', 1));
+            $tweets = $tweetRepo->getLatest($page, 50);
+        } else {
+            $tweet = $tweetRepo->getByTweetId(TwitterUtil::getStatusIdFromUrl($url));
+            $tweets = ($tweet === null) ? [] : [ $tweet ];
+        }
 
         return [
+            'q' => $url,
             'tweets' => $tweets,
         ];
     }

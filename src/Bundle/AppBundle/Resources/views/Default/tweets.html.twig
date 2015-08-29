@@ -9,6 +9,19 @@
         <h1>Tweets</h1>
     </header>
 
+    <form method="GET" action="" class="search">
+        <fieldset>
+            <legend class="search-title">Search for a tweet</legend>
+            <p>Paste in the tweet URL to find that line</p>
+
+            <div class="search-inner">
+                <label for="search-query">Tweet URL</label>
+                <input type="text" name="q" placeholder="https://twitter.com/fansub_ebooks/status/637165224404086784" value="{{ q }}" class="search-query">
+                <button type="submit" class="search-action">Search</button>
+            </div>
+        </fieldset>
+    </form>
+
     {% if tweets|length > 0 %}
     <div id="tweets">
         <div class="tweetlist">
@@ -31,11 +44,15 @@
         </div>
     </div>
 
+    {% if tweets|length > 1 %}
     {% include 'ChaosTangentFansubEbooksAppBundle::pagination.html.twig' with {
         'route': 'tweets',
         'page': tweets.page,
         'pages': tweets.pages
     } %}
+    {% endif %}
+    {% else %}
+    <p class="alert">No tweets found</p>
     {% endif %}
 </article>
 {% endblock %}

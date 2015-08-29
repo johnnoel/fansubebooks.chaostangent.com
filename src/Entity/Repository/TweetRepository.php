@@ -61,4 +61,23 @@ class TweetRepository extends EntityRepository
             return 0;
         }
     }
+
+    /**
+     * Get a line by its tweet/status ID
+     *
+     * @param string $tweetId
+     * @return Tweet|null
+     */
+    public function getByTweetId($tweetId)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->addSelect('l', 'f', 's')
+            ->join('t.line', 'l')
+            ->join('l.file', 'f')
+            ->join('f.series', 's')
+            ->where($qb->expr()->eq('t.tweetId', ':tweetId'))
+            ->setParameter('tweetId', $tweetId);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

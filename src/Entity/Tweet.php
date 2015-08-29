@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
  * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Entity\Repository\TweetRepository")
- * @ORM\Table(name="tweets")
+ * @ORM\Table(name="tweets", indexes={
+ *      @ORM\Index(name="tweet_id_idx", columns={"tweet_id"})
+ * })
  */
 class Tweet
 {
