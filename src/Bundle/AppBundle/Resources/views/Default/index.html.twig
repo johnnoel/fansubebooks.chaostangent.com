@@ -48,6 +48,7 @@
 
     <div id="recently-tweeted" class="panel">
         <h2 class="panel-title">Recently tweeted</h2>
+        <a href="" class="btn panel-actions">View all</a>
         <div class="tweettrain">
             {% for tweet in latest_tweets[1:] %}
             <div class="tweettrain-tweet">
@@ -97,6 +98,7 @@
 
     <div id="recently-updated" class="panel">
         <h2 class="panel-title">Recently updated series</h2>
+        <a href="{{ path('series') }}" class="btn panel-actions">View all</a>
         <div class="seriesgrid">
             {% for series in updated %}
             {% include 'ChaosTangentFansubEbooksAppBundle::series.html.twig' with {

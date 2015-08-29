@@ -295,6 +295,10 @@
     box-sizing: border-box;
     padding-right: 24px;
     margin-bottom: 24px;
+
+    .panel-actions {
+        right: 24px;
+    }
 }
 
 #activity {

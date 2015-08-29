@@ -256,11 +256,19 @@ input[type="text"] {
 }
 
 .panel {
+    position: relative;
+
     .panel-title {
         font-size: $font-size-h3;
         border-bottom: 1px solid $beige-darker;
         padding-bottom: 4px;
         margin-bottom: 12px;
+    }
+
+    .panel-actions {
+        position: absolute;
+        top: 1px;
+        right: 0;
     }
 }
 
