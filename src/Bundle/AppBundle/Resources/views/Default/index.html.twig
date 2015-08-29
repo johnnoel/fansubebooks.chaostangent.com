@@ -13,9 +13,9 @@
         <div class="tweet-details">
             <div class="tweet-actions">
                 <a href="https://twitter.com/fansub_ebooks" class="tweet-account">@fansub_ebooks</a>
-                <a href="https://twitter.com/intent/favorite?tweet_id={{ latest_tweet.tweetId }}" class="tweet-favourite">{% include '@svg/favourite.svg.twig' %}</a>
+                <a href="https://twitter.com/intent/tweet?in_reply_to={{ latest_tweet.tweetId }}" class="tweet-reply">{% include '@svg/reply.svg.twig' %}</a>
                 <a href="https://twitter.com/intent/retweet?tweet_id={{ latest_tweet.tweetId }}" class="tweet-retweet">{% include '@svg/retweet.svg.twig' %}</a>
-                <a href="https://twitter.com/intent/tweet?in-reply-to={{ latest_tweet.tweetId }}" class="tweet-reply">{% include '@svg/reply.svg.twig' %}</a>
+                <a href="https://twitter.com/intent/favorite?tweet_id={{ latest_tweet.tweetId }}" class="tweet-favourite">{% include '@svg/favourite.svg.twig' %}</a>
             </div>
             <a href="https://twitter.com/fansub_ebooks/status/{{ latest_tweet.tweetId }}" class="tweet-datetime">
                 <time datetime="{{ latest_tweet.tweeted|date('Y-m-d\\TH:i:sP', 'UTC') }}">{{ latest_tweet.tweeted|date(datetime_format, 'UTC') }}</time>
