@@ -56,6 +56,7 @@
                     <button type="button" class="navbar-menu" id="menu">Show menu</button>
                     <ul>
                         <li{% if location == 'home' %} class="on"{% endif %}><a href="{{ path('home') }}">Home</a></li>
+                        <li{% if location == 'tweets' %} class="on"{% endif %}><a href="{{ path('tweets') }}">Tweets</a></li>
                         <li{% if location == 'popular' %} class="on"{% endif %}><a href="{{ path('popular') }}">Popular</a></li>
                         <li{% if location == 'series' %} class="on"{% endif %}><a href="{{ path('series') }}">Explore</a></li>
                         <li><a href="{{ path('random') }}">Random</a></li>
