@@ -1,7 +1,9 @@
 security:
     providers:
-        in_memory:
-            memory: ~
+        quiz:
+            entity:
+                class: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\User
+                property: twitterId
 
     firewalls:
         dev:
@@ -11,6 +13,11 @@ security:
         quiz:
             pattern: ^/quiz
             anonymous: ~
+            twitter:
+                login_path: quiz_login
+                confirm_path: quiz_login_confirm
+                consumer_key: %twitter_quiz.consumer_key%
+                consumer_secret: %twitter_quiz.consumer_secret%
 
         main:
             pattern: ^/

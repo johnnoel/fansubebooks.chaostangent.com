@@ -1,4 +1,19 @@
 services:
-#    chaos_tangent_fansub_ebooks_quiz.example:
-#        class: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    fansubebooks.quiz.authentication.provider.twitter:
+        class: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Security\TwitterAuthenticationProvider
+        arguments:
+            - ~ # user provider
+            - @session
+            - ~ # provider id
+            - ~ # consumer key
+            - ~ # consumer secret
+
+    fansubebooks.quiz.authentication.listener.twitter:
+        class: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Security\TwitterAuthenticationListener
+        arguments:
+            - @security.token_storage
+            - @security.authentication.manager
+            - @security.http_utils
+            - ~ # provider id
+            - ~ # login path
+            - ~ # confirm path

@@ -81,6 +81,12 @@ doctrine:
                         prefix: ChaosTangent\FansubEbooks\Entity
                         alias: Entity
                         is_bundle: false
+                    quiz:
+                        type: annotation
+                        dir: %kernel.root_dir%/../src/Bundle/QuizBundle/Entity
+                        prefix: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity
+                        alias: Quiz
+                        is_bundle: false
                 dql:
                     datetime_functions:
                         greatest: ChaosTangent\FansubEbooks\Extension\Doctrine\DQL\Greatest

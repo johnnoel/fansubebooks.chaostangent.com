@@ -1,6 +1,6 @@
 <?php
 
-namespace ChaosTangent\FansubEbooks\Entity\Quiz;
+namespace ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,20 +9,20 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
- * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Entity\Repository\Quiz\AnswerRepository")
+ * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Repository\AnswerRepository")
  * @ORM\Table(name="quiz_answers")
  */
 class Answer
 {
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\Quiz\Question", inversedBy="answers")
+     * @ORM\ManyToOne(targetEntity="ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Question", inversedBy="answers")
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $question;
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\Quiz\User", inversedBy="answers")
+     * @ORM\ManyToOne(targetEntity="ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\User", inversedBy="answers")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $user;

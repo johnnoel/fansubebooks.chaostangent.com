@@ -1,6 +1,6 @@
 <?php
 
-namespace ChaosTangent\FansubEbooks\Entity\Quiz;
+namespace ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
- * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Entity\Repository\Quiz\QuestionRepository")
+ * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Repository\QuestionRepository")
  * @ORM\Table(name="quiz_questions")
  */
 class Question
@@ -42,7 +42,7 @@ class Question
      */
     private $series3;
     /**
-     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Quiz\Answer", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Answer", mappedBy="question")
      */
     private $answers;
 

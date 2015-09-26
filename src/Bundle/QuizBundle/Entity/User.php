@@ -1,6 +1,6 @@
 <?php
 
-namespace ChaosTangent\FansubEbooks\Entity\Quiz;
+namespace ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,7 +34,7 @@ class User
      */
     private $tokens;
     /**
-     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Entity\Quiz\Answer", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Answer", mappedBy="user")
      */
     private $answers;
 
