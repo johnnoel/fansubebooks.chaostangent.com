@@ -54,8 +54,8 @@ class TwitterAuthenticationProvider implements AuthenticationProviderInterface
     public function authenticate(TokenInterface $token)
     {
         $this->twitter = new Twitter([
-            'identifier' => $consumerKey,
-            'secret' => $consumerSecret,
+            'identifier' => $this->consumerKey,
+            'secret' => $this->consumerSecret,
             'callback_uri' => $token->getCallbackUri(),
         ]);
 
@@ -68,9 +68,14 @@ class TwitterAuthenticationProvider implements AuthenticationProviderInterface
                 $token->getAttribute('oauth_verifier')
             );
 
-            $user = $this->twitter->getUserDetails($credentials);
+            $twitterUser = $this->twitter->getUserDetails($credentials);
 
-            return $this->userProvider->loadUserByUsername($user);
+            $user = $this->userProvider->loadUserByUsername($twitterUser);
+
+            $authToken = new TwitterToken($token->getProviderKey(), '', $user->getRoles());
+            $authToken->setUser($user);
+
+            return $authToken;
         }
 
         $temp = $this->twitter->getTemporaryCredentials();

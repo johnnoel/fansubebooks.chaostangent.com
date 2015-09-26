@@ -1,9 +1,14 @@
 security:
+    erase_credentials: false
+
+    encoders:
+        ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\User:
+            algorithm: plaintext
+            ignore_case: true
+
     providers:
         quiz:
-            entity:
-                class: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\User
-                property: twitterId
+            id: fansubebooks.quiz.repository.user_repository
 
     firewalls:
         dev:

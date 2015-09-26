@@ -4,16 +4,18 @@ namespace ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Quiz user entity
  *
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Repository\UserRepository")
  * @ORM\Table(name="quiz_users")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -26,13 +28,18 @@ class User
      */
     private $twitterId;
     /**
+     * @ORM\Column(type="string", length=255, name="display_name")
+     */
+    private $displayName;
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $avatar;
+    /**
      * @ORM\Column(type="datetime", name="signed_up")
+     * @Gedmo\Timestampable(on="create")
      */
     private $signedUp;
-    /**
-     * @ORM\Column(type="json_array")
-     */
-    private $tokens;
     /**
      * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Answer", mappedBy="user")
      */
@@ -77,6 +84,60 @@ class User
     }
 
     /**
+     * Set displayName
+     *
+     * @param string $displayName
+     * @return User
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+
+        return $this;
+    }
+
+    /**
+     * Get displayName
+     *
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
+
+    /**
+     * Set avatar
+     *
+     * @param string $avatar
+     * @return User
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUsername()
+    {
+        return $this->twitterId;
+    }
+
+    /**
      * Set signedUp
      *
      * @param \DateTime $signedUp
@@ -100,25 +161,33 @@ class User
     }
 
     /**
-     * Set tokens
-     *
-     * @param array $tokens
-     * @return User
+     * {@inheritDoc}
      */
-    public function setTokens($tokens)
+    public function getPassword()
     {
-        $this->tokens = $tokens;
-
-        return $this;
+        return '';
     }
 
     /**
-     * Get tokens
-     *
-     * @return array
+     * {@inheritDoc}
      */
-    public function getTokens()
+    public function getSalt()
     {
-        return $this->tokens;
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRoles()
+    {
+        return [ 'ROLE_QUIZ' ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function eraseCredentials()
+    {
     }
 }

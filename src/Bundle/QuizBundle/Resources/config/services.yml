@@ -12,3 +12,9 @@ services:
         class: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Security\TwitterAuthenticationListener
         parent: security.authentication.listener.abstract
         abstract: true
+
+    fansubebooks.quiz.repository.user_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\User ]

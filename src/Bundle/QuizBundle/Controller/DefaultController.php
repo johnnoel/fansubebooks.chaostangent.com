@@ -19,11 +19,14 @@ class DefaultController extends Controller
 {
     /**
      * @Route("", name="quiz")
+     * @Route("/login", name="quiz_login")
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksQuizBundle:Default:index.html.twig")
      */
     public function indexAction()
     {
+        $repo = $this->get('doctrine')->getManager()->getRepository('Quiz:User');
+        var_dump(get_class($repo));
         return [];
     }
 

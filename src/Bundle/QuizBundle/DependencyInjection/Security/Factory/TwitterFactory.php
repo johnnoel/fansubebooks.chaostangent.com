@@ -42,6 +42,18 @@ class TwitterFactory extends AbstractFactory
         return 'fansubebooks.quiz.authentication.listener.twitter';
     }
 
+    protected function createListener($container, $id, $config, $userProvider)
+    {
+        $listenerId = parent::createListener($container, $id, $config, $userProvider);
+
+        $listener = $container->getDefinition($listenerId);
+        $listener->addMethodCall('setAuthProvider', [
+            new Reference($this->createAuthProvider($container, $id, $config, $userProvider))
+        ]);
+
+        return $listenerId;
+    }
+
     public function getPosition()
     {
         return 'form';

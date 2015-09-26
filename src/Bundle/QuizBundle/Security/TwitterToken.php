@@ -59,7 +59,7 @@ class TwitterToken extends AbstractToken
      */
     public function serialize()
     {
-        return serialize(array($this->providerKey, $this->oauthToken, $this->oauthVerifier, parent::serialize()));
+        return serialize(array($this->providerKey, $this->callbackUri, parent::serialize()));
     }
 
     /**
@@ -67,7 +67,12 @@ class TwitterToken extends AbstractToken
      */
     public function unserialize($serialized)
     {
-        list($this->providerKey, $this->oauthToken, $this->oauthVerifier, $parentStr) = unserialize($serialized);
+        list($this->providerKey, $this->callbackUri, $parentStr) = unserialize($serialized);
         parent::unserialize($parentStr);
+    }
+
+    public function getCredentials()
+    {
+        return '';
     }
 }

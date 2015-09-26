@@ -3,7 +3,8 @@
 namespace ChaosTangent\FansubEbooks\Bundle\QuizBundle\Security;
 
 use Symfony\Component\Security\Http\Firewall\AbstractAuthenticationListener;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException,
+    Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,6 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TwitterAuthenticationListener extends AbstractAuthenticationListener
 {
+    /** @var AuthenticationProviderInterface */
+    protected $authProvider;
+
     /**
      * {@inheritDoc}
      */
@@ -32,6 +36,29 @@ class TwitterAuthenticationListener extends AbstractAuthenticationListener
             throw new AuthenticationException('User denied access to app');
         }
 
+        /**
+         * @see setAuthProvider
+         */
+        if ($this->authProvider !== null) {
+            return $this->authProvider->authenticate($token);
+        }
+
         return $this->authenticationManager->authenticate($token);
+    }
+
+    /**
+     * Set the direct authentication provider
+     *
+     * Why not use $authenticationManager you ask? Well you ALWAYS have to
+     * return a TokenInterface from authenticate because the manager just
+     * blithely calls methods and whatnot on it without checking. Which means
+     * I either need to modify the MASSIVE constructor for
+     * AbstractAuthenticationListener or do it this way
+     *
+     * @param AuthenticationProviderInterface $provider
+     */
+    public function setAuthProvider(AuthenticationProviderInterface $provider)
+    {
+        $this->authProvider = $provider;
     }
 }
