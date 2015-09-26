@@ -67,7 +67,7 @@ class Question
      * @param Line $line
      * @return Question
      */
-    public function setLine(ChaosTangent\FansubEbooks\Entity\Line $line)
+    public function setLine(\ChaosTangent\FansubEbooks\Entity\Line $line)
     {
         $this->line = $line;
 
@@ -90,7 +90,7 @@ class Question
      * @param Series $series1
      * @return Question
      */
-    public function setSeries1(ChaosTangent\FansubEbooks\Entity\Series $series1)
+    public function setSeries1(\ChaosTangent\FansubEbooks\Entity\Series $series1)
     {
         $this->series1 = $series1;
 
@@ -113,7 +113,7 @@ class Question
      * @param Series $series2
      * @return Question
      */
-    public function setSeries2(ChaosTangent\FansubEbooks\Entity\Series $series2)
+    public function setSeries2(\ChaosTangent\FansubEbooks\Entity\Series $series2)
     {
         $this->series2 = $series2;
 
@@ -136,7 +136,7 @@ class Question
      * @param Series $series3
      * @return Question
      */
-    public function setSeries3(ChaosTangent\FansubEbooks\Entity\Series $series3)
+    public function setSeries3(\ChaosTangent\FansubEbooks\Entity\Series $series3)
     {
         $this->series3 = $series3;
 

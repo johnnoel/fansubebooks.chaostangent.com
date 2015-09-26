@@ -90,6 +90,8 @@ doctrine:
                 dql:
                     datetime_functions:
                         greatest: ChaosTangent\FansubEbooks\Extension\Doctrine\DQL\Greatest
+                    numeric_functions:
+                        random: ChaosTangent\FansubEbooks\Extension\Doctrine\DQL\Random
 
 # Swiftmailer Configuration
 swiftmailer:

@@ -1,0 +1,26 @@
+{% extends '::layout.html.twig' %}
+{% set location = 'quiz' %}
+
+{% block body %}
+<h1>{{ question.line.line }}</h1>
+
+<ul>
+    <li>
+        <img src="{{ question.series1.thumbnail }}" alt="">
+        {{ question.series1.title }}
+    </li>
+    <li>
+        <img src="{{ question.series2.thumbnail }}" alt="">
+        {{ question.series2.title }}
+    </li>
+    <li>
+        <img src="{{ question.series3.thumbnail }}" alt="">
+        {{ question.series3.title }}
+    </li>
+</ul>
+
+<p>
+    <button type="button">Pass</button>
+    <button type="button">Flag</button>
+</p>
+{% endblock %}

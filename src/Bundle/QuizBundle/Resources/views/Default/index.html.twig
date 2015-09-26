@@ -3,6 +3,16 @@
 
 {% block body %}
 <article>
-    <h1>Quiz!</h1>
+    {% if app.user is not null %}
+    <header class="quiz-header">
+        <p>Logged in as @{{ app.user.displayName }} <img src="{{ app.user.avatar }}" alt=""> <a href="">Logout</a></p>
+    </header>
+    {% else %}
+    <header>
+        <h1>Quiz!</h1>
+    </header>
+
+    <a href="{{ path('quiz_login') }}">Login to begin</a>
+    {% endif %}
 </article>
 {% endblock %}

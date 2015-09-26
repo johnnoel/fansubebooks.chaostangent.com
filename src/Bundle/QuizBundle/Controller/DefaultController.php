@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ChaosTangent\FansubEbooks\Entity\Quiz\Question,
-    ChaosTangent\FansubEbooks\Entity\Quiz\Answer;
+use Symfony\Component\HttpFoundation\Request;
+use ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Question,
+    ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Answer;
 
 /**
  * Quiz controller
@@ -25,15 +26,13 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $repo = $this->get('doctrine')->getManager()->getRepository('Quiz:User');
-        var_dump(get_class($repo));
         return [];
     }
 
     /**
      * @Route("/question", name="quiz_question")
      * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Quiz:question.html.twig")
+     * @Template("ChaosTangentFansubEbooksQuizBundle:Default:question.html.twig")
      */
     public function questionAction(Request $request)
     {

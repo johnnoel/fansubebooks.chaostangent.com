@@ -3,6 +3,7 @@
 namespace ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Quiz answer entity
@@ -28,6 +29,7 @@ class Answer
     private $user;
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $asked;
     /**
@@ -50,7 +52,7 @@ class Answer
      * @param Question $question
      * @return Answer
      */
-    public function setQuestion(ChaosTangent\FansubEbooks\Entity\Quiz\Question $question)
+    public function setQuestion(\ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Question $question)
     {
         $this->question = $question;
 
@@ -73,7 +75,7 @@ class Answer
      * @param User $user
      * @return Answer
      */
-    public function setUser(ChaosTangent\FansubEbook\Entity\Quiz\User $user)
+    public function setUser(\ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -119,7 +121,7 @@ class Answer
      * @param Series $answer
      * @return Answer
      */
-    public function setAnswer(ChaosTangent\FansubEbooks\Entity\Series $answer)
+    public function setAnswer(\ChaosTangent\FansubEbooks\Entity\Series $answer)
     {
         $this->answer = $answer;
 
