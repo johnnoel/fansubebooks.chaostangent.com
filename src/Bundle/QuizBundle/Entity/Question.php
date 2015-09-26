@@ -154,6 +154,35 @@ class Question
     }
 
     /**
+     * Get the correct series
+     *
+     * @return Series
+     */
+    public function getCorrectSeries()
+    {
+        return $this->line->getSeries();
+    }
+
+    /**
+     * Get the series by the ID (i.e. don't know which one)
+     *
+     * @param integer $seriesId
+     * @return Series|null
+     */
+    public function getSeriesById($seriesId)
+    {
+        if ($this->series1->getId() == $seriesId) {
+            return $this->series1;
+        } else if ($this->series2->getId() == $seriesId) {
+            return $this->series2;
+        } else if ($this->series3->getId() == $seriesId) {
+            return $this->series3;
+        }
+
+        return null;
+    }
+
+    /**
      * Set answers
      *
      * @param array|ArrayCollection $answers
@@ -186,5 +215,17 @@ class Question
     {
         $answers = [ $this->series1->getId(), $this->series2->getId(), $this->series3->getId() ];
         return in_array($seriesId, $answers);
+    }
+
+    /**
+     * Is the provided answer correct?
+     *
+     * @param Answer $answer
+     * @return boolean
+     */
+    public function isCorrect(Answer $answer)
+    {
+        return $answer->getAnswer() === $this->line->getSeries();
+
     }
 }

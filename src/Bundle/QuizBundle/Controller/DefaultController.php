@@ -6,7 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Method,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request,
+    Symfony\Component\HttpFoundation\Response;
 use ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Question,
     ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Answer;
 
@@ -53,7 +54,7 @@ class DefaultController extends Controller
      */
     public function answerAction(Request $request)
     {
-        if ($this->isCsrfTokenValid('quiz_answer', $request->request->get('token'))) {
+        if (!$this->isCsrfTokenValid('quiz_answer', $request->request->get('token'))) {
             throw $this->createAccessDeniedException('Invalid token');
         }
 
@@ -69,16 +70,24 @@ class DefaultController extends Controller
             throw $this->createAccessDeniedException('Invalid answer');
         }
 
+        $series = $question->getSeriesById($seriesId);
+
         $answerRepo = $om->getRepository(Answer::class);
-        $answer = $answerRepo->getAnswer($question, $user);
-        $answer->setAnswer($seriesId)
+        $answer = $answerRepo->getCurrentAnswer($user);
+
+        if ($answer === null) {
+            // clever...
+            throw $this->createAccessDeniedException('Race condition?');
+        }
+
+        $answer->setAnswer($series)
             ->setSkipped(false)
             ->setAnswered(new \DateTime('now'));
+        $answerRepo->update($answer);
 
-        $om->persist($answer);
-        $om->flush();
+        var_dump($answer->getAnswer()->getTitle(), $question->isCorrect($answer), $question->getCorrectSeries()->getTitle());
 
-        return [];
+        return new Response('', 200, [ 'Content-type' => 'text/plain' ]);
     }
 
     /**
@@ -87,7 +96,7 @@ class DefaultController extends Controller
      */
     public function skipAction(Request $request)
     {
-        if ($this->isCsrfTokenValid('quiz_skip', $request->request->get('token'))) {
+        if (!$this->isCsrfTokenValid('quiz_skip', $request->request->get('token'))) {
             throw $this->createAccessDeniedException('Invalid token');
         }
 

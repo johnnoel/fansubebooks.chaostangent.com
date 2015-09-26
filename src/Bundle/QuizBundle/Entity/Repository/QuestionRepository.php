@@ -100,8 +100,11 @@ class QuestionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('q');
         $qb->join('q.answers', 'a')
+            ->join('q.series1', 's1')
+            ->join('q.series2', 's2')
+            ->join('q.series3', 's3')
             ->where($qb->expr()->eq('a.user', ':user'))
-            ->andWhere($qb->expr()->isNull('a.answered'))
+            ->andWhere($qb->expr()->isNull('a.answer'))
             ->setParameter('user', $user)
             ->setMaxResults(1);
 

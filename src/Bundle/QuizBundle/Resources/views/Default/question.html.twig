@@ -7,15 +7,26 @@
 <ul>
     <li>
         <img src="{{ question.series1.thumbnail }}" alt="">
-        {{ question.series1.title }}
+        <form method="post" action="{{ path('quiz_answer') }}">
+            <input type="hidden" name="token" value="{{ csrf_token('quiz_answer') }}">
+            <input type="hidden" name="answer" value="{{ question.series1.id }}">
+            <button type="submit">{{ question.series1.title }}</button>
+        </form>
     </li>
     <li>
         <img src="{{ question.series2.thumbnail }}" alt="">
-        {{ question.series2.title }}
+        <form method="post" action="{{ path('quiz_answer') }}">
+            <input type="hidden" name="token" value="{{ csrf_token('quiz_answer') }}">
+            <input type="hidden" name="answer" value="{{ question.series2.id }}">
+            <button type="submit">{{ question.series2.title }}</button>
+        </form>
     </li>
     <li>
         <img src="{{ question.series3.thumbnail }}" alt="">
-        {{ question.series3.title }}
+        <form method="post" action="{{ path('quiz_answer') }}">
+            <input type="hidden" name="token" value="{{ csrf_token('quiz_answer') }}">
+            <input type="hidden" name="answer" value="{{ question.series3.id }}">
+            <button type="submit">{{ question.series3.title }}</button>
     </li>
 </ul>
 
