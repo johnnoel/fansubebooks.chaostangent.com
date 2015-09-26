@@ -37,7 +37,8 @@
         "predis/predis": "^1.0",
         "twig/extensions": "^1.2",
         "friendsofsymfony/jsrouting-bundle": "^1.5",
-        "aws/aws-sdk-php": "^3.3"
+        "aws/aws-sdk-php": "^3.3",
+        "league/oauth1-client": "^1.6"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

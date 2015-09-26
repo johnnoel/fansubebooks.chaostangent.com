@@ -8,5 +8,14 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        quiz:
+            pattern: ^/quiz
             anonymous: ~
+
+        main:
+            pattern: ^/
+            security: false
+
+
+    access_control:
+        - { path: ^/quiz/(question|answer), roles: ROLE_QUIZ }

@@ -1,0 +1,4 @@
+services:
+#    chaos_tangent_fansub_ebooks_quiz.example:
+#        class: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

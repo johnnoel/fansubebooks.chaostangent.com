@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             // project specific
             new ChaosTangent\FansubEbooks\Bundle\AppBundle\ChaosTangentFansubEbooksAppBundle(),
+            new ChaosTangent\FansubEbooks\Bundle\QuizBundle\ChaosTangentFansubEbooksQuizBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
