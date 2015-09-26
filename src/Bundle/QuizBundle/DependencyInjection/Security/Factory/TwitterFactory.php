@@ -2,7 +2,7 @@
 
 namespace ChaosTangent\FansubEbooks\Bundle\QuizBundle\DependencyInjection\Security\Factory;
 
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator,
     Symfony\Component\DependencyInjection\ContainerBuilder,
@@ -14,36 +14,37 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator,
  * @author John Noel <john.noel@chaostangent.com>
  * @package FansubEbooks
  */
-class TwitterFactory implements SecurityFactoryInterface
+class TwitterFactory extends AbstractFactory
 {
-    public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
+    public function __construct()
     {
-        // our version of the user provider
+        $this->addOption('consumer_key', '');
+        $this->addOption('consumer_secret', '');
+    }
+
+    public function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId)
+    {
+        // auth provider
         $providerId = 'fansubebooks.quiz.authentication.provider.twitter.'.$id;
         $container
             ->setDefinition($providerId, new DefinitionDecorator('fansubebooks.quiz.authentication.provider.twitter'))
-            ->replaceArgument(0, new Reference($userProvider))
+            ->replaceArgument(0, new Reference($userProviderId))
             ->replaceArgument(2, $id)
             ->replaceArgument(3, $config['consumer_key'])
             ->replaceArgument(4, $config['consumer_secret'])
         ;
 
-        // listener
-        $listenerId = 'fansubebooks.quiz.authentication.listener.twitter.'.$id;
-        $container
-            ->setDefinition($listenerId, new DefinitionDecorator('fansubebooks.quiz.authentication.listener.twitter'))
-            ->replaceArgument(3, $id)
-            ->replaceArgument(4, $config['login_path'])
-            ->replaceArgument(5, $config['confirm_path'])
-        ;
+        return $providerId;
+    }
 
-        return [ $providerId, $listenerId, $defaultEntryPoint ];
+    protected function getListenerId()
+    {
+        return 'fansubebooks.quiz.authentication.listener.twitter';
     }
 
     public function getPosition()
     {
-        // form?
-        return 'pre_auth';
+        return 'form';
     }
 
     public function getKey()
@@ -53,10 +54,10 @@ class TwitterFactory implements SecurityFactoryInterface
 
     public function addConfiguration(NodeDefinition $node)
     {
+        parent::addConfiguration($node);
+
         $node
             ->children()
-                ->scalarNode('login_path')->end()
-                ->scalarNode('confirm_path')->end()
                 ->scalarNode('consumer_key')->end()
                 ->scalarNode('consumer_secret')->end()
             ->end()

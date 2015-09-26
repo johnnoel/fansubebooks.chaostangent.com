@@ -17,26 +17,26 @@ use League\OAuth1\Client\Server\Twitter;
  */
 class TwitterAuthenticationProvider implements AuthenticationProviderInterface
 {
+    const SESSION_KEY = 'twitter_oauth_credentials';
+
     /** @var UserProviderInterface */
     protected $userProvider;
     /** @var SessionInterface */
     protected $session;
     /** @var string */
     protected $providerKey;
-    /** @var Twitter */
-    protected $twitter;
+    /** @var string */
+    protected $consumerKey;
+    /** @var string */
+    protected $consumerSecret;
 
     public function __construct(UserProviderInterface $userProvider, SessionInterface $session, $providerKey, $consumerKey, $consumerSecret)
     {
         $this->userProvider = $userProvider;
         $this->session = $session;
         $this->providerKey = $providerKey;
-
-        $this->twitter = new Twitter([
-            'identifier' => $consumerKey,
-            'secret' => $consumerSecret,
-            'callback_uri' => '',
-        ]);
+        $this->consumerKey = $consumerKey;
+        $this->consumerSecret = $consumerSecret;
     }
 
     /**
@@ -53,25 +53,31 @@ class TwitterAuthenticationProvider implements AuthenticationProviderInterface
      */
     public function authenticate(TokenInterface $token)
     {
-        if (!$token->isAuthenticated()) {
-            $temp = $this->twitter->getTemporaryCredentials();
-            $this->session->set('twitter_oauth_credentials', serialize($temp));
+        $this->twitter = new Twitter([
+            'identifier' => $consumerKey,
+            'secret' => $consumerSecret,
+            'callback_uri' => $token->getCallbackUri(),
+        ]);
 
-            $redirectUri = $this->twitter->getAuthorizationUrl($temp);
+        if ($token->hasAttribute('oauth_token') && $token->hasAttribute('oauth_verifier')) {
+            // authenticate
+            $temp = unserialize($this->session->get(self::SESSION_KEY));
+            $credentials = $this->twitter->getTokenCredentials(
+                $temp,
+                $token->getAttribute('oauth_token'),
+                $token->getAttribute('oauth_verifier')
+            );
 
-            return new RedirectResponse($redirectUri);
+            $user = $this->twitter->getUserDetails($credentials);
+
+            return $this->userProvider->loadUserByUsername($user);
         }
 
-        // authenticate
-        $temp = unserialize($this->session->get('twitter_oauth_credentials'));
-        $credentials = $this->twitter->getTokenCredentials(
-            $temp,
-            $token->getOauthToken(),
-            $token->getOauthVerifier()
-        );
+        $temp = $this->twitter->getTemporaryCredentials();
+        $this->session->set(self::SESSION_KEY, serialize($temp));
 
-        $user = $this->twitter->getUserDetails($credentials);
+        $redirectUri = $this->twitter->getAuthorizationUrl($temp);
 
-        return $this->userProvider->loadUserByUsername($user);
+        return new RedirectResponse($redirectUri);
     }
 }

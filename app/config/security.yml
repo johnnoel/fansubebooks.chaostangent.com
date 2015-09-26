@@ -13,9 +13,12 @@ security:
         quiz:
             pattern: ^/quiz
             anonymous: ~
+            provider: quiz
             twitter:
-                login_path: quiz_login
-                confirm_path: quiz_login_confirm
+                check_path: quiz_login
+                login_path: quiz
+                default_target_path: quiz
+                always_use_default_target_path: true
                 consumer_key: %twitter_quiz.consumer_key%
                 consumer_secret: %twitter_quiz.consumer_secret%
 

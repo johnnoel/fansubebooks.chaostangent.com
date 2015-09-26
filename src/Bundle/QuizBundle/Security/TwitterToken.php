@@ -15,19 +15,16 @@ class TwitterToken extends AbstractToken
     /** @var string */
     protected $providerKey;
     /** @var string */
-    protected $oauthToken;
-    /** @var string */
-    protected $oauthVerifier;
+    protected $callbackUri;
 
-    public function __construct($providerKey, $oauthToken = '', $oauthVerifier = '', array $roles = [])
+    public function __construct($providerKey, $callbackUri, array $roles = [])
     {
         parent::__construct($roles);
 
         $this->providerKey = $providerKey;
-        $this->oauthToken = $oauthToken;
-        $this->oauthVerifier = $oauthVerifier;
+        $this->callbackUri = $callbackUri;
 
-        parent::setAuthenticated(!empty($oauthToken) && !empty($oauthVerifier));
+        parent::setAuthenticated(count($roles) > 0);
     }
 
     /**
@@ -52,24 +49,9 @@ class TwitterToken extends AbstractToken
         return $this->providerKey;
     }
 
-    /**
-     * Returns the OAuth token from the second stage of OAuth auth
-     *
-     * @return string
-     */
-    public function getOauthToken()
+    public function getCallbackUri()
     {
-        return $this->oauthToken;
-    }
-
-    /**
-     * Returns the OAuth verifier from the second stage of OAuth auth
-     *
-     * @return string
-     */
-    public function getOauthVerifier()
-    {
-        return $this->oauthVerifier;
+        return $this->callbackUri;
     }
 
     /**

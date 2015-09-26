@@ -10,10 +10,5 @@ services:
 
     fansubebooks.quiz.authentication.listener.twitter:
         class: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Security\TwitterAuthenticationListener
-        arguments:
-            - @security.token_storage
-            - @security.authentication.manager
-            - @security.http_utils
-            - ~ # provider id
-            - ~ # login path
-            - ~ # confirm path
+        parent: security.authentication.listener.abstract
+        abstract: true
