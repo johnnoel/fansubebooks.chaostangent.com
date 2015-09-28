@@ -1,0 +1,16 @@
+{% if user is not null %}
+<div class="quiz">
+    <div class="quiz-score">
+        <span class="quiz-score-correct">5 correct</span>
+        <span class="quiz-score-wrong">3 wrong</span>
+        <span class="quiz-score-passed">4 passed</span>
+    </div>
+
+    <div class="quiz-loggedin">
+        <img src="{{ user.avatar }}" alt="">
+        @{{ user.displayName }}
+
+        <a href="{{ path('quiz_logout') }}" class="btn btn-action">Logout</a>
+    </div>
+</div>
+{% endif %}

@@ -1,23 +1,6 @@
 {% extends '::layout.html.twig' %}
 {% set location = 'quiz' %}
 
-{% block header %}
-<div class="quiz">
-    <div class="quiz-score">
-        <span class="quiz-score-correct">5 correct</span>
-        <span class="quiz-score-wrong">3 wrong</span>
-        <span class="quiz-score-passed">4 passed</span>
-    </div>
-
-    <div class="quiz-loggedin">
-        <img src="{{ app.user.avatar }}" alt="">
-        @{{ app.user.displayName }}
-
-        <a href="" class="btn btn-action">Logout</a>
-    </div>
-</div>
-{% endblock %}
-
 {% block body %}
 <article class="question">
     <header>

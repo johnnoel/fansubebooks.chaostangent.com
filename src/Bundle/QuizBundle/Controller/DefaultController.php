@@ -22,12 +22,15 @@ class DefaultController extends Controller
     /**
      * @Route("", name="quiz")
      * @Route("/login", name="quiz_login")
+     * @Route("/logout", name="quiz_logout")
      * @Method({"GET"})
      * @Template("ChaosTangentFansubEbooksQuizBundle:Default:index.html.twig")
      */
     public function indexAction()
     {
-        return [];
+        return [
+            'user' => $this->getUser(),
+        ];
     }
 
     /**
@@ -116,12 +119,22 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/scoreboard", name="quiz_scoreboard")
+     * @Route("/leaderboard", name="quiz_leaderboard")
      * @Method({"GET"})
-     * @Template("ChaosTangentFansubEbooksAppBundle:Quiz:scoreboard.html.twig")
+     * @Template("ChaosTangentFansubEbooksQuizBundle:Default:leaderboard.html.twig")
      */
-    public function scoreboardAction()
+    public function leaderboardAction()
     {
         return [];
+    }
+
+    /**
+     * @Template("ChaosTangentFansubEbooksQuizBundle:Default:user.html.twig")
+     */
+    public function userAction()
+    {
+        return [
+            'user' => $this->getUser(),
+        ];
     }
 }

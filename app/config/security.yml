@@ -26,6 +26,9 @@ security:
                 always_use_default_target_path: true
                 consumer_key: %twitter_quiz.consumer_key%
                 consumer_secret: %twitter_quiz.consumer_secret%
+            logout:
+                path: quiz_logout
+                target: quiz
 
         main:
             pattern: ^/

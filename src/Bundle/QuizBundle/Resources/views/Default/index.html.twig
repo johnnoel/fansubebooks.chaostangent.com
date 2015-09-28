@@ -1,18 +1,66 @@
-{% extends '::layout.html.twig' %}
+{% extends 'ChaosTangentFansubEbooksQuizBundle::layout.html.twig' %}
 {% set location = 'quiz' %}
 
 {% block body %}
 <article>
-    {% if app.user is not null %}
-    <header class="quiz-header">
-        <p>Logged in as @{{ app.user.displayName }} <img src="{{ app.user.avatar }}" alt=""> <a href="">Logout</a></p>
-    </header>
-    {% else %}
-    <header>
-        <h1>Quiz!</h1>
-    </header>
+    <div id="quiz-intro">
+        <h1>Take the Fansub Ebooks never ending quiz</h1>
+        <p>Match a line to its series and get... points? Credits? Bragging rights.</p>
+    </div>
 
-    <a href="{{ path('quiz_login') }}">Login to begin</a>
+    {% if user is not null %}
+    <a href="{{ path('quiz_question') }}" class="btn btn-action btn-lg">Get started</a>
+    {% else %}
+    <a href="{{ path('quiz_login') }}" class="btn btn-action btn-lg">Sign in with Twitter to get started</a>
     {% endif %}
+
+    <div id="quiz-howtoplay">
+        <h2>How to play</h2>
+        <ol>
+            <li>Sign in with your Twitter account</li>
+            <li>A line from a series will be shown with three possible answers</li>
+            <li>Choose the series you think is correct <b>or</b> skip it to find out the answer</li>
+            <li>Accumulate correct answers to feel a sense of accomplishment and stave off the psychological ravages of entropy</li>
+            <li>Repeat from step 2</li>
+        </ol>
+    </div>
+
+    <div class="panel" id="quiz-dailyleaderboard">
+        <h2 class="panel-title">Daily leaderboard <small>from 00:00 UTC</small></h2>
+        <a href="{{ path('quiz_leaderboard') }}#daily" class="btn panel-actions">View full</a>
+        <table class="leaderboard">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@chaostangent</td>
+                    <td>1,000,000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel" id="quiz-alltimeoballeaderboard">
+        <h2 class="panel-title">All time leaderboard</h2>
+        <a href="{{ path('quiz_leaderboard') }}#alltime" class="btn panel-actions">View full</a>
+        <table class="leaderboard">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@chaostangent</td>
+                    <td>asd</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </article>
 {% endblock %}
