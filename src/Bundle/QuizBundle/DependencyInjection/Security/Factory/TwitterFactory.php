@@ -75,4 +75,19 @@ class TwitterFactory extends AbstractFactory
             ->end()
         ;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createEntryPoint($container, $id, $config, $defaultEntryPointId)
+    {
+        $entryPointId = 'fansubebooks.quiz.authentication.twitter_entry_point.'.$id;
+        $container
+            ->setDefinition($entryPointId, new DefinitionDecorator('fansubebooks.quiz.authentication.twitter_entry_point'))
+            ->replaceArgument(1, new Reference('security.http_utils'))
+            ->replaceArgument(2, $config['login_path'])
+        ;
+
+        return $entryPointId;
+    }
 }

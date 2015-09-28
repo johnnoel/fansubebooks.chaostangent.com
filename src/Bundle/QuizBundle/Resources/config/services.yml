@@ -8,6 +8,13 @@ services:
             - ~ # consumer key
             - ~ # consumer secret
 
+    fansubebooks.quiz.authentication.twitter_entry_point:
+        class: Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint
+        arguments:
+            - @http_kernel
+            - ~ # http utils
+            - ~ # login path
+
     fansubebooks.quiz.authentication.listener.twitter:
         class: ChaosTangent\FansubEbooks\Bundle\QuizBundle\Security\TwitterAuthenticationListener
         parent: security.authentication.listener.abstract
