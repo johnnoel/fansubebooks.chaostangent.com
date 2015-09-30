@@ -28,8 +28,12 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $seriesRepo = $this->get('fansubebooks.entity.repository.series');
+        $series = $seriesRepo->findBy([], [ 'title' => 'ASC' ], 30);
+
         return [
             'user' => $this->getUser(),
+            'series' => $series,
         ];
     }
 

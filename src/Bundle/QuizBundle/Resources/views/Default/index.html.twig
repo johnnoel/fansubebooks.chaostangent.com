@@ -4,22 +4,27 @@
 {% block body %}
 <article>
     <div id="quiz-intro">
+        <div id="quiz-intro-series">
+            {% for s in series %}
+            <img src="{{ s.thumbnail }}" alt="">
+            {% endfor %}
+        </div>
         <h1>Take the Fansub Ebooks never ending quiz</h1>
-        <p>Match a line to its series and get... points? Credits? Bragging rights.</p>
+        <p>Match a line to its anime and get... points? Credits? Bragging rights.</p>
+
+        {% if user is not null %}
+        <a href="{{ path('quiz_question') }}" class="btn btn-action btn-lg">Get started</a>
+        {% else %}
+        <a href="{{ path('quiz_login') }}" class="btn btn-action btn-lg">Sign in with Twitter to get started</a>
+        {% endif %}
     </div>
 
-    {% if user is not null %}
-    <a href="{{ path('quiz_question') }}" class="btn btn-action btn-lg">Get started</a>
-    {% else %}
-    <a href="{{ path('quiz_login') }}" class="btn btn-action btn-lg">Sign in with Twitter to get started</a>
-    {% endif %}
-
-    <div id="quiz-howtoplay">
-        <h2>How to play</h2>
+    <div id="quiz-howtoplay" class="panel">
+        <h2 class="panel-title">How to play</h2>
         <ol>
             <li>Sign in with your Twitter account</li>
-            <li>A line from a series will be shown with three possible answers</li>
-            <li>Choose the series you think is correct <b>or</b> skip it to find out the answer</li>
+            <li>A line of dialogue from an anime will be shown with three possible answers</li>
+            <li>Choose the anime you think the line came from <b>or</b> skip it to find out the answer</li>
             <li>Accumulate correct answers to feel a sense of accomplishment and stave off the psychological ravages of entropy</li>
             <li>Repeat from step 2</li>
         </ol>
@@ -39,25 +44,6 @@
                 <tr>
                     <td>@chaostangent</td>
                     <td>1,000,000</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="panel" id="quiz-alltimeoballeaderboard">
-        <h2 class="panel-title">All time leaderboard</h2>
-        <a href="{{ path('quiz_leaderboard') }}#alltime" class="btn panel-actions">View full</a>
-        <table class="leaderboard">
-            <thead>
-                <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@chaostangent</td>
-                    <td>asd</td>
                 </tr>
             </tbody>
         </table>

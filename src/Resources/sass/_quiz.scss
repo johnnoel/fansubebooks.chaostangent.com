@@ -68,3 +68,96 @@
         line-height: 1;
     }
 }
+
+#quiz-intro {
+    height: 506px;
+    box-sizing: border-box;
+    position: relative;
+    text-align: center;
+    padding-top: 200px;
+    font-size: $font-size-large;
+    margin-bottom: 24px;
+
+    h1 {
+        font-size: $font-size-jumbo;
+    }
+
+    .btn {
+        margin-top: 32px;
+        font-size: $font-size-h3;
+        padding-left: 52px;
+        position: relative;
+
+        &:before {
+            content: '';
+            display: inline-block;
+            background: url(/img/twitter-white.svg) no-repeat 0 0;
+            background-size: 32px 32px;
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            left: 10px;
+            top: 6px;
+        }
+    }
+
+    #quiz-intro-series {
+        font-size: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+
+        img {
+            display: inline-block;
+            width: 10%;
+            opacity: 0.15;
+        }
+    }
+}
+
+#quiz-howtoplay, #quiz-dailyleaderboard {
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+#quiz-howtoplay {
+    padding-right: 24px;
+
+    ol {
+        counter-reset: howtoplay;
+        font-size: $font-size-large;
+
+        li {
+            position: relative;
+            padding: 0 0 0 32px;
+            min-height: 24px;
+            margin-bottom: 6px;
+
+            &:before {
+                content: counter(howtoplay);
+                counter-increment: howtoplay;
+                font-size: $font-size-base;
+                font-weight: bold;
+                position: absolute;
+                left: 0;
+                top: 2px;
+                color: #FFF;
+                background: $orange;
+                border-radius: 50%;
+                width: 24px;
+                height: 24px;
+                box-sizing: border-box;
+                padding: 5px 0 0;
+                text-align: center;
+                line-height: 1;
+            }
+        }
+    }
+}
+
+#quiz-dailyleaderboard {
+    padding-left: 24px;
+}

@@ -28,7 +28,7 @@ services:
             - [ setGroups, [ [ 'Default' ] ] ]
             - [ enableMaxDepthChecks, [ 1 ] ]
 
-    fansubebooks.entity.repository.series_repository:
+    fansubebooks.entity.repository.series:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
