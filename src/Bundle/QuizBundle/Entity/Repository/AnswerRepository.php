@@ -38,9 +38,11 @@ class AnswerRepository extends EntityRepository
         $qb->join('a.question', 'q')
             ->where($qb->expr()->eq('a.user', ':user'))
             ->andWhere($qb->expr()->isNull('a.answer'))
+            ->andWhere($qb->expr()->eq('a.skipped', ':skipped'))
             ->setMaxResults(1)
             ->setParameters([
                 'user' => $user,
+                'skipped' => false,
             ]);
 
         return $qb->getQuery()->getOneOrNullResult();

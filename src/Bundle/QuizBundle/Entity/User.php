@@ -44,6 +44,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Answer", mappedBy="user")
      */
     private $answers;
+    /**
+     */
+    private $correct = 0;
+    private $incorrect = 0;
+    private $skipped = 0;
 
     public function __construct()
     {
@@ -189,5 +194,74 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
+    }
+
+    /**
+     * Set correct
+     *
+     * @param integer $correct
+     * @return User
+     */
+    public function setCorrect($correct)
+    {
+        $this->correct = $correct;
+
+        return $this;
+    }
+
+    /**
+     * Get correct
+     *
+     * @return integer
+     */
+    public function getCorrect()
+    {
+        return $this->correct;
+    }
+
+    /**
+     * Set incorrect
+     *
+     * @param integer $incorrect
+     * @return User
+     */
+    public function setIncorrect($incorrect)
+    {
+        $this->incorrect = $incorrect;
+
+        return $this;
+    }
+
+    /**
+     * Get incorrect
+     *
+     * @return integer
+     */
+    public function getIncorrect()
+    {
+        return $this->incorrect;
+    }
+
+    /**
+     * Set skipper
+     *
+     * @param integer $skipper
+     * @return User
+     */
+    public function setSkipped($skipper)
+    {
+        $this->skipper = $skipper;
+
+        return $this;
+    }
+
+    /**
+     * Get skipper
+     *
+     * @return integer
+     */
+    public function getSkipped()
+    {
+        return $this->skipper;
     }
 }

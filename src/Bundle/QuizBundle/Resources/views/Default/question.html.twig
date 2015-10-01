@@ -8,6 +8,7 @@
     </header>
 
     <div class="answers">
+        {% if answer is not defined %}
         <form method="post" action="{{ path('quiz_answer') }}" class="answer">
             <input type="hidden" name="token" value="{{ csrf_token('quiz_answer') }}">
             <input type="hidden" name="answer" value="{{ question.series1.id }}">
@@ -32,11 +33,74 @@
                 <h2 class="series-title">{{ question.series3.title }}</h2>
             </button>
         </form>
+        {% else %}
+        <div class="answer">
+            {% if answer.answer == question.series1 %}
+            <span class="answer-choice">Your choice</span>
+            {% endif %}
+            <div class="answer-button series">
+                <img src="{{ question.series1.thumbnail }}" alt="" class="series-thumbnail">
+                <h2 class="series-title">{{ question.series1.title }}</h2>
+                {% if question.correctSeries == question.series1 %}
+                <span class="answer-correct">Correct</span>
+                {% else %}
+                <span class="answer-incorrect">Incorrect</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="answer">
+            {% if answer.answer == question.series2 %}
+            <span class="answer-choice">Your choice</span>
+            {% endif %}
+            <div class="answer-button series">
+                <img src="{{ question.series2.thumbnail }}" alt="" class="series-thumbnail">
+                <h2 class="series-title">{{ question.series2.title }}</h2>
+                {% if question.correctSeries == question.series2 %}
+                <span class="answer-correct">Correct</span>
+                {% else %}
+                <span class="answer-incorrect">Incorrect</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="answer">
+            {% if answer.answer == question.series3 %}
+            <span class="answer-choice">Your choice</span>
+            {% endif %}
+            <div class="answer-button series">
+                <img src="{{ question.series3.thumbnail }}" alt="" class="series-thumbnail">
+                <h2 class="series-title">{{ question.series3.title }}</h2>
+                {% if question.correctSeries == question.series3 %}
+                <span class="answer-correct">Correct</span>
+                {% else %}
+                <span class="answer-incorrect">Incorrect</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 
+    {% if answer is not defined %}
     <form method="post" action="{{ path('quiz_skip') }}" class="question-skip">
         <input type="hidden" name="token" value="{{ csrf_token('quiz_skip') }}">
-        <button type="button" class="btn btn-lg btn-action">Pass</button>
+        <button type="submit" class="btn btn-lg btn-action">Pass</button>
     </form>
+    {% else %}
+    <div class="question-result">
+        {% if not answer.skipped %}
+        {% if answer.correct %}
+        <p>You were right!</p>
+        {% else %}
+        <p>You got it wrong!</p>
+        {% endif %}
+        {% endif %}
+
+        <a href="{{ path('quiz_question') }}" class="btn btn-lg btn-action">Next question</a>
+    </div>
+    <div class="question-info">
+        This question was line <a href="{{ path('line', { 'id': question.line.id }) }}">#{{ question.line.id }}</a>
+        and came from <a href="{{ path('series_view', { 'alias': question.correctSeries.alias }) }}">{{ question.correctSeries.title }}</a>
+        in the file <a href="{{ path('series_file', { 'alias': question.correctSeries.alias, 'file_id': question.line.file.id }) }}">{{ question.line.file.name }}</a>.
+    </div>
+    {% endif %}
 </article>
 {% endblock %}

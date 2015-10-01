@@ -6,7 +6,8 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Security\Core\User\UserProviderInterface,
     Symfony\Component\Security\Core\User\UserInterface;
 use League\OAuth1\Client\Server\User as OAuthUser;
-use ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\User;
+use ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\User,
+    ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Answer;
 
 /**
  * User repository
@@ -71,5 +72,33 @@ class UserRepository extends EntityRepository implements UserProviderInterface
     public function supportsClass($class)
     {
         return $class == User::class || is_subclass_of($class, User::class);
+    }
+
+    /**
+     * Populate the user scores
+     *
+     * @param User $user
+     */
+    public function hydrateUserScores(User $user)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select([
+            'SUM(CASE WHEN a.correct = true AND a.answer IS NOT NULL THEN 1 ELSE 0 END) AS correct',
+            'SUM(CASE WHEN a.correct = false AND a.answer IS NOT NULL THEN 1 ELSE 0 END) AS incorrect',
+            'SUM(CASE WHEN a.skipped = true THEN 1 ELSE 0 END) AS skipped'
+        ])->from(Answer::class, 'a')
+            ->where($qb->expr()->eq('a.user', ':user'))
+            ->groupBy('a.user')
+            ->setParameter('user', $user);
+
+        $res = $qb->getQuery()->getOneOrNullResult();
+
+        if ($res === null) {
+            return;
+        }
+
+        $user->setCorrect(intval($res['correct']))
+            ->setIncorrect(intval($res['incorrect']))
+            ->setSkipped(intval($res['skipped']));
     }
 }

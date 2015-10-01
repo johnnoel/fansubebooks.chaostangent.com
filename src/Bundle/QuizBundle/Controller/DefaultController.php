@@ -46,7 +46,7 @@ class DefaultController extends Controller
     {
         $user = $this->getUser();
 
-        $questionRepo = $this->get('doctrine')->getManager()->getRepository(Question::class);
+        $questionRepo = $this->get('fansubebooks.quiz.entity.repository.question');
         $question = $questionRepo->getNextQuestion($user);
 
         return [
@@ -58,6 +58,7 @@ class DefaultController extends Controller
     /**
      * @Route("/answer", name="quiz_answer", options={"expose": true})
      * @Method({"POST"})
+     * @Template("ChaosTangentFansubEbooksQuizBundle:Default:question.html.twig")
      */
     public function answerAction(Request $request)
     {
@@ -68,9 +69,8 @@ class DefaultController extends Controller
         $seriesId = $request->request->get('answer');
 
         $user = $this->getUser();
-        $om = $this->get('doctrine')->getManager();
 
-        $questionRepo = $om->getRepository(Question::class);
+        $questionRepo = $this->get('fansubebooks.quiz.entity.repository.question');
         $question = $questionRepo->getCurrentQuestion($user);
 
         if (!$question->isValidAnswer($seriesId)) {
@@ -79,7 +79,7 @@ class DefaultController extends Controller
 
         $series = $question->getSeriesById($seriesId);
 
-        $answerRepo = $om->getRepository(Answer::class);
+        $answerRepo = $this->get('fansubebooks.quiz.entity.repository.answer');
         $answer = $answerRepo->getCurrentAnswer($user);
 
         if ($answer === null) {
@@ -89,17 +89,21 @@ class DefaultController extends Controller
 
         $answer->setAnswer($series)
             ->setSkipped(false)
-            ->setAnswered(new \DateTime('now'));
+            ->setAnswered(new \DateTime('now'))
+            ->setCorrect($question->isCorrect($answer));
         $answerRepo->update($answer);
 
-        var_dump($answer->getAnswer()->getTitle(), $question->isCorrect($answer), $question->getCorrectSeries()->getTitle());
-
-        return new Response('', 200, [ 'Content-type' => 'text/plain' ]);
+        return [
+            'user' => $user,
+            'question' => $question,
+            'answer' => $answer,
+        ];
     }
 
     /**
      * @Route("/skip", name="quiz_skip", options={"expose": true})
      * @Method({"POST"})
+     * @Template("ChaosTangentFansubEbooksQuizBundle:Default:question.html.twig")
      */
     public function skipAction(Request $request)
     {
@@ -108,18 +112,22 @@ class DefaultController extends Controller
         }
 
         $user = $this->getUser();
-        $om = $this->get('doctrine')->getManager();
 
-        $answerRepo = $om->getRepository(Answer::class);
-        $answer = $answerRepo->getAnswer($question, $user);
+        $questionRepo = $this->get('fansubebooks.quiz.entity.repository.question');
+        $question = $questionRepo->getCurrentQuestion($user);
+
+        $answerRepo = $this->get('fansubebooks.quiz.entity.repository.answer');
+        $answer = $answerRepo->getCurrentAnswer($user);
 
         $answer->setSkipped(true)
             ->setAnswered(new \DateTime('now'));
+        $answerRepo->update($answer);
 
-        $om->persist($answer);
-        $om->flush();
-
-        return [];
+        return [
+            'user' => $user,
+            'question' => $question,
+            'answer' => $answer,
+        ];
     }
 
     /**
@@ -137,6 +145,13 @@ class DefaultController extends Controller
      */
     public function userAction()
     {
+        $user = $this->getUser();
+
+        if ($user !== null) {
+            $userRepo = $this->get('fansubebooks.quiz.entity.repository.user');
+            $userRepo->hydrateUserScores($user);
+        }
+
         return [
             'user' => $this->getUser(),
         ];

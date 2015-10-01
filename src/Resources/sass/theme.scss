@@ -44,6 +44,10 @@ $headings-color: darken($grey, 10%);
 $line-height-base: 1.428571429; // 20/14
 $line-height-computed: floor(($font-size-base * $line-height-base)); // ~20px
 
+$correct-color: #478339;
+$incorrect-color: #C6181A;
+$skipped-color: #FF8800;
+
 @import 'reset';
 @import 'mixins';
 @import 'util';

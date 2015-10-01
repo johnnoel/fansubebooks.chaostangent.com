@@ -20,7 +20,19 @@ services:
         parent: security.authentication.listener.abstract
         abstract: true
 
-    fansubebooks.quiz.repository.user_repository:
+    fansubebooks.quiz.entity.repository.question:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Question ]
+
+    fansubebooks.quiz.entity.repository.answer:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments: [ ChaosTangent\FansubEbooks\Bundle\QuizBundle\Entity\Answer ]
+
+    fansubebooks.quiz.entity.repository.user:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository

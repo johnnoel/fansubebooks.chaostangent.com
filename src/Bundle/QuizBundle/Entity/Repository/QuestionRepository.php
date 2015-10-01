@@ -105,7 +105,11 @@ class QuestionRepository extends EntityRepository
             ->join('q.series3', 's3')
             ->where($qb->expr()->eq('a.user', ':user'))
             ->andWhere($qb->expr()->isNull('a.answer'))
-            ->setParameter('user', $user)
+            ->andWhere($qb->expr()->eq('a.skipped', ':skipped'))
+            ->setParameters([
+                'user' => $user,
+                'skipped' => false,
+            ])
             ->setMaxResults(1);
 
         return $qb->getQuery()->getOneOrNullResult();
@@ -208,6 +212,15 @@ class QuestionRepository extends EntityRepository
 
         // pick a random spot for the correct answer
         $correctPos = mt_rand(1, 3);
+
+        $randSeries1 = $this->getRandomSeries($line->getSeries());
+        // this is to stop the second random series being the same as the first
+        do {
+            $randSeries2 = $this->getRandomSeries($line->getSeries());
+        } while ($randSeries2 === $randSeries1);
+
+        $randSeries = [ $randSeries1, $randSeries2 ];
+
         for ($i = 1; $i <= 3; $i++) {
             $method = 'setSeries'.$i;
 
@@ -215,7 +228,7 @@ class QuestionRepository extends EntityRepository
                 $question->$method($line->getSeries());
             } else {
                 // get a random series for the other spots
-                $question->$method($this->getRandomSeries($line->getSeries()));
+                $question->$method(array_pop($randSeries));
             }
         }
 
@@ -246,6 +259,7 @@ class QuestionRepository extends EntityRepository
             FROM series s
             WHERE s.id != :sid
             OFFSET random() * :sc LIMIT 1';
+
         $query = $this->_em->createNativeQuery($sql, $rsm);
         $query->setParameters([
             'sid' => $not->getId(),

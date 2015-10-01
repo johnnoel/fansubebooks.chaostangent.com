@@ -8,7 +8,7 @@ security:
 
     providers:
         quiz:
-            id: fansubebooks.quiz.repository.user_repository
+            id: fansubebooks.quiz.entity.repository.user
 
     firewalls:
         dev:

@@ -71,7 +71,7 @@ class SeriesController extends Controller
 
     /**
      * @Route("/{alias}/file/{file_id}.{_format}", name="series_file",
-     *      requirements={"alias": "[^/]+", "_format": "|json"},
+     *      requirements={"alias": "[^/]+", "file_id": "\d+", "_format": "|json"},
      *      defaults={"_format": "html"}
      * )
      * @Method({"GET"})

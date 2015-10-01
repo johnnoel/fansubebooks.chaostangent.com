@@ -1,9 +1,10 @@
 .quiz {
     border-bottom: 1px solid $beige-darker;
-    padding: 6px 0;
+    height: 40px;
 
     .quiz-loggedin {
         font-size: $font-size-small;
+        padding-top: 6px;
 
         img {
             width: 26px;
@@ -19,8 +20,17 @@
 
     .quiz-score {
         line-height: 1;
-        padding-top: 2px;
         float: right;
+        height: 40px;
+        box-sizing: border-box;
+        padding: 8px 0 0 6px;
+        text-decoration: none;
+        color: $text-color;
+        transition: background-color .15s ease-in-out;
+
+        &:hover {
+            background: $beige-darker;
+        }
 
         b {
             font-size: $font-size-large;
@@ -32,15 +42,15 @@
         }
 
         .quiz-score-correct b {
-            background-color: green;
+            background-color: $correct-color;
         }
 
         .quiz-score-wrong b {
-            background-color: red;
+            background-color: $incorrect-color;
         }
 
-        .quiz-score-passed b {
-            background-color: orange;
+        .quiz-score-skipped b {
+            background-color: $skipped-color;
         }
     }
 }
@@ -54,6 +64,22 @@
 
     .question-skip {
         text-align: center;
+    }
+
+    .question-result {
+        text-align: center;
+
+        p {
+            font-size: $font-size-h1;
+        }
+    }
+
+    .question-info {
+        margin-top: 24px;
+        border-top: 1px solid $beige-darker;
+        padding-top: 24px;
+        text-align: left;
+        font-size: $font-size-small;
     }
 }
 
@@ -70,6 +96,8 @@
 }
 
 .answer {
+    position: relative;
+
     .answer-button {
         border: none;
         cursor: pointer;
@@ -77,6 +105,35 @@
         padding: 0;
         margin: 0;
         line-height: 1;
+    }
+
+    .answer-choice {
+        background: $orange;
+        position: absolute;
+        left: 50%;
+        top: -14px;
+        width: 86px;
+        margin-left: -43px;
+        text-align: center;
+        border-radius: 4px;
+        color: #FFF;
+        padding: 4px;
+    }
+
+    .answer-correct, .answer-incorrect {
+        display: inline-block;
+        border-radius: 4px;
+        color: #FFF;
+        padding: 4px;
+        font-size: $font-size-large;
+    }
+
+    .answer-correct {
+        background: $correct-color;
+    }
+
+    .answer-incorrect {
+        background: $incorrect-color;
     }
 }
 

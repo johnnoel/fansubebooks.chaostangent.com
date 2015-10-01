@@ -33,12 +33,16 @@ class Answer
      */
     private $asked;
     /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $correct = false;
+    /**
      * @ORM\ManyToOne(targetEntity="ChaosTangent\FansubEbooks\Entity\Series")
      * @ORM\JoinColumn(name="answer", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $answer;
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default": false}))
      */
     private $skipped = false;
     /**
@@ -113,6 +117,39 @@ class Answer
     public function getAsked()
     {
         return $this->asked;
+    }
+
+    /**
+     * Set correct
+     *
+     * @param boolean $correct
+     * @return Answer
+     */
+    public function setCorrect($correct)
+    {
+        $this->correct = $correct;
+
+        return $this;
+    }
+
+    /**
+     * Get correct
+     *
+     * @return boolean
+     */
+    public function getCorrect()
+    {
+        return $this->correct;
+    }
+
+    /**
+     * Whether this answer is correct
+     *
+     * @return boolean
+     */
+    public function isCorrect()
+    {
+        return $this->correct;
     }
 
     /**

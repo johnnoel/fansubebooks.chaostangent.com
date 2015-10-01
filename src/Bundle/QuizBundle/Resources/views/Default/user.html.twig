@@ -1,10 +1,11 @@
 {% if user is not null %}
 <div class="quiz container">
-    <div class="quiz-score">
-        <span class="quiz-score-correct"><b>5</b> correct</span>
-        <span class="quiz-score-wrong"><b>3</b> wrong</span>
-        <span class="quiz-score-passed"><b>4</b> passed</span>
-    </div>
+    {% set tweet_text = 'I\'ve got '~user.correct~' correct, '~user.incorrect~' wrong and passed '~user.skipped~' questions on the @fansub_ebooks quiz' %}
+    <a href="https://twitter.com/intent/tweet?text={{ tweet_text|e('url') }}&amp;url={{ url('quiz')|e('url') }}" class="quiz-score" title="Tweet your current score">
+        <span class="quiz-score-correct"><b>{{ user.correct }}</b> correct</span>
+        <span class="quiz-score-wrong"><b>{{ user.incorrect }}</b> wrong</span>
+        <span class="quiz-score-skipped"><b>{{ user.skipped }}</b> passed</span>
+    </a>
 
     <div class="quiz-loggedin">
         <img src="{{ user.avatar }}" alt="">

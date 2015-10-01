@@ -182,6 +182,13 @@ class Question
         return null;
     }
 
+    public function hasSeries(Series $series)
+    {
+        return ($this->series1 === $series) ||
+            ($this->series2 === $series) ||
+            ($this->series3 === $series);
+    }
+
     /**
      * Set answers
      *
