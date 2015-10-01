@@ -101,4 +101,36 @@ class UserRepository extends EntityRepository implements UserProviderInterface
             ->setIncorrect(intval($res['incorrect']))
             ->setSkipped(intval($res['skipped']));
     }
+
+    public function getLeaderboard($count = 15, \DateTime $from = null)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->addSelect([
+            'SUM(CASE WHEN a.correct = true AND a.answer IS NOT NULL THEN 1 ELSE 0 END) AS correct',
+            'SUM(CASE WHEN a.correct = false AND a.answer IS NOT NULL THEN 1 ELSE 0 END) AS incorrect',
+            'SUM(CASE WHEN a.skipped = true THEN 1 ELSE 0 END) AS skipped',
+        ])->join('u.answers', 'a')
+            ->groupBy('u')
+            ->orderBy('correct')
+            ->setMaxResults($count);
+
+        if ($from !== null) {
+            $qb->where($qb->expr()->gte('a.answered', ':from'))
+                ->setParameter('from', $from);
+        }
+
+        $res = $qb->getQuery()->getResult();
+        $ret = [];
+
+        foreach ($res as $row) {
+            $user = $row[0];
+            $user->setCorrect(intval($row['correct']))
+                ->setIncorrect(intval($row['incorrect']))
+                ->setSkipped(intval($row['skipped']));
+
+            $ret[] = $user;
+        }
+
+        return $ret;
+    }
 }

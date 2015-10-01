@@ -31,9 +31,16 @@ class DefaultController extends Controller
         $seriesRepo = $this->get('fansubebooks.entity.repository.series');
         $series = $seriesRepo->findBy([], [ 'title' => 'ASC' ], 30);
 
+        $midnightUtc = new \DateTime('now', new \DateTimezone('UTC'));
+        $midnightUtc->setTime(0, 0, 0);
+
+        $userRepo = $this->get('fansubebooks.quiz.entity.repository.user');
+        $leaderboard = $userRepo->getLeaderboard(15, $midnightUtc);
+
         return [
             'user' => $this->getUser(),
             'series' => $series,
+            'leaderboard' => $leaderboard,
         ];
     }
 
