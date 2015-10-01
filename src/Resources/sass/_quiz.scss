@@ -18,27 +18,38 @@
     }
 
     .quiz-score {
+        line-height: 1;
         padding-top: 2px;
         float: right;
-        font-size: $font-size-large;
 
-        .quiz-score-correct {
-            color: green;
+        b {
+            font-size: $font-size-large;
+            display: inline-block;
+            vertical-align: -2px;
+            border-radius: 8px;
+            color: #FFF;
+            padding: 3px 6px;
         }
 
-        .quiz-score-wrong {
-            color: red;
+        .quiz-score-correct b {
+            background-color: green;
         }
 
-        .quiz-score-passed {
-            color: orange;
+        .quiz-score-wrong b {
+            background-color: red;
+        }
+
+        .quiz-score-passed b {
+            background-color: orange;
         }
     }
 }
 
 .question {
     .question-line {
-        margin: 24px 0;
+        margin: 24px auto;
+        width: 75%;
+        text-align: center;
     }
 
     .question-skip {
