@@ -1,0 +1,16 @@
+/app/cache/**
+/app/logs/**
+/app/config/parameters.yml
+/bin/
+/composer.json
+/composer.lock
+/gulpfile.js
+/node_modules/
+/package/
+/package.json
+/provisioning/
+/Vagrantfile
+/fansubebooks.chaostangent.com.tar.bz2
+/web/app_dev.php
+/web/config.php
+.git

@@ -5,7 +5,10 @@
 /app/logs/*
 !app/logs/.gitkeep
 /app/phpunit.xml
-/bin/
+/bin/**
+!/bin/package
+!/bin/package.exclude
+!/bin/convert.php
 /composer.phar
 /vendor/
 /web/bundles/

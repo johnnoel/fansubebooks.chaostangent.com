@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [ -d "package" ]; then
+    rm -rf package
+fi
+
+mkdir package
+
+echo "Installing node modules..."
+npm -q install
+
+echo "Clearing Symfony cache..."
+php app/console cache:clear --env=prod -q
+
+echo "Generating optimised PHP autoloader files..."
+composer dump-autoload --optimize -q
+
+echo "Generating production assets"
+gulp --production -q
+
+echo "Copying files to package directory..."
+rsync -a * package/ --exclude-from=bin/package.exclude
+
+echo "Creating package file..."
+tar cjf fansubebooks.chaostangent.com.tar.bz2 -C package/ .
+
+echo "Removing temporary package directory..."
+rm -rf package
