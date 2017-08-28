@@ -1,26 +1,26 @@
 # fansubebooks.chaostangent.com
 
-Fansub Ebooks is a very silly Twitter bot and associated website for tweeting random lines from anime fansub scripts.
+Fansub Ebooks was a very silly Twitter bot and associated website for tweeting random lines from anime fansub scripts. 
 
-It was conceived in the dark winter months of 2012 and has been tweeting nonsense ever since.
+It was conceived in the dark winter months of 2012. It was discontinued on 28 August 2017 after almost 5 years of service.
 
 ## Twitter bot
 
-The [Twitter bot](https://twitter.com/fansub_ebooks) is the main interaction point for the project and updates every half an hour (give or take a few seconds).
+The [Twitter bot](https://twitter.com/fansub_ebooks) was the main interaction point for the project and updated every half an hour (give or take a few seconds).
 
 ## Website
 
-The associated Fansub Ebooks website allows visitors to vote on which lines they want to see tweeted next as well as view the full library of out-of-context nonsense.
+The associated Fansub Ebooks website allowed visitors to vote on which lines they wanted to see tweeted next as well as view the full library of out-of-context nonsense.
 
 ## Development
 
-Originally a Symfony 2.1 project, the latest version is based on Symfony 2.7 for both automated tweeting and the website. The database was originally MySQL but is now Postgres.
+Originally a Symfony 2.1 project, the last version was based on Symfony 2.7 for both automated tweeting and the website. The database was originally MySQL but was converted to Postgres.
 
 ## Helping
 
 ### Development
 
-If you want to help with the development of Fansub Ebooks (and I can only imagine why you would), getting set up should be fairly straightforward:
+If you want to help with the development of Fansub Ebooks (and I can't imagine why you would), getting set up should be fairly straightforward:
 
 1. Clone the current repository with git
 2. Download and install [Vagrant](https://www.vagrantup.com/) if you haven't already
